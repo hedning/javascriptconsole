@@ -4,23 +4,16 @@ cli = {
 	history : [],
 	create :  	function () {
 					if (! this.query ){
+						// this is rather ugly and should be delegated elsewhere
 						this.query = document.createElement("textarea");
-						this.query.style.position = "fixed";
-						this.query.style.overflow = "hidden";
-						this.query.style.bottom = 0;
-						this.query.style.left = 0;
-						this.query.style.right = 0;
-						this.query.style.padding = 0;
-						this.query.style.borderTopColor = "white";
-						this.query.style.width = "100%";
-						this.query.style.display = "none";
 						this.query.rows = 1;
-						this.query.style.backgroundColor = "black";
-						this.query.style.color = "white";
+						this.applyStyle(this.query, this.style);
+						this.query.style.display = "none";
 						document.body.appendChild(this.query);
 					}
 				},
 	open : 		function () {
+					this.applyStyle(this.query, this.style);
 					this.query.style.display = "block";
 					this.focus();
 		   		},
@@ -59,6 +52,24 @@ cli = {
 					   if ( nextEntry ) 
 						   this.query.innerText = this;
 				   },
+	style: {
+		overflow: "hidden",
+		position: "fixed",
+		right: 0,
+		left: 0,
+		bottom: 0,
+		padding: "2px 0 0 0",
+		width: "100%",
+		backgroundColor: "black",
+		color: "white",
+		   },
+
+	applyStyle: function (element, style) {
+					for ( i in style ) {
+						element.style[i] = style[i];
+					}
+				},
+	
 }
 
 cli.create();
@@ -102,4 +113,8 @@ cli.query.addEventListener("keypress", cliKeyHandler, false);
 window.addEventListener("keypress", queryopenHandler, false);
 
 }
+
+
+
+
 
