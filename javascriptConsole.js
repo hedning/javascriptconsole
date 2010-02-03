@@ -2,6 +2,7 @@ window.onload = function(){
 cli = {
 	query : null,
 	history : [],
+	currentHistIndex : 0,
 	create :  	function () {
 					if (! this.query ){
 						// this is rather ugly and should be delegated elsewhere
@@ -62,6 +63,8 @@ cli = {
 		width: "100%",
 		backgroundColor: "black",
 		color: "white",
+		fontFamily: "Verdana",
+		fontSize: "14",
 		   },
 
 	applyStyle: function (element, style) {
@@ -86,7 +89,7 @@ var cliKeyHandler = function (e) {
 		cli.evalQuery();
 	else if ( keycode == 27 )
 		cli.close();
-	else if ( character == "p" && e.ctrlKey )
+	else if ( character == "P" && e.ctrlKey )
 		cli.prevHistEntry();
 
 }
@@ -95,8 +98,9 @@ var cliKeyHandler = function (e) {
 
 
 var queryopenHandler = function (e) { 
-	var keycode = e.keyCode || e.charCode;
-	var character = String.fromCharCode(keycode);
+	keycode = e.keyCode || e.charCode;
+	character = String.fromCharCode(keycode);
+	ctrl = e.ctrlKey;
 	var target = e.target;
 
 	if ( target.nodeName.toLowerCase() != 'input' && target.nodeName.toLowerCase() != 'textarea' && target.nodeName.toLowerCase() != 'div'){
