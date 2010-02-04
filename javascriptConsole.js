@@ -156,9 +156,9 @@ var cliKeyHandler = function (e) {
 
 
 var queryopenHandler = function (e) { 
-	keycode = e.keyCode || e.charCode;
-	character = String.fromCharCode(keycode);
-	ctrl = e.ctrlKey;
+	var keycode = e.keyCode || e.charCode;
+	var character = String.fromCharCode(keycode);
+	var ctrl = e.ctrlKey;
 	var target = e.target;
 
 	if ( target.nodeName.toLowerCase() != 'input' && target.nodeName.toLowerCase() != 'textarea' && target.nodeName.toLowerCase() != 'div'){
