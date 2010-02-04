@@ -94,8 +94,14 @@ var cliKeyHandler = function (e) {
 		cli.evalQuery();
 	else if ( keycode == 27 )
 		cli.close();
-	else if ( character == "P" && e.ctrlKey )
+	else if ( character == "P" && e.ctrlKey ){
 		cli.prevHistEntry();
+		e.preventDefault();
+	}
+	else if ( character == "N" && e.ctrlKey ){
+		cli.nextHistEntry();
+		e.preventDefault();
+	}
 
 }
 
