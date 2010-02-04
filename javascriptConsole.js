@@ -131,8 +131,10 @@ var cliKeyHandler = function (e) {
 	var keycode = e.keyCode || e.charCode;
 	var character= String.fromCharCode(keycode);
 
-	if ( keycode == 13 )
+	if ( keycode == 13 ){
 		cli.evalQuery();
+		e.preventDefault();
+	}
 	else if ( keycode == 27 )
 		cli.close();
 	else if ( character == "P" && e.ctrlKey ){
