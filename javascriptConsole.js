@@ -145,6 +145,10 @@ var cliKeyHandler = function (e) {
 		cli.nextHistEntry();
 		e.preventDefault();
 	}
+	else if ( character == "L" && e.ctrlKey ){
+		cli.clear();
+		e.preventDefault();
+	}
 
 }
 
