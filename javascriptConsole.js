@@ -36,9 +36,10 @@ cli = {
 					this.outPut.style.display = "none";
 				},
 	focus : 	function () {
-					var position = window.pageYOffset;
+					var y = window.pageYOffset;
+					var x = window.pageXOffset;
 					this.query.focus();
-					window.scroll(0,position);
+					window.scroll(x,y);
 				},
 	evalQuery: 	function () {
 					var evalText = this.query.innerText;
