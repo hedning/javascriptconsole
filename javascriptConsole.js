@@ -1,4 +1,4 @@
-window.onload = function(){
+window.addEventListener("load", function() {
 cli = {
 	query : null,
 	outPut : null,
@@ -155,7 +155,7 @@ var queryopenHandler = function (e) {
 cli.query.addEventListener("keypress", cliKeyHandler, false);
 window.addEventListener("keypress", queryopenHandler, false);
 
-}
+}, false)
 
 
 
