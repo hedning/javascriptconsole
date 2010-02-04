@@ -174,6 +174,27 @@ var queryopenHandler = function (e) {
 cli.query.addEventListener("keypress", cliKeyHandler, false);
 window.addEventListener("keypress", queryopenHandler, false);
 
+function inspect(obj, reg) {
+
+	var output
+	if ( reg ) {
+		for ( i in obj ){
+			if ( i.match(reg) )
+				output += i + "\n";
+		}
+	} else {
+		for ( i in obj ) {
+				output += i + "\n";
+		}
+	}
+
+	return output.replace(/\n$/, "");
+}	
+
+
+
+
+
 }, false)
 
 
