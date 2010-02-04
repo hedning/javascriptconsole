@@ -2,6 +2,7 @@ window.addEventListener("load", function() {
 cli = {
 	query : null,
 	outPut : null,
+	prompt : "$ ",
 	history : [],
 	currentHistIndex : 0,
 	clear: function () {
@@ -45,7 +46,7 @@ cli = {
 					this.histAppend(evalText);
 					this.currentHistIndex = this.history.length; 
 					var output = eval(evalText);
-					this.outPutAppend(output);
+					this.outPutAppend(output, evalText);
 				},
 	histAppend: function (entry) {
 					var lastEntry = this.history[this.history.length - 1];
@@ -54,8 +55,9 @@ cli = {
 					else
 						this.history.push(entry);
 				},
-	outPutAppend : function (output) {
-					   this.outPut.innerText += output+"\n" ;
+	outPutAppend : function (output, input) {
+					   this.outPut.innerText += this.prompt + input + "\n" + output + "\n" ;
+					   this.outPut.scrollTop = this.outPut.scrollHeight;
 				   },
 	prevHistEntry: function () {
 					   var prevEntry = this.history[this.currentHistIndex - 1];
