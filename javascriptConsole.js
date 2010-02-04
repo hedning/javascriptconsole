@@ -29,12 +29,13 @@ cli = {
 					this.query.innerText = "";
 					// should have a javascript validator here
 					this.histAppend(evalText);
+					this.currentHistIndex = this.history.length; 
 					var output = eval(evalText);
 					this.outPutAppend(output);
 				},
 	histAppend: function (entry) {
 					var lastEntry = this.history[this.history.length - 1];
-					if ( entry == "" ) 
+					if ( entry == "" )
 						return false;
 					else if ( entry == lastEntry )
 						return false;
@@ -44,14 +45,18 @@ cli = {
 	outPutAppend : function (output) {
 				   },
 	prevHistEntry: function () {
-					   var prevEntry = this.history[this.history.length - 1];
-					   if ( prevEntry ) 
+					   var prevEntry = this.history[this.currentHistIndex - 1];
+					   if ( prevEntry ) {
+						   this.currentHistIndex--;
 						   this.query.innerText = prevEntry;
+					   }
 				   },
 	nextHistEntry: function () {
-					   var nextEntry = this.history[this.history.length + 1];
-					   if ( nextEntry ) 
-						   this.query.innerText = this;
+					   var nextEntry = this.history[this.currentHistIndex + 1];
+					   if ( nextEntry ) {
+						   this.currentHistIndex++;
+						   this.query.innerText = nextEntry;
+					   }
 				   },
 	style: {
 		overflow: "hidden",
