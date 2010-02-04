@@ -4,6 +4,9 @@ cli = {
 	outPut : null,
 	history : [],
 	currentHistIndex : 0,
+	clear: function () {
+		this.outPut.innerText = "";
+	},
 	create :  	function () {
 					if (! this.query ){
 						// this is rather ugly and should be delegated elsewhere
