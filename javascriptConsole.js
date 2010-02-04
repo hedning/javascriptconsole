@@ -40,6 +40,8 @@ cli = {
 					var evalText = this.query.innerText;
 					this.query.innerText = "";
 					// should have a javascript validator here
+					if ( evalText.match(/^\s*$/))
+						return false;
 					this.histAppend(evalText);
 					this.currentHistIndex = this.history.length; 
 					var output = eval(evalText);
