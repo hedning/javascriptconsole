@@ -91,10 +91,12 @@ cli = {
 		padding: "0",
 		margin: "0",
 		width: "100%",
+		maxWidth: "100%",
 		backgroundColor: "black",
 		color: "white",
 		fontFamily: "Verdana",
 		fontSize: "14",
+		textAlign: "left",
 		   },
 	queryStyle: {
 		overflow: "hidden",
@@ -119,7 +121,6 @@ cli = {
 		width: "105%",
 		maxWidth: "105%",
 		maxHeight: "24em",
-		//maxHeight: "26ex",
 		   },
 
 
