@@ -136,31 +136,37 @@ cli.create();
 
 
 // bindings -- should be replaced by a more general and better system
+var ctrlKey = false;
 
 var cliKeyHandler = function (e) {
 	
+	// when ctrl is down browsers return a capital letter
+	// most browsers doesn't return e.ctrlKey being true
+	// on keypress...
 	var keycode = e.keyCode || e.charCode;
 	var character= String.fromCharCode(keycode);
-
-	if ( keycode == 13 ){
+	// 13 is enter
+	if ( keycode == 13 ){ 
 		cli.evalQuery();
 		e.preventDefault();
 	}
-	else if ( keycode == 27 )
+	// 27 is escape
+	else if ( keycode == 27 ) 
 		cli.close();
-	else if ( character == "P" && e.ctrlKey ){
+	else if ( ( character == "P" || character == "p" ) && ctrlKey){
 		cli.prevHistEntry();
 		e.preventDefault();
 	}
-	else if ( character == "N" && e.ctrlKey ){
+	else if ( ( character == "N" || character == "n" ) && ctrlKey ){
 		cli.nextHistEntry();
 		e.preventDefault();
 	}
-	else if ( character == "L" && e.ctrlKey ){
+	else if ( ( character == "L" || character == "l" ) && ctrlKey ){
 		cli.clear();
 		e.preventDefault();
 	}
 
+	ctrlKey = false;
 }
 
 
@@ -181,8 +187,15 @@ var queryopenHandler = function (e) {
 
 }
 
+var ctrlKeyHandler = function(e) {
+	ctrlKey = e.ctrlKey;
+}
 
+
+
+// chrome doesn't report event.ctrlKey on keypress.... nor escape it seems
 cli.query.addEventListener("keypress", cliKeyHandler, false);
+cli.query.addEventListener("keydown", ctrlKeyHandler, false);
 window.addEventListener("keypress", queryopenHandler, false);
 
 function inspect(obj, reg) {
