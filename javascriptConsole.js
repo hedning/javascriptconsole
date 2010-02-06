@@ -187,7 +187,7 @@ window.addEventListener("keypress", queryopenHandler, false);
 
 function inspect(obj, reg) {
 
-	var output
+	var output = "";
 	if ( reg ) {
 		for ( i in obj ){
 			if ( i.match(reg) )
