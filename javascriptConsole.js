@@ -199,7 +199,7 @@ function inspect(obj, reg) {
 		}
 	}
 
-	return output.replace(/\n$/, "");
+	return output.replace(/<br>$/, "");
 }	
 
 
