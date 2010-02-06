@@ -72,14 +72,14 @@ cli = {
 					   var prevEntry = this.history[this.currentHistIndex - 1];
 					   if ( prevEntry ) {
 						   this.currentHistIndex--;
-						   this.query.innerHTML = prevEntry;
+						   this.query.value = prevEntry;
 					   }
 				   },
 	nextHistEntry: function () {
 					   var nextEntry = this.history[this.currentHistIndex + 1];
 					   if ( nextEntry ) {
 						   this.currentHistIndex++;
-						   this.query.innerHTML = nextEntry;
+						   this.query.value = nextEntry;
 					   }
 				   },
 	wrapDivStyle: {
