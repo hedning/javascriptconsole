@@ -2,6 +2,7 @@ window.addEventListener("load", function() {
 cli = {
 	query : null,
 	outPut : null,
+	wrapDiv : null,
 	prompt : "$ ",
 	history : [],
 	currentHistIndex : 0,
@@ -9,37 +10,41 @@ cli = {
 		this.outPut.innerText = "";
 	},
 	create :  	function () {
-					if (! this.query ){
-						// this is rather ugly and should be delegated elsewhere
-						this.query = document.createElement("textarea");
-						this.query.rows = 1;
-						this.applyStyle(this.query, this.queryStyle);
-						this.query.style.display = "none";
-						document.body.appendChild(this.query);
-					}
-					if ( ! this.outPut ){
-						this.outPut = document.createElement("div");
-						this.applyStyle(this.outPut, this.outStyle);
-						this.outPut.style.display = "none";
-						document.body.appendChild(this.outPut);
+					if (! this.wrapDiv ) {
+						this.wrapDiv = document.createElement("div");
+						this.applyStyle(this.wrapDiv, this.wrapDivStyle);
+						this.wrapDiv.style.display = "none";
+						document.body.appendChild(this.wrapDiv);
+						if ( ! this.outPut ){
+							this.outPut = document.createElement("div");
+							this.applyStyle(this.outPut, this.outStyle);
+							this.wrapDiv.appendChild(this.outPut);
+						}
+						if (! this.query ){
+							// this is rather ugly and should be delegated elsewhere
+							this.query = document.createElement("textarea");
+							this.query.rows = 1;
+							this.applyStyle(this.query, this.queryStyle);
+							this.wrapDiv.appendChild(this.query);
+						}
 					}
 				},
 	open : 		function () {
 					this.applyStyle(this.query, this.style);
-					this.query.style.display = "block";
-					this.outPut.style.display = "block";
+					this.wrapDiv.style.display = "block";
+					//this.wrapDiv.style.display = "block";
 					this.outPut.scrollTop = this.outPut.scrollHeight;
 					this.focus();
 		   		},
 	close : 	function () {
-					this.query.style.display = "none";
-					this.outPut.style.display = "none";
+					this.wrapDiv.style.display = "none";
+					//this.outPut.style.display = "none";
 				},
 	focus : 	function () {
 					var y = window.pageYOffset;
 					var x = window.pageXOffset;
 					this.query.focus();
-					window.scroll(x,y);
+					//window.scroll(x,y);
 				},
 	evalQuery: 	function () {
 					var evalText = this.query.value;
@@ -77,24 +82,31 @@ cli = {
 						   this.query.innerText = nextEntry;
 					   }
 				   },
-	queryStyle: {
+	wrapDivStyle: {
 		overflow: "hidden",
 		position: "fixed",
 		right: "0",
 		left: "0",
 		bottom: "0",
-		padding: "2px 0 0 2px",
+		padding: "0",
+		margin: "0",
 		width: "100%",
 		backgroundColor: "black",
 		color: "white",
 		fontFamily: "Verdana",
 		fontSize: "14",
 		   },
+	queryStyle: {
+		overflow: "hidden",
+		width: "100%",
+		backgroundColor: "black",
+		color: "white",
+		border: 0,
+		fontFamily: "Verdana",
+		fontSize: "14",
+		 },		   
 	outStyle: {
 		overflow: "auto",
-		position: "fixed",
-		right: "0",
-		left: "0",
 		bottom: "24",
 		padding: "2",
 		margin: "0",
@@ -108,10 +120,6 @@ cli = {
 		maxWidth: "105%",
 		maxHeight: "24em",
 		//maxHeight: "26ex",
-		backgroundColor: "black",
-		color: "white",
-		fontFamily: "Verdana",
-		fontSize: "14",
 		   },
 
 
