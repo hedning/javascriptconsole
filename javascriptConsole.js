@@ -1,9 +1,10 @@
 window.addEventListener("load", function() {
+
 cli = {
 	query : null,
 	outPut : null,
 	wrapDiv : null,
-	prompt : "$ ",
+	prompt : "<span style=\"color:grey;\">$ </span>",
 	history : [],
 	currentHistIndex : 0,
 	clear: function () {
