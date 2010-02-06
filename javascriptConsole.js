@@ -3,6 +3,7 @@ window.addEventListener("load", function() {
 cli = {
 	query : null,
 	outPut : null,
+	autoCompOut : null,
 	wrapDiv : null,
 	prompt : "<span style=\"color:grey;\">$ </span>",
 	history : [],
@@ -20,6 +21,11 @@ cli = {
 							this.outPut = document.createElement("div");
 							this.applyStyle(this.outPut, this.outStyle);
 							this.wrapDiv.appendChild(this.outPut);
+						}
+						if ( ! this.autoCompOut ){
+							this.autoCompOut = document.createElement("div");
+							this.applyStyle(this.autoCompOut, this.outStyle);
+							this.wrapDiv.appendChild(this.autoCompOut);
 						}
 						if (! this.query ){
 							// this is rather ugly and should be delegated elsewhere
