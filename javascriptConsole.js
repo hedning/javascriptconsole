@@ -42,8 +42,8 @@ cli = {
 					window.scroll(x,y);
 				},
 	evalQuery: 	function () {
-					var evalText = this.query.innerText;
-					this.query.innerText = "";
+					var evalText = this.query.value;
+					this.query.value = "";
 					// should have a javascript validator here
 					if ( evalText.match(/^\s*$/))
 						return false;
