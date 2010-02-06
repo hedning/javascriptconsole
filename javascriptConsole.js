@@ -7,7 +7,7 @@ cli = {
 	history : [],
 	currentHistIndex : 0,
 	clear: function () {
-		this.outPut.innerText = "";
+		this.outPut.innerHTML = "";
 	},
 	create :  	function () {
 					if (! this.wrapDiv ) {
@@ -65,21 +65,21 @@ cli = {
 						this.history.push(entry);
 				},
 	outPutAppend : function (output, input) {
-					   this.outPut.innerText += this.prompt + input + "\n" + output + "\n" ;
+					   this.outPut.innerHTML += this.prompt + input + "<BR>" + output + "<BR>" ;
 					   this.outPut.scrollTop = this.outPut.scrollHeight;
 				   },
 	prevHistEntry: function () {
 					   var prevEntry = this.history[this.currentHistIndex - 1];
 					   if ( prevEntry ) {
 						   this.currentHistIndex--;
-						   this.query.innerText = prevEntry;
+						   this.query.innerHTML = prevEntry;
 					   }
 				   },
 	nextHistEntry: function () {
 					   var nextEntry = this.history[this.currentHistIndex + 1];
 					   if ( nextEntry ) {
 						   this.currentHistIndex++;
-						   this.query.innerText = nextEntry;
+						   this.query.innerHTML = nextEntry;
 					   }
 				   },
 	wrapDivStyle: {
