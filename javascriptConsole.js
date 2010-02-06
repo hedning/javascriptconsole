@@ -191,11 +191,11 @@ function inspect(obj, reg) {
 	if ( reg ) {
 		for ( i in obj ){
 			if ( i.match(reg) )
-				output += i + "\n";
+				output += i + "<br>";
 		}
 	} else {
 		for ( i in obj ) {
-				output += i + "\n";
+				output += i + "<br>";
 		}
 	}
 
