@@ -46,6 +46,14 @@ cli = {
 					this.query.focus();
 					//window.scroll(x,y);
 				},
+	evalWrap: function (str) {
+					try {
+						return eval(str);
+					} 
+					catch(error) {
+						return error;
+					}
+			  },
 	evalQuery: 	function () {
 					var evalText = this.query.value;
 					this.query.value = "";
@@ -54,7 +62,7 @@ cli = {
 						return false;
 					this.histAppend(evalText);
 					this.currentHistIndex = this.history.length; 
-					var output = eval(evalText);
+					var output = this.evalWrap(evalText);
 					this.outPutAppend(output, evalText);
 				},
 	histAppend: function (entry) {
