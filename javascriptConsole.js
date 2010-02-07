@@ -78,6 +78,8 @@ cli = {
 						this.history.push(entry);
 				},
 	outPutAppend : function (output, input) {
+					   output = output.toString().replace(/<(.*?)>/g, "&lt;$1&gt;");
+					   output = output.toString().replace(/\r\n|\n|\f|\r/g, "<br>");
 					   this.outPut.innerHTML += this.prompt + input + "<BR>" + output + "<BR>" ;
 					   this.outPut.scrollTop = this.outPut.scrollHeight;
 				   },
