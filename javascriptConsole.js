@@ -51,10 +51,7 @@ function javascriptConsole () {
 		document.body.focus();
 	}
 	this.focus = function () {
-		var y = window.pageYOffset;
-		var x = window.pageXOffset;
 		this.query.focus();
-		window.scroll(x,y);
 	}
 	this.evalWrap = function (str) {
 		try {
@@ -114,7 +111,7 @@ function javascriptConsole () {
 		position: "fixed",
 		right: "0",
 		left: "0",
-		bottom: "0",
+		bottom: "1",
 		padding: "0",
 		margin: "0",
 		width: "100%",
