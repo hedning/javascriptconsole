@@ -1,5 +1,3 @@
-window.addEventListener("load", function() {
-
 cli = {
 	query : null,
 	outPut : null,
@@ -159,7 +157,6 @@ cli = {
 	
 }
 
-cli.create();
 
 
 // bindings -- should be replaced by a more general and better system
@@ -219,11 +216,17 @@ var ctrlKeyHandler = function(e) {
 }
 
 
+window.addEventListener("load", function() {
+
+cli.create();
 
 // chrome doesn't report event.ctrlKey on keypress.... nor escape it seems
 cli.query.addEventListener("keypress", cliKeyHandler, false);
 cli.query.addEventListener("keydown", ctrlKeyHandler, false);
 window.addEventListener("keypress", queryopenHandler, false);
+
+}, false)
+
 
 function inspect(obj, reg) {
 
