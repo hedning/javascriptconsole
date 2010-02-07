@@ -37,19 +37,19 @@ cli = {
 	open : 		function () {
 					this.applyStyle(this.query, this.style);
 					this.wrapDiv.style.display = "block";
-					//this.wrapDiv.style.display = "block";
 					this.outPut.scrollTop = this.outPut.scrollHeight;
 					this.focus();
 		   		},
 	close : 	function () {
+					this.query.blur();
 					this.wrapDiv.style.display = "none";
-					//this.outPut.style.display = "none";
+					document.body.focus();
 				},
 	focus : 	function () {
 					var y = window.pageYOffset;
 					var x = window.pageXOffset;
 					this.query.focus();
-					//window.scroll(x,y);
+					window.scroll(x,y);
 				},
 	evalWrap: function (str) {
 					try {
