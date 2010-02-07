@@ -136,6 +136,7 @@ function javascriptConsole () {
 		color: "white",
 		height: "auto",
 		margin: 0,
+		marginTop: 1,
 		borderTop: "1",
 		borderRight: "0",
 		borderLeft: "0",
