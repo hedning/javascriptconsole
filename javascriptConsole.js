@@ -195,7 +195,7 @@ function javascriptConsole () {
 			e.preventDefault();
 		}
 		else if ( ( character == "N" || character == "n" ) && ctrlKey ){
-			obj.nexobjtEntry();
+			obj.nextHistEntry();
 			e.preventDefault();
 		}
 		else if ( ( character == "L" || character == "l" ) && ctrlKey ){
