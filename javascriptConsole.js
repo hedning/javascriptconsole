@@ -251,8 +251,6 @@ function inspect(obj, reg) {
 
 
 
-}, false)
-
 
 
 
