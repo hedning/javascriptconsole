@@ -168,6 +168,8 @@ function javascriptConsole () {
 
 	this.create();
 
+	this.style = this.wrapDiv.style;
+	this.currentStyle = this.wrapDiv.currentStyle;
 }
 
 
