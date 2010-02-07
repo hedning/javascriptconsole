@@ -150,7 +150,7 @@ cli = {
 		padding: 2,
 		fontFamily: "Verdana",
 		fontSize: "14",
-		 },		   
+		},
 	outStyle: {
 		overflow: "auto",
 		padding: "0",
@@ -251,15 +251,15 @@ function inspect(obj, reg) {
 	if ( reg ) {
 		for ( i in obj ){
 			if ( i.match(reg) )
-				output += i + "<br>";
+				output += i + "\n";
 		}
 	} else {
 		for ( i in obj ) {
-				output += i + "<br>";
+				output += i + "\n";
 		}
 	}
 
-	return output.replace(/<br>$/, "");
+	return output.replace(/\n$/, "");
 }	
 
 
