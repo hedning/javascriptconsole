@@ -214,18 +214,18 @@ function javascriptConsole () {
 }
 
 
+var queryopenHandler = function (element, character) { 
+	return function (e) {
+		var keycode = e.keyCode || e.charCode;
+		var chr = String.fromCharCode(keycode);
+		var ctrl = e.ctrlKey;
+		var target = e.target;
 
-
-var queryopenHandler = function (e) { 
-	var keycode = e.keyCode || e.charCode;
-	var character = String.fromCharCode(keycode);
-	var ctrl = e.ctrlKey;
-	var target = e.target;
-
-	if ( target.nodeName.toLowerCase() != 'input' && target.nodeName.toLowerCase() != 'textarea' && target.nodeName.toLowerCase() != 'div'){
-		if ( character == ";" ){
-			cli.open();
-			e.preventDefault();
+		if ( target.nodeName.toLowerCase() != 'input' && target.nodeName.toLowerCase() != 'textarea' && target.nodeName.toLowerCase() != 'div'){
+			if ( chr == character){
+				element.open();
+				e.preventDefault();
+			}
 		}
 	}
 }
@@ -236,7 +236,7 @@ cli = new javascriptConsole();
 
 
 // chrome doesn't report event.ctrlKey on keypress.... nor escape it seems
-window.addEventListener("keypress", queryopenHandler, false);
+window.addEventListener("keypress", queryopenHandler(cli, ";"), false);
 
 }, false)
 
