@@ -83,7 +83,7 @@ function javascriptConsole () {
 //		globalinput = input;
 //		input = input.toString().replace(/\n$/, "");
 //		output = output.toString().replace(/^\r/, "");
-		if ( ! output == undefined ){
+		if ( ! ( output == undefined ) ){
 			output = output.toString().replace(/<(.*?)>/g, "&lt;$1&gt;");
 			output = output.toString().replace(/\r\n|\n|\f|\r/g, "<br>");
 		}
