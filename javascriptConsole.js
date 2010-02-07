@@ -1,16 +1,18 @@
-cli = {
-	query : null,
-	outPut : null,
-	autoCompOut : null,
-	wrapDiv : null,
-	prompt : "<span style=\"color:grey;\">$ </span>",
-	history : [],
-	currentHistIndex : 0,
-	clear: function () {
+function javascriptConsole () {
+
+	this.query = null;
+	this.outPut = null;
+	this.autoCompOut = null;
+	this.wrapDiv = null;
+	this.prompt = "<span style=\"color:grey;\">$ </span>";
+	this.history = [];
+	this.currentHistIndex = 0;
+	this.clear = function () {
 		this.outPut.innerHTML = "";
-	},
-	create:
-	function () {
+	}
+
+
+	this.create = function () {
 		if (! this.wrapDiv ) {
 			this.wrapDiv = document.createElement("div");
 			this.applyStyle(this.wrapDiv, this.wrapDivStyle);
@@ -28,44 +30,41 @@ cli = {
 			}
 			if (! this.query ){
 				// this is rather ugly and should be delegated elsewhere
-				this.query = document.createElement("textarea");
+				this.query = document.createElement("input");
 				this.query.rows = 1;
 				this.applyStyle(this.query, this.queryStyle);
 				this.wrapDiv.appendChild(this.query);
 			}
 		}
-	},
-	open:
-	function () {
-		this.applyStyle(this.query, this.style);
+	}
+
+
+	this.open = function () {
+		//this.applyStyle(this.query, this.queryStyle);
 		this.wrapDiv.style.display = "block";
 		this.outPut.scrollTop = this.outPut.scrollHeight;
 		this.focus();
-	},
-	close:
-	function () {
+	}
+	this.close = function () {
 		this.query.blur();
 		this.wrapDiv.style.display = "none";
 		document.body.focus();
-	},
-	focus:
-	function () {
+	}
+	this.focus = function () {
 		var y = window.pageYOffset;
 		var x = window.pageXOffset;
 		this.query.focus();
 		window.scroll(x,y);
-	},
-	evalWrap:
-	function (str) {
+	}
+	this.evalWrap = function (str) {
 		try {
 			return eval(str);
 		}
 		catch(error) {
 			return error;
 		}
-	},
-	evalQuery:
-	function () {
+	}
+	this.evalQuery = function () {
 		var evalText = this.query.value;
 		this.query.value = "";
 		// should have a javascript validator here
@@ -75,46 +74,43 @@ cli = {
 		this.currentHistIndex = this.history.length;
 		var output = this.evalWrap(evalText);
 		this.outPutAppend(output, evalText);
-	},
-	histAppend:
-	function (entry) {
+	}
+	this.histAppend = function (entry) {
 		var lastEntry = this.history[this.history.length - 1];
 		if ( entry == lastEntry )
 			return false;
 		else
 			this.history.push(entry);
-	},
-	outPutAppend :
-	function (output, input) {
-//		   globalinput = input;
-//		   input = input.toString().replace(/\n$/, "");
-//		   output = output.toString().replace(/^\r/, "");
-		   output = output.toString().replace(/<(.*?)>/g, "&lt;$1&gt;");
-		   output = output.toString().replace(/\r\n|\n|\f|\r/g, "<br>");
-//		   output = "<pre>" + output + "</pre>";
-		   this.outPut.innerHTML += this.prompt + input + "<BR>" + output + "<BR>" ;
-//		   this.outPut.innerHTML += this.prompt + input + output ;
-		   this.outPut.scrollTop = this.outPut.scrollHeight;
-	   },
-	prevHistEntry:
-	function () {
+	}
+	this.outPutAppend  = function (output, input) {
+//		globalinput = input;
+//		input = input.toString().replace(/\n$/, "");
+//		output = output.toString().replace(/^\r/, "");
+		output = output.toString().replace(/<(.*?)>/g, "&lt;$1&gt;");
+		output = output.toString().replace(/\r\n|\n|\f|\r/g, "<br>");
+//		output = "<pre>" + output + "</pre>";
+		this.outPut.innerHTML += this.prompt + input + "<BR>" + output + "<BR>" ;
+//		this.outPut.innerHTML += this.prompt + input + output ;
+		this.outPut.scrollTop = this.outPut.scrollHeight;
+	}
+	
+	this.prevHistEntry = function () {
 		var prevEntry = this.history[this.currentHistIndex - 1];
 		 if ( prevEntry ) {
 			this.currentHistIndex--;
 			this.query.value = prevEntry;
 		}
-	},
-	nextHistEntry:
-	function () {
+	}
+
+	this.nextHistEntry = function () {
 		var nextEntry = this.history[this.currentHistIndex + 1];
 		if ( nextEntry ) {
 			this.currentHistIndex++;
 			this.query.value = nextEntry;
 		}
-	},
+	}
 	   // should propably move this to a separate css sheet
-	wrapDivStyle: {
-		overflow: "hidden",
+	this.wrapDivStyle = { overflow: "hidden",
 		position: "fixed",
 		right: "0",
 		left: "0",
@@ -133,9 +129,8 @@ cli = {
 		color: "white",
 		textAlign: "left",
 		zIndex: 7,
-		   },
-	queryStyle: {
-		overflow: "hidden",
+		}
+	this.queryStyle = { overflow: "hidden",
 		width: "100%",
 		backgroundColor: "black",
 		color: "white",
@@ -150,9 +145,8 @@ cli = {
 		padding: 2,
 		fontFamily: "Verdana",
 		fontSize: "14",
-		},
-	outStyle: {
-		overflow: "auto",
+		}
+	this.outStyle = { overflow: "auto",
 		padding: "0",
 		margin: "0",
 		border: 0,
@@ -162,16 +156,18 @@ cli = {
 		color: "white",
 		width: "105%",
 		maxWidth: "105%",
-		maxHeight: "20em",
-		   },
+		maxHeight: "31em",
+		}
 
 
-	applyStyle:
-	function (element, style) {
+	this.applyStyle = function (element, style) {
 		for ( i in style ) {
 			element.style[i] = style[i];
 		}
-	},
+	}
+
+	this.create();
+
 }
 
 
@@ -235,7 +231,7 @@ var ctrlKeyHandler = function(e) {
 
 window.addEventListener("load", function() {
 
-cli.create();
+cli = new javascriptConsole();
 
 // chrome doesn't report event.ctrlKey on keypress.... nor escape it seems
 cli.query.addEventListener("keypress", cliKeyHandler, false);
