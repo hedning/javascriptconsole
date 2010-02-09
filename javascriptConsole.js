@@ -234,7 +234,8 @@ function javascriptConsole () {
 					if ( shortest > curr.length )
 						shortest = curr.length;
 					
-					if ( testCommon != curr[p] ){
+					var reg = new RegExp( curr[p], "i");
+					if ( testCommon.search(reg) == -1 ){
 						common = false;
 						break;
 					}
