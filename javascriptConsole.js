@@ -121,6 +121,14 @@ function javascriptConsole () {
 			+ value.slice(position, value.length);
 	}
 
+	this.replace = function(start, end, replacement) {
+		var value = this.query.value;
+		var leftContext = value.slice(0,start);
+		var rightContext = value.slice(end,value.length);
+
+		this.query.value = leftContext + replacement + rightContext;
+	}
+
 	   // should propably move this to a separate css sheet
 	this.wrapDivStyle = { overflow: "hidden",
 		position: "fixed",
