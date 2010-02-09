@@ -319,6 +319,9 @@ function javascriptConsole () {
 		// on keypress...
 		var keycode = e.keyCode || e.charCode;
 		var character= String.fromCharCode(keycode);
+		if ( ctrlKey ) {
+			character = character.toUpperCase();
+		}
 		// 13 is enter
 		if ( keycode == 13 ){ 
 			obj.evalQuery();
