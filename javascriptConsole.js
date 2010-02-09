@@ -189,6 +189,58 @@ function javascriptConsole () {
 
 	}
 
+	var lastMatches = null;
+	var lastIndex = "0" ;
+
+	this.complete = function(str) {
+
+		if ( !( this.query.selectionEnd == this.query.selectionStart ) )
+			return false;
+
+		var inPutString = this.query.value;
+		var position = this.query.selectionEnd;
+		var valueTab = splitString(inPutString, position);
+		var leftContext = valueTab[0];
+		var activeWord = valueTab[1];
+		var rightContext = valueTab[2];
+		var startWord = leftContext.length;
+		var endWord = startWord + activeWord.length;
+
+		var obj = this;
+		var expand = function (str) {
+			obj.replace(startWord, endWord, str)
+		}
+		var expandToClosest = function () {
+			return false;
+		}
+		var showComps = function () {
+		}
+		
+
+		if ( lastMatches ) {
+			var newPosition = startWord + lastMatches[lastIndex].length;
+			expand(lastMatches[lastIndex]);
+			this.query.setSelectionRange(newPosition, newPosition);
+			lastIndex++;
+		} else {
+
+			matches = this.completor(activeWord);
+
+			if ( matches.length == 0 ){
+				return false;
+			} else if ( matches.length == 1 ) {
+				var newPosition = startWord + matches[0].length;
+				expand(matches[0]);
+				this.query.setSelectionRange(newPosition, newPosition);
+			} else {
+				lastMatches = matches;
+				expandToClosest();
+				showComps();
+			}
+
+		}
+	}
+
 
 	   // should propably move this to a separate css sheet
 	this.wrapDivStyle = { overflow: "hidden",
