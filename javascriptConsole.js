@@ -216,7 +216,9 @@ function javascriptConsole () {
 
 		var obj = this;
 		var expand = function (str) {
-			obj.replace(startWord, endWord, str)
+			obj.replace(startWord, endWord, str);
+			var newPosition = startWord + str.length;
+			obj.query.setSelectionRange(newPosition, newPosition);
 		}
 		var expandToClosest = function () {
 			return false;
@@ -226,9 +228,7 @@ function javascriptConsole () {
 		
 
 		if ( lastMatches ) {
-			var newPosition = startWord + lastMatches[lastIndex].length;
 			expand(lastMatches[lastIndex]);
-			this.query.setSelectionRange(newPosition, newPosition);
 			lastIndex++;
 		} else {
 
@@ -237,9 +237,7 @@ function javascriptConsole () {
 			if ( matches.length == 0 ){
 				return false;
 			} else if ( matches.length == 1 ) {
-				var newPosition = startWord + matches[0].length;
 				expand(matches[0]);
-				this.query.setSelectionRange(newPosition, newPosition);
 			} else {
 				lastMatches = matches;
 				expandToClosest();
