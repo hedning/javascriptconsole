@@ -176,9 +176,12 @@ function javascriptConsole () {
 		if ( element ){
 			var restEle = element;
 			while (restEle != ""){
-				var ele = restEle.match(/^[^\.]*/)[0];
+				var ele = restEle.match(/^\[?[^\.\[]*/)[0];
+				if ( ele.search(/^\[/) != -1 ){
+					ele = ele.replace(/^\["?([^\.\]"]*)"?\]/, "$1");
+				}
 				recObj = recObj[ele];
-				restEle = restEle.replace(/^[^\.]*\.?/, "");
+				restEle = restEle.replace(/^\[?[^\.\[]*\.?/, "");
 			}
 		}
 
