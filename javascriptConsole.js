@@ -168,8 +168,15 @@ function javascriptConsole () {
 		var matches = [];
 		var recObj = window;
 
-		if ( element )
-			recObj = window[element];
+		
+		if ( element ){
+			var restEle = element;
+			while (restEle != ""){
+				var ele = restEle.match(/^[^\.]*/)[0];
+				recObj = recObj[ele];
+				restEle = restEle.replace(/^[^\.]*\.?/, "");
+			}
+		}
 
 		for ( var i in recObj ) {
 			nodes.push(i);
