@@ -108,6 +108,19 @@ function javascriptConsole () {
 			this.query.value = nextEntry;
 		}
 	}
+
+	this.insert = function (str, position) {
+		if ( ! position ) {
+			if ( this.query.selectionEnd != this.query.selectionStart )
+				return false;
+			position = this.query.selectionEnd;
+		}
+		var value = this.query.value;
+
+		this.query.value = value.slice(0, position) + str 
+			+ value.slice(position, value.length);
+	}
+
 	   // should propably move this to a separate css sheet
 	this.wrapDivStyle = { overflow: "hidden",
 		position: "fixed",
