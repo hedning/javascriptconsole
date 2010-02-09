@@ -5,7 +5,7 @@ function javascriptConsole () {
 	this.autoCompOut = null;
 	this.evalKey = 13;
 	this.wrapDiv = null;
-	this.prompt = "<span style=\"color:grey;\">$ </span>";
+	this.prompt = "$ ".fontcolor("grey");
 	this.history = [];
 	this.currentHistIndex = 0;
 	this.clear = function () {
