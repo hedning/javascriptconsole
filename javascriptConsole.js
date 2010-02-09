@@ -476,11 +476,31 @@ function newcli(str){
 }
 
 
+var currentMouseOverElement = null;
+function mouseoverHandler (e) {
+	currentMouseOverElement = e.target;
+	e.target.style.border = "2px solid #ff0000";
+}
+
+function mouseoutHandler (e) {
+	e.target.style.border = "";
+}
+
+function clickHandler (e) {
+	selectedElement = e.target;
+}
 
 
+function initSelectElement() {
+	window.addEventListener("mouseover", mouseoverHandler, false);
+	window.addEventListener("mouseout", mouseoutHandler, false);
+	window.addEventListener("click", clickHandler, false);
+}
 
-
-
-
-
+function stopSelectElement() {
+	window.removeEventListener("mouseover", mouseoverHandler, false);
+	window.removeEventListener("mouseout", mouseoutHandler, false);
+	window.removeEventListener("click", clickHandler, false);
+	currentMouseOverElement.style.border = "";
+}
 
