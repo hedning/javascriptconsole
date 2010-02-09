@@ -220,8 +220,36 @@ function javascriptConsole () {
 			var newPosition = startWord + str.length;
 			obj.query.setSelectionRange(newPosition, newPosition);
 		}
-		var expandToClosest = function () {
-			return false;
+		var expandToClosest = function (list) {
+			var commonPart = "";
+			var p = -1;
+			var common = true;
+			var longest = 1;
+			var testCommon = "";
+
+			for ( var p = 0; p < longest; p++ ) {
+				testCommon = list[0][p];
+				for ( var i = 1; i < list.length; i++ ) {
+					var curr = list[i];
+					if ( longest < curr.length )
+						longest = curr.length;
+					
+					if ( testCommon != curr[p] ){
+						common = false;
+						break;
+					}
+				}
+				
+				if ( common )
+					commonPart += list[0][p];
+				else
+					break;
+			}
+
+			if ( commonPart ) {
+				expand(commonPart);
+			}
+
 		}
 		var showComps = function (list) {
 
@@ -253,13 +281,15 @@ function javascriptConsole () {
 
 			matches = this.completor(activeWord);
 
+			this.autoCompOut.innerHTML = "";
+
 			if ( matches.length == 0 ){
 				return false;
 			} else if ( matches.length == 1 ) {
 				expand(matches[0]);
 			} else {
 				lastMatches = matches;
-				expandToClosest();
+				expandToClosest(matches);
 				showComps(matches);
 			}
 
