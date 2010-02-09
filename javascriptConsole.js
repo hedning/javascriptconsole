@@ -334,15 +334,15 @@ function javascriptConsole () {
 			e.preventDefault();
 			obj.complete();
 		}
-		else if ( ( character == "P" || character == "p" ) && ctrlKey){
+		else if ( character == "P" && ctrlKey){
 			obj.prevHistEntry();
 			e.preventDefault();
 		}
-		else if ( ( character == "N" || character == "n" ) && ctrlKey ){
+		else if ( character == "N" && ctrlKey ){
 			obj.nextHistEntry();
 			e.preventDefault();
 		}
-		else if ( ( character == "L" || character == "l" ) && ctrlKey ){
+		else if ( character == "L" && ctrlKey ){
 			obj.clear();
 			e.preventDefault();
 		}
