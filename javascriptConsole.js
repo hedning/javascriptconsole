@@ -3,6 +3,7 @@ function javascriptConsole () {
 	this.query = null;
 	this.outPut = null;
 	this.autoCompOut = null;
+	this.evalKey = 13;
 	this.wrapDiv = null;
 	this.prompt = "<span style=\"color:grey;\">$ </span>";
 	this.history = [];
@@ -323,7 +324,7 @@ function javascriptConsole () {
 			character = character.toUpperCase();
 		}
 		// 13 is enter
-		if ( keycode == 13 ){ 
+		if ( keycode == obj.evalKey ){ 
 			obj.evalQuery();
 			e.preventDefault();
 		}
