@@ -129,6 +129,23 @@ function javascriptConsole () {
 		this.query.value = leftContext + replacement + rightContext;
 	}
 
+
+	splitString = function(str, position) {
+
+		var output = [];
+		var lBuffer = str.slice(0, position);
+		var rBuffer = str.slice(position, str.length);
+
+		var lWord = lBuffer.match(/\S*$/)[0] ;
+		var rWord = rBuffer.match(/^\S*/)[0] ;
+
+		var left = lBuffer.slice(0,lBuffer.length - lWord.length);
+		var right = rBuffer.slice(rWord.length, rBuffer.length);
+		var word = lWord + rWord;
+		return ( [ left, word, right ] );
+	}
+
+
 	   // should propably move this to a separate css sheet
 	this.wrapDivStyle = { overflow: "hidden",
 		position: "fixed",
