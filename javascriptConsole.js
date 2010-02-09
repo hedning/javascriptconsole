@@ -330,6 +330,10 @@ function javascriptConsole () {
 		// 27 is escape
 		else if ( keycode == 27 ) 
 			obj.close();
+		else if ( keycode == 9 ) {
+			e.preventDefault();
+			obj.complete();
+		}
 		else if ( ( character == "P" || character == "p" ) && ctrlKey){
 			obj.prevHistEntry();
 			e.preventDefault();
@@ -341,6 +345,12 @@ function javascriptConsole () {
 		else if ( ( character == "L" || character == "l" ) && ctrlKey ){
 			obj.clear();
 			e.preventDefault();
+		}
+
+
+		if ( keycode != 9 ){
+			lastMatches = null;
+			lastIndex = 0;
 		}
 
 		ctrlKey = false;
