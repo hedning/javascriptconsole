@@ -226,8 +226,10 @@ function javascriptConsole () {
 		var showComps = function (list) {
 
 			var output = "";
+			var spanClose = "</span>";
 			for ( var i=0; i<list.length; i++ ) {
-				output += list[i] + "<br>";
+				var spanOpen = "<span id=\"cli" + i + "\">";
+				output += spanOpen+list[i]+spanClose+"<br>";
 			}
 
 			obj.autoCompOut.innerHTML = output;
@@ -239,7 +241,14 @@ function javascriptConsole () {
 			if ( lastMatches.length <= lastIndex )
 				lastIndex = 0;
 			expand(lastMatches[lastIndex]);
+
+			var curr = document.getElementById("cli"+lastIndex);
+			var prev = document.getElementById("cli"+(lastIndex-1<0 ? lastMatches.length -1 : lastIndex - 1) );
+			curr.style.backgroundColor = "blue";
+			if (prev)
+				prev.style.backgroundColor = "inherit";
 			lastIndex++;
+
 		} else {
 
 			matches = this.completor(activeWord);
