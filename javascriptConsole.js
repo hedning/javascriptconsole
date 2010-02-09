@@ -220,14 +220,15 @@ function javascriptConsole () {
 			var newPosition = startWord + str.length;
 			obj.query.setSelectionRange(newPosition, newPosition);
 		}
-		var expandToClosest = function (list) {
-			var commonPart = "";
+		var expandToClosest = function (list, word) {
+			var commonPart = word;
+			var start = word.length;
 			var p = -1;
 			var common = true;
 			var shortest = list[0].length;
-			var testCommon = "";
+			var testCommon = word;
 
-			for ( var p = 0; p < shortest; p++ ) {
+			for ( var p = start; p < shortest; p++ ) {
 				testCommon = list[0][p];
 				for ( var i = 1; i < list.length; i++ ) {
 					var curr = list[i];
@@ -290,7 +291,7 @@ function javascriptConsole () {
 				expand(matches[0]);
 			} else {
 				lastMatches = matches;
-				expandToClosest(matches);
+				expandToClosest(matches, activeWord);
 				showComps(matches);
 			}
 
