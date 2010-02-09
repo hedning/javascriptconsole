@@ -223,7 +223,15 @@ function javascriptConsole () {
 		var expandToClosest = function () {
 			return false;
 		}
-		var showComps = function () {
+		var showComps = function (list) {
+
+			var output = "";
+			for ( var i=0; i<list.length; i++ ) {
+				output += list[i] + "<br>";
+			}
+
+			obj.autoCompOut.innerHTML = output;
+
 		}
 		
 
@@ -243,7 +251,7 @@ function javascriptConsole () {
 			} else {
 				lastMatches = matches;
 				expandToClosest();
-				showComps();
+				showComps(matches);
 			}
 
 		}
@@ -359,6 +367,7 @@ function javascriptConsole () {
 		if ( keycode != 9 ){
 			lastMatches = null;
 			lastIndex = 0;
+			obj.autoCompOut.innerHTML = "";
 		}
 
 		ctrlKey = false;
