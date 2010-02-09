@@ -477,16 +477,25 @@ function newcli(str){
 
 
 var currentMouseOverElement = null;
-function mouseoverHandler (e) {
+
+var setStyle = function (ele, unset) {
+	ele.style.backgroundColor =( unset ? "" : "blue");
+	ele.style.color =( unset ? "" : "black");
+}
+
+var mouseoverHandler = function  (e) {
 	currentMouseOverElement = e.target;
-	e.target.style.border = "2px solid #ff0000";
+	setStyle(e.target);
 }
 
-function mouseoutHandler (e) {
-	e.target.style.border = "";
+var mouseoutHandler = function  (e) {
+	e.target.style.backgroundColor = "";
+	e.target.style.color = "";
+	setStyle(e.target, true);
 }
 
-function clickHandler (e) {
+
+var clickHandler = function  (e) {
 	selectedElement = e.target;
 }
 
@@ -501,6 +510,6 @@ function stopSelectElement() {
 	window.removeEventListener("mouseover", mouseoverHandler, false);
 	window.removeEventListener("mouseout", mouseoutHandler, false);
 	window.removeEventListener("click", clickHandler, false);
-	currentMouseOverElement.style.border = "";
+	setStyle(currentMouseOverElement, true);
 }
 
