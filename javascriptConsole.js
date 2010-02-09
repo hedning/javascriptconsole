@@ -131,14 +131,18 @@ function javascriptConsole () {
 	}
 
 
-	splitString = function(str, position) {
+	var splitString = function(str, position) {
 
 		var output = [];
 		var lBuffer = str.slice(0, position);
 		var rBuffer = str.slice(position, str.length);
 
-		var lWord = lBuffer.match(/\S*$/)[0] ;
-		var rWord = rBuffer.match(/^\S*/)[0] ;
+		var wordSeperator = "[\\w_\\.\\[\\]\"]";
+		var lWordReg = new RegExp(wordSeperator+"*$");
+		var rWordReg = new RegExp("^"+wordSeperator+"*");
+
+		var lWord = lBuffer.match(lWordReg)[0] ;
+		var rWord = rBuffer.match(rWordReg)[0] ;
 
 		var left = lBuffer.slice(0,lBuffer.length - lWord.length);
 		var right = rBuffer.slice(rWord.length, rBuffer.length);
