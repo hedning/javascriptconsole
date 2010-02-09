@@ -224,15 +224,15 @@ function javascriptConsole () {
 			var commonPart = "";
 			var p = -1;
 			var common = true;
-			var longest = 1;
+			var shortest = list[0].length;
 			var testCommon = "";
 
-			for ( var p = 0; p < longest; p++ ) {
+			for ( var p = 0; p < shortest; p++ ) {
 				testCommon = list[0][p];
 				for ( var i = 1; i < list.length; i++ ) {
 					var curr = list[i];
-					if ( longest < curr.length )
-						longest = curr.length;
+					if ( shortest > curr.length )
+						shortest = curr.length;
 					
 					if ( testCommon != curr[p] ){
 						common = false;
