@@ -246,8 +246,8 @@ function javascriptConsole () {
 	   // should propably move this to a separate css sheet
 	this.wrapDivStyle = { overflow: "hidden",
 		position: "fixed",
-		right: "4",
-		left: "4",
+		right: "7",
+		left: "7",
 		bottom: "2",
 		padding: "0",
 		margin: "auto",
