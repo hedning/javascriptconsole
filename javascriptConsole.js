@@ -228,6 +228,8 @@ function javascriptConsole () {
 		
 
 		if ( lastMatches ) {
+			if ( lastMatches.length <= lastIndex )
+				lastIndex = 0;
 			expand(lastMatches[lastIndex]);
 			lastIndex++;
 		} else {
