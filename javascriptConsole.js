@@ -1,5 +1,6 @@
 function javascriptConsole () {
 
+	var obj = this;
 	this.query = null;
 	this.outPut = null;
 	this.autoCompOut = null;
@@ -375,7 +376,6 @@ function javascriptConsole () {
 
 	// bindings -- should be replaced by a more general and better system
 	var ctrlKey = false;
-	var obj = this;
 	var cliKeyHandler = function (e) {
 		
 		// when ctrl is down browsers return a capital letter
