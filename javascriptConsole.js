@@ -154,7 +154,7 @@ function javascriptConsole () {
 		return ( [ left, word, right ] );
 	}
 
-	this.completor = function (word) {
+	this.completor = function (word, leftContext, rightContext) {
 
 		var getElement = function (value) {
 			var elementReg = /^([^\.]*\.)*/;
@@ -292,7 +292,7 @@ function javascriptConsole () {
 
 		} else {
 
-			matches = this.completor(activeWord);
+			matches = this.completor(activeWord, leftContext, rightContext);
 
 			this.autoCompOut.innerHTML = "";
 
