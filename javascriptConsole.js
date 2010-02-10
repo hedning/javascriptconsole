@@ -11,9 +11,6 @@ function javascriptConsole () {
 	this.prompt = "$ ".fontcolor("grey");
 	this.history = [];
 	this.currentHistIndex = 0;
-	this.clear = function () {
-		this.outPut.innerHTML = "";
-	}
 
 
 	this.create = function () {
@@ -96,6 +93,7 @@ function javascriptConsole () {
 		this.outPut.innerHTML += this.prompt + input + "<BR>" + output + "<BR>" ;
 //		this.outPut.innerHTML += this.prompt + input + output ;
 		this.outPut.scrollTop = this.outPut.scrollHeight;
+		this.outPut.style.display = "block";
 	}
 	
 	this.prevHistEntry = function () {
@@ -356,6 +354,7 @@ function javascriptConsole () {
 			}
 
 			obj.autoCompOut.innerHTML = output;
+			obj.autoCompOut.style.display = "block";
 
 		}
 		function cycleMatches() {
@@ -391,7 +390,7 @@ function javascriptConsole () {
 
 			matches = this.completor(activeWord, leftContext, rightContext);
 
-			this.autoCompOut.innerHTML = "";
+			this.autoCompOut.clear();
 
 			if ( matches.length == 0 ){
 				return false;
@@ -436,8 +435,8 @@ function javascriptConsole () {
 		color: "white",
 		height: "auto",
 		margin: 0,
-		marginTop: 1,
-		borderTop: "2",
+		marginTop: 0,
+		borderTop: "0",
 		borderRight: "0",
 		borderLeft: "0",
 		borderBottom: "0",
@@ -449,17 +448,23 @@ function javascriptConsole () {
 		padding: "4",
 		}
 	this.outStyle = { overflow: "hidden",
+		display: "none",
 		padding: "0",
 		paddingLeft: "2",
+		paddingBottom: "2",
+		paddingTop: "2",
 		margin: "0",
 		border: 0,
+		borderBottom: "1",
+		borderStyle: "solid",
+		borderColor: "grey",
 		backgroundColor: "black",
 		fontFamily: "Verdana",
 		fontSize: "14",
 		color: "white",
 		width: "100%",
 		maxWidth: "100%",
-		maxHeight: "432",
+		maxHeight: "430",
 		}
 
 
@@ -470,6 +475,15 @@ function javascriptConsole () {
 	}
 
 	this.create();
+
+	this.outPut.clear = function () {
+		this.innerHTML = "";
+		this.style.display = "none";
+	}
+	this.autoCompOut.clear = function () {
+		this.innerHTML = "";
+		this.style.display = "none";
+	}
 
 	this.style = this.wrapDiv.style;
 	this.currentStyle = this.wrapDiv.currentStyle;
@@ -511,7 +525,7 @@ function javascriptConsole () {
 			e.preventDefault();
 		}
 		else if ( character == "L" && ctrlKey ){
-			obj.clear();
+			obj.outPut.clear();
 			e.preventDefault();
 		}
 
@@ -519,7 +533,7 @@ function javascriptConsole () {
 		if ( keycode != 9 ){
 			lastMatches = null;
 			lastIndex = "new";
-			obj.autoCompOut.innerHTML = "";
+			obj.autoCompOut.clear();
 		}
 
 		ctrlKey = false;
