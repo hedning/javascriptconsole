@@ -265,11 +265,6 @@ function javascriptConsole () {
 
 		for ( var i = 0; i < nodes.length; i++ ) {
 			if ( nodes[i].search(rest) != -1){
-				var dot = "";
-				if ( element == "")
-					dot = "";
-				else
-					dot = ".";
 				matches.push(element + dot + nodes[i]);
 			}
 		}
