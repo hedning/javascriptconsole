@@ -438,7 +438,7 @@ function javascriptConsole () {
 
 
 	this.applyStyle = function (element, style) {
-		for ( i in style ) {
+		for ( var i in style ) {
 			element.style[i] = style[i];
 		}
 	}
@@ -535,12 +535,12 @@ function inspect(obj, reg) {
 
 	var output = "";
 	if ( reg ) {
-		for ( i in obj ){
+		for ( var i in obj ){
 			if ( i.match(reg) )
 				output += i + "\n";
 		}
 	} else {
-		for ( i in obj ) {
+		for ( var i in obj ) {
 				output += i + "\n";
 		}
 	}
