@@ -156,6 +156,9 @@ function javascriptConsole () {
 
 	this.completor = function (word, leftContext, rightContext) {
 
+		if ( word == "." )
+			return false;
+
 		var getElement = function (value) {
 			var elementReg = /^([^\.]*\.)*/;
 			var element = elementReg.exec(value)[0];
