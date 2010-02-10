@@ -185,6 +185,25 @@ function javascriptConsole () {
 		
 		if ( element ){
 			var restEle = element;
+			var litMark = "\\" + element.match(/^[\[{"'\/]/); // ]}
+			if ( litMark != "\\null" ) {
+				var matchingMark = null;
+				switch ( litMark ) {
+					case "\\[":
+						matchingMark = "\\]";
+						break;
+					case "\\{":
+						matchingMark = "\\}";
+						break;
+					default:
+						matchingMark = litMark;
+				}
+				// should be replaced with something that counts the []/{} properly
+				var reg = new RegExp("^"+litMark+"[^"+matchingMark+"]*"+matchingMark);
+				var literal = restEle.match(reg);
+				var litType = eval('type(literal)') + ".prototype";
+				restEle = restEle.replace(reg, litType);
+			}
 			while (restEle != ""){
 				var ele = restEle.match(/^\[?[^\.\[]*/)[0];
 				if ( ele.search(/^\[/) != -1 ){
