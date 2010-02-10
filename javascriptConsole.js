@@ -304,15 +304,15 @@ function javascriptConsole () {
 			obj.query.setSelectionRange(newPosition, newPosition);
 		}
 		var expandToClosest = function (list, word) {
-			var commonPart = word;
-			var start = word.length;
+			var commonPart = "";
 			var p = -1;
 			var common = true;
 			var shortest = list[0].length;
 			var testCommon = word;
 
-			for ( var p = start; p < shortest; p++ ) {
+			for ( var p = 0; p < shortest; p++ ) {
 				testCommon = list[0][p];
+				
 				for ( var i = 1; i < list.length; i++ ) {
 					var curr = list[i];
 					if ( shortest > curr.length )
