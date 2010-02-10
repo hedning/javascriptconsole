@@ -536,3 +536,6 @@ function stopSelectElement() {
 	setStyle(currentMouseOverElement, true);
 }
 
+function type(o){
+	return !!o && Object.prototype.toString.call(o).match(/(\w+)\]/)[1];
+}
