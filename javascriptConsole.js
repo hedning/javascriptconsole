@@ -192,12 +192,22 @@ function javascriptConsole () {
 			}
 		}
 
+		// all the characters that can't be used in string in element.string
+		// used to weed out the nodes such as window["foo.bar"] and similar
+		// rather ugly though
+		var nonConstitutents = this.wordConstituents.replace(/^\[([^\.]*)\\.([^\.]*)\]$/, "[\^$1$2]|\\.");
+		var dot = ( !element ? "" : "." );
 		for ( var i in recObj ) {
-			nodes.push(i);
+			if ( i.search(nonConstitutents) == -1){
+				if ( i.search(rest) != -1){
+					matches.push(element + dot + i);
+				}
+			}
+		}
 		}
 
 		for ( var i = 0; i < nodes.length; i++ ) {
-			if ( nodes[i].match(rest) ){
+			if ( nodes[i].search(rest) != -1){
 				var dot = "";
 				if ( element == "")
 					dot = "";
