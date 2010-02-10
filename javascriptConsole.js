@@ -134,6 +134,7 @@ function javascriptConsole () {
 		this.query.value = leftContext + replacement + rightContext;
 	}
 
+	this.wordConstituents = "[/\\w\\{\\}_$\\.\\[\\]\"']";
 
 	var splitString = function(str, position) {
 
@@ -141,9 +142,8 @@ function javascriptConsole () {
 		var lBuffer = str.slice(0, position);
 		var rBuffer = str.slice(position, str.length);
 
-		var wordSeperator = "[\\w_\\.\\[\\]\"]";
-		var lWordReg = new RegExp(wordSeperator+"*$");
-		var rWordReg = new RegExp("^"+wordSeperator+"*");
+		var lWordReg = new RegExp(obj.wordConstituents+"*$");
+		var rWordReg = new RegExp("^"+obj.wordConstituents+"*");
 
 		var lWord = lBuffer.match(lWordReg)[0] ;
 		var rWord = rBuffer.match(rWordReg)[0] ;
