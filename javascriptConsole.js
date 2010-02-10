@@ -307,6 +307,7 @@ function javascriptConsole () {
 			var commonPart = "";
 			var p = -1;
 			var common = true;
+			var preserveCase = false;
 			var shortest = list[0].length;
 			var testCommon = word;
 
@@ -322,12 +323,21 @@ function javascriptConsole () {
 					if ( testCommon.search(reg) == -1 ){
 						common = false;
 						break;
+					} else {
+						preserveCase = true;
 					}
 				}
-				
-				if ( common )
-					commonPart += list[0][p];
-				else
+
+				if ( common ) {
+					if (preserveCase) {
+						if ( p < word.length )
+							commonPart += word[p];
+						else
+							commonPart += list[0][p];
+					} else {
+						commonPart += list[0][p];
+					}
+				} else
 					break;
 			}
 
