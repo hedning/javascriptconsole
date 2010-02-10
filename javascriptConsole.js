@@ -165,8 +165,8 @@ function javascriptConsole () {
 
 		var getRest = function (value) {
 
-			var restReg = /\.?([^\.]*)$/
-			var rest = restReg.exec(value)[0].replace(/\./, "");
+			var restReg = /\.?([^\.]*)$/;
+			var rest = restReg.exec(value)[0].replace(/\./, "").replace(/\$/, "\\$");
 			return rest;
 		}
 
