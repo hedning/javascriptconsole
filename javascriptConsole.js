@@ -1,5 +1,7 @@
 function javascriptConsole () {
 
+
+	_ = null;
 	var obj = this;
 	this.query = null;
 	this.outPut = null;
@@ -72,6 +74,7 @@ function javascriptConsole () {
 		this.histAppend(evalText);
 		this.currentHistIndex = this.history.length;
 		var output = this.evalWrap(evalText);
+		_ = output;
 		this.outPutAppend(output, evalText);
 	}
 	this.histAppend = function (entry) {
