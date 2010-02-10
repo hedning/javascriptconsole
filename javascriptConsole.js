@@ -283,7 +283,7 @@ function javascriptConsole () {
 	var lastMatches = null;
 	var lastIndex = "0" ;
 
-	this.complete = function(str) {
+	this.complete = function(directionSwitch) {
 
 		if ( !( this.query.selectionEnd == this.query.selectionStart ) )
 			return false;
@@ -481,7 +481,10 @@ function javascriptConsole () {
 			obj.close();
 		else if ( keycode == 9 ) {
 			e.preventDefault();
-			obj.complete();
+			if ( e.shiftKey )
+				obj.complete(true);
+			else
+				obj.complete();
 		}
 		else if ( character == "P" && ctrlKey){
 			obj.prevHistEntry();
