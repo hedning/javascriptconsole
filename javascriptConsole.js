@@ -157,7 +157,7 @@ function javascriptConsole () {
 	this.completor = function (word) {
 
 		var getElement = function (value) {
-			var elementReg = RegExp("^([^\\.]*\\.)*")
+			var elementReg = /^([^\.]*\.)*/;
 			var element = elementReg.exec(value)[0];
 			element = element.replace(/\.$/, "");
 			return element;
