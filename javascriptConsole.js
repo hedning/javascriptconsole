@@ -73,6 +73,7 @@ function javascriptConsole () {
 		var output = this.evalWrap(evalText);
 		_ = output;
 		this.outPutAppend(output, evalText);
+		this.autoCompOut.clear()
 	}
 	this.histAppend = function (entry) {
 		var lastEntry = this.history[this.history.length - 1];
@@ -529,7 +530,6 @@ function javascriptConsole () {
 		if ( keycode != 9 ){
 			lastMatches = null;
 			lastIndex = "new";
-			obj.autoCompOut.clear();
 		}
 
 		ctrlKey = false;
