@@ -173,16 +173,35 @@ function javascriptConsole () {
 			return rest;
 		}
 
+		// all the standard words and such that "for ... in" doesn't loop trough
+		// should take this outside and run a test for all the properties first
 		var standardNode = ["RegExp", "function", "Function", "new", "var", "Array", 
 			"scroll", "scrollBy", "Object", "String", "Number", "Boolean", "true",
 		   	"false"];
+		var objectNode = [ "toString", "constructor", "hasOwnProperty",
+		  /*"isProtoTypeOf",*/ "propertyIsEnumerable", "valueOf", "__lookupGetter__",
+		  "__lookupSetter__" ];
+		var stringNode = [  "match", "charAt", "charCodeAt", "concat",
+		  "indexOf", "lastIndexOf", "length", "match", "replace", "search", "slice",
+		  "split", "substr", "substring", "toLowerCase", "toUpperCase",
+		  "anchor", "big", "blink", "bold", "fontcolor", "fontsize", "italics",
+		  "link", "small", "strike", "sub", "sup" ];
+		var regexpNode = [ "global", "ignorecase", "lastIndex", "multiline",
+			"source", "exec", "test" ];
+		var functionNode = [ "apply", "call", "length", "prototype" ];
+		var lengthNode = [];
+		var numberNode = ["toExponential", "toFixed", "toPrecision"];
+		var arrayNode = [  "input", "length", "pop", "push", "reverse",
+			"shift", "sort", "splice", "unshift", "concat", "join", "slice",
+			"indexOf", "lastIndexOf", "filter", "forEach", "every", "map",
+			"some" ];
 		var element = getElement(word);
 		var rest = RegExp( "^" + getRest(word), "i");
 		var nodes = [];
 		var matches = [];
 		var recObj = window;
+		var objType = null;
 
-		
 		if ( element ){
 			var restEle = element;
 			var litMark = "\\" + element.match(/^[\[{"'\/]/); // ]}
@@ -212,9 +231,13 @@ function javascriptConsole () {
 				recObj = recObj[ele];
 				restEle = restEle.replace(/^\[?[^\.\[]*\.?/, "");
 			} 
+			if (recObj)
+				objType = type(recObj);
 		} else {
 			nodes = nodes.concat(standardNode); 
 		}
+			
+
 
 		// all the characters that can't be used in string in element.string
 		// used to weed out the nodes such as window["foo.bar"] and similar
@@ -228,6 +251,18 @@ function javascriptConsole () {
 				}
 			}
 		}
+		if ( objType ) {
+			if ( objType == "String" )
+				nodes = nodes.concat(stringNode);
+			if ( objType == "RegExp" )
+				nodes = nodes.concat(regexpNode);
+			if ( objType == "Array" )
+				nodes = nodes.concat(arrayNode);
+			if ( objType == "Function" )
+				nodes = nodes.concat(functionNode);
+			if ( objType == "Number" )
+				nodes = nodes.concat(numberNode);
+			nodes = nodes.concat(objectNode);
 		}
 
 		for ( var i = 0; i < nodes.length; i++ ) {
