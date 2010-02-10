@@ -173,6 +173,9 @@ function javascriptConsole () {
 			return rest;
 		}
 
+		var standardNode = ["RegExp", "function", "Function", "new", "var", "Array", 
+			"scroll", "scrollBy", "Object", "String", "Number", "Boolean", "true",
+		   	"false"];
 		var element = getElement(word);
 		var rest = RegExp( "^" + getRest(word), "i");
 		var nodes = [];
@@ -189,7 +192,9 @@ function javascriptConsole () {
 				}
 				recObj = recObj[ele];
 				restEle = restEle.replace(/^\[?[^\.\[]*\.?/, "");
-			}
+			} 
+		} else {
+			nodes = nodes.concat(standardNode); 
 		}
 
 		// all the characters that can't be used in string in element.string
