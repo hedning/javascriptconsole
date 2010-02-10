@@ -265,7 +265,8 @@ function javascriptConsole () {
 
 		for ( var i = 0; i < nodes.length; i++ ) {
 			if ( nodes[i].search(rest) != -1){
-				matches.push(element + dot + nodes[i]);
+				if ( recObj[nodes[i]] != undefined )
+					matches.push(element + dot + nodes[i]);
 			}
 		}
 
