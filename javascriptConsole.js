@@ -281,7 +281,7 @@ function javascriptConsole () {
 	}
 
 	var lastMatches = null;
-	var lastIndex = "0" ;
+	var lastIndex = "new";
 
 	this.complete = function(directionSwitch) {
 
@@ -358,19 +358,34 @@ function javascriptConsole () {
 			obj.autoCompOut.innerHTML = output;
 
 		}
+		function cycleMatches() {
+
+			newIndex = null; 
+
+			var lastSelection = document.getElementById("cli"+lastIndex);
+			if (lastSelection)
+				lastSelection.style.backgroundColor = "";
+
+			if ( lastIndex == "new") {
+				newIndex = ( directionSwitch ? lastMatches.length - 1 : 0 );
+
+			} else {
+				newIndex = lastIndex + ( directionSwitch ? -1 : 1 );
+				if ( newIndex == lastMatches.length || newIndex == -1)
+					newIndex = ( directionSwitch ? lastMatches.length - 1 : 0 );
+			}
+
+			expand(lastMatches[newIndex]);
+			var newSelection = document.getElementById("cli"+newIndex);
+			newSelection.style.backgroundColor = "grey";
+
+			lastIndex = newIndex;
+		}
 		
 
 		if ( lastMatches ) {
-			if ( lastMatches.length <= lastIndex )
-				lastIndex = 0;
-			expand(lastMatches[lastIndex]);
 
-			var curr = document.getElementById("cli"+lastIndex);
-			var prev = document.getElementById("cli"+(lastIndex-1<0 ? lastMatches.length -1 : lastIndex - 1) );
-			curr.style.backgroundColor = "blue";
-			if (prev)
-				prev.style.backgroundColor = "inherit";
-			lastIndex++;
+			cycleMatches()
 
 		} else {
 
@@ -384,6 +399,7 @@ function javascriptConsole () {
 				expand(matches[0]);
 			} else {
 				lastMatches = matches;
+				lastIndex = "new";
 				expandToClosest(matches, activeWord);
 				showComps(matches);
 			}
@@ -502,7 +518,7 @@ function javascriptConsole () {
 
 		if ( keycode != 9 ){
 			lastMatches = null;
-			lastIndex = 0;
+			lastIndex = "new";
 			obj.autoCompOut.innerHTML = "";
 		}
 
