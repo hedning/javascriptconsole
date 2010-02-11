@@ -559,7 +559,7 @@ var queryopenHandler = function (element, character) {
 	}
 }
 
-window.addEventListener("load", function() {
+document.addEventListener("DOMContentLoaded", function() {
 
 cli = new javascriptConsole();
 
