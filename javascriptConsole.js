@@ -315,11 +315,13 @@ function javascriptConsole () {
 						shortest = curr.length;
 					
 					var reg = new RegExp( curr[p], "i");
-					if ( testCommon.search(reg) == -1 ){
-						common = false;
-						break;
-					} else {
-						preserveCase = true;
+					if ( testCommon != curr[p] ) {
+						if ( testCommon.search(reg) == -1 ){
+							common = false;
+							break;
+						} else {
+							preserveCase = true;
+						}
 					}
 				}
 
