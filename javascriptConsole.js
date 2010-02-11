@@ -243,24 +243,22 @@ function javascriptConsole () {
 		var nonConstitutents = this.wordConstituents.replace(/^\[([^\.]*)\\.([^\.]*)\]$/, "[\^$1$2]|\\.");
 		var dot = ( !element ? "" : "." );
 		for ( var i in recObj ) {
+			var match = "";
 			if ( i.search(nonConstitutents) == -1){
-				if ( i.search(rest) != -1){
-					matches.push(element + dot + i);
+				if ( i.search(/^[0-9]+$/) != -1 ){
+					false;
+				} else {
+
+				match = dot + i;
+					if ( i.search(rest) != -1){
+						matches.push(element + match);
+					}
 				}
 			}
 		}
 		if ( objType ) {
-			if ( objType == "String" )
-				nodes = nodes.concat(stringNode);
-			if ( objType == "RegExp" )
-				nodes = nodes.concat(regexpNode);
-			if ( objType == "Array" )
-				nodes = nodes.concat(arrayNode);
-			if ( objType == "Function" )
-				nodes = nodes.concat(functionNode);
-			if ( objType == "Number" )
-				nodes = nodes.concat(numberNode);
-			nodes = nodes.concat(objectNode);
+				nodes = nodes.concat(objectNode, stringNode, regexpNode, arrayNode,
+						functionNode, numberNode);
 		}
 
 		for ( var i = 0; i < nodes.length; i++ ) {
