@@ -222,6 +222,7 @@ function javascriptConsole () {
 				restEle = restEle.replace(reg, litType);
 			}
 			while (restEle != ""){
+				// regexps this large is rather unreadable, fix and structure?
 				var ele = restEle.match(/^\[?[^\.\[]*/)[0];
 				if ( ele.search(/^\[/) != -1 ){
 					ele = ele.replace(/^\["?([^\.\]"]*)"?\]/, "$1");
