@@ -55,7 +55,7 @@ function javascriptConsole () {
 	}
 	this.evalWrap = function (str) {
 		try {
-			return eval(str);
+			return eval.call(null, str); // calls eval from window
 		}
 		catch(error) {
 			return error;
