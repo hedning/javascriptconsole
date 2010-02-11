@@ -49,7 +49,6 @@ function javascriptConsole () {
 	this.close = function () {
 		this.query.blur();
 		this.wrapDiv.style.display = "none";
-		document.body.focus();
 	}
 	this.focus = function () {
 		this.query.focus();
