@@ -134,7 +134,7 @@ function javascriptConsole () {
 
 	this.wordConstituents = "[/\\w\\{\\}_$\\.\\[\\]\"']";
 
-	var splitString = function(str, position) {
+	function splitString (str, position) {
 
 		var output = [];
 		var lBuffer = str.slice(0, position);
@@ -157,13 +157,13 @@ function javascriptConsole () {
 		if ( word == "." )
 			return false;
 
-		var getElement = function (value) {
+		function getElement (value) {
 			var elementReg = /^([^\.]*\.)*/;
 			var element = elementReg.exec(value)[0];
 			return element;
 		}
 
-		var getRest = function (value) {
+		function getRest (value) {
 
 			var restReg = /\.?([^\.]*)$/;
 			var rest = restReg.exec(value)[0].replace(/\./, "").replace(/\$/, "\\$");
@@ -316,12 +316,12 @@ function javascriptConsole () {
 		var endWord = startWord + activeWord.length;
 
 		var obj = this;
-		var expand = function (str) {
+		function expand (str) {
 			obj.replace(startWord, endWord, str);
 			var newPosition = startWord + str.length;
 			obj.query.setSelectionRange(newPosition, newPosition);
 		}
-		var expandToClosest = function (list, word) {
+		function expandToClosest (list, word) {
 			var commonPart = "";
 			var common = true;
 			var preserveCase = false;
@@ -365,7 +365,7 @@ function javascriptConsole () {
 			}
 
 		}
-		var showComps = function (list) {
+		function showComps (list) {
 
 			var output = "";
 			var spanClose = "</span>";
@@ -511,7 +511,7 @@ function javascriptConsole () {
 
 	// bindings -- should be replaced by a more general and better system
 	var ctrlKey = false;
-	var cliKeyHandler = function (e) {
+	function cliKeyHandler (e) {
 		
 		// when ctrl is down browsers return a capital letter
 		// most browsers doesn't return e.ctrlKey being true
@@ -549,15 +549,15 @@ function javascriptConsole () {
 			e.preventDefault();
 		}
 
-
 		if ( keycode != 9 ){
 			lastMatches = null;
 			lastIndex = "new";
+			obj.autoCompOut.clear();
 		}
 
 		ctrlKey = false;
 	}
-	var ctrlKeyHandler = function(e) {
+	function ctrlKeyHandler (e) {
 		ctrlKey = e.ctrlKey;
 	}
 
@@ -566,7 +566,7 @@ function javascriptConsole () {
 }
 
 
-var queryopenHandler = function (element, character) { 
+function queryopenHandler (element, character) { 
 	return function (e) {
 		var keycode = e.keyCode || e.charCode;
 		var chr = String.fromCharCode(keycode);
