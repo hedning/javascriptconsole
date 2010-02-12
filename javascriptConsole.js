@@ -372,9 +372,8 @@ function javascriptConsole () {
 			var spanClose = "</span>";
 			for ( var i=0; i<list.length; i++ ) {
 				var spanOpen = "<span id=\"cli" + i + "\">";
-				output += spanOpen+list[i]+spanClose+"<br>";
+				output += spanOpen+list[i].replace(/^.*\./, "")+spanClose+" ";
 			}
-
 			obj.autoCompOut.innerHTML = output;
 			obj.autoCompOut.style.display = "block";
 
