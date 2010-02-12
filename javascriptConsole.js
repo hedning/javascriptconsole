@@ -201,24 +201,40 @@ function javascriptConsole () {
 
 		if ( element ){
 			var restEle = element;
+
+			// replaces starting literals with their prototype
 			var litMark = "\\" + element.match(/^[\[{"'\/]/); // ]}
 			if ( litMark != "\\null" ) {
-				var matchingMark = null;
+				var matchingMark;
+				var builtinType;
 				switch ( litMark ) {
 					case "\\[":
 						matchingMark = "\\]";
+						builtinType = Array.prototype;
 						break;
 					case "\\{":
 						matchingMark = "\\}";
+						builtinType = Object.prototype;
 						break;
-					default:
-						matchingMark = litMark;
+					case '\\"':
+						matchingMark = '\\"';
+						builtinType = String.prototype;
+						break;
+					case "\\'":
+						matchingMark = "\\'";
+						builtinType = String.prototype;
+						break;
+					case '\\/':
+						matchingMark = '\\/';
+						builtinType = RegExp.prototype;
+						break;
 				}
 				// should be replaced with something that counts the []/{} properly
-				var reg = new RegExp("^"+litMark+"[^"+matchingMark+"]*"+matchingMark);
-				var literal = restEle.match(reg);
-				var litType = eval('type(literal)') + ".prototype";
-				restEle = restEle.replace(reg, litType);
+				var reg = new RegExp("^"+litMark+"[^"+matchingMark+"]*"+matchingMark+"\\.?");
+				if ( restEle.search(reg) != -1 ){
+					restEle = restEle.replace(reg, "");
+					recObj = builtinType;
+				}
 			}
 			while (restEle != ""){
 				// regexps this large is rather unreadable, fix and structure?
