@@ -172,9 +172,10 @@ function javascriptConsole () {
 
 		// all the standard words and such that "for ... in" doesn't loop trough
 		// should take this outside and run a test for all the properties first
-		var standardNode = ["RegExp", "function", "Function", "new", "var", "Array", 
-			"scroll", "scrollBy", "Object", "String", "Number", "Boolean", "true",
-		   	"false"];
+		var builtIns = [ "function", "new", "var", "eval", "while", "break", 
+			"return", "true", "false", "switch", "for", "if", "typeof" ];
+		var standardNode = ["RegExp", "Function", "Array", 
+			"scroll", "scrollBy", "Object", "String", "Number", "Boolean", ];
 		var objectNode = [ "toString", "constructor", "hasOwnProperty",
 		  /*"isProtoTypeOf",*/ "propertyIsEnumerable", "valueOf", "__lookupGetter__",
 		  "__lookupSetter__" ];
