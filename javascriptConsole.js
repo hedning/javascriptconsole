@@ -248,6 +248,7 @@ function javascriptConsole () {
 			} 
 			if (recObj)
 				objType = type(recObj);
+			builtIns = [];
 		} else {
 			nodes = nodes.concat(standardNode); 
 		}
