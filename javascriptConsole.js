@@ -323,7 +323,6 @@ function javascriptConsole () {
 		}
 		var expandToClosest = function (list, word) {
 			var commonPart = "";
-			var p = -1;
 			var common = true;
 			var preserveCase = false;
 			var shortest = list[0].length;
