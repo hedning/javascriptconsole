@@ -160,7 +160,6 @@ function javascriptConsole () {
 		var getElement = function (value) {
 			var elementReg = /^([^\.]*\.)*/;
 			var element = elementReg.exec(value)[0];
-			element = element.replace(/\.$/, "");
 			return element;
 		}
 
@@ -242,7 +241,6 @@ function javascriptConsole () {
 		// used to weed out the nodes such as window["foo.bar"] and similar
 		// rather ugly though
 		var nonConstitutents = this.wordConstituents.replace(/^\[([^\.]*)\\.([^\.]*)\]$/, "[\^$1$2]|\\.");
-		var dot = ( !element ? "" : "." );
 		for ( var i in recObj ) {
 			var match = "";
 			if ( i.search(nonConstitutents) == -1){
@@ -250,7 +248,7 @@ function javascriptConsole () {
 					false;
 				} else {
 
-				match = dot + i;
+				match = i;
 					if ( i.search(rest) != -1){
 						matches.push(element + match);
 					}
@@ -265,7 +263,7 @@ function javascriptConsole () {
 		for ( var i = 0; i < nodes.length; i++ ) {
 			if ( nodes[i].search(rest) != -1){
 				if ( recObj[nodes[i]] != undefined )
-					matches.push(element + dot + nodes[i]);
+					matches.push(element + nodes[i]);
 			}
 		}
 
