@@ -179,8 +179,8 @@ function javascriptConsole () {
 		var objectNode = [ "toString", "constructor", "hasOwnProperty",
 		  /*"isProtoTypeOf",*/ "propertyIsEnumerable", "valueOf", "__lookupGetter__",
 		  "__lookupSetter__" ];
-		var stringNode = [  "match", "charAt", "charCodeAt", "concat",
-		  "indexOf", "lastIndexOf", "length", "match", "replace", "search", "slice",
+		var stringNode = [ "match", "charAt", "charCodeAt", "concat",
+		  "indexOf", "lastIndexOf", "length", "replace", "search", "slice",
 		  "split", "substr", "substring", "toLowerCase", "toUpperCase",
 		  "anchor", "big", "blink", "bold", "fontcolor", "fontsize", "italics",
 		  "link", "small", "strike", "sub", "sup" ];
@@ -189,10 +189,11 @@ function javascriptConsole () {
 		var functionNode = [ "apply", "call", "length", "prototype" ];
 		var lengthNode = [];
 		var numberNode = ["toExponential", "toFixed", "toPrecision"];
-		var arrayNode = [  "input", "length", "pop", "push", "reverse",
+		var arrayNode = [  "input",  "pop", "push", "reverse",
 			"shift", "sort", "splice", "unshift", "concat", "join", "slice",
 			"indexOf", "lastIndexOf", "filter", "forEach", "every", "map",
 			"some" ];
+
 		var element = getElement(word);
 		var rest = RegExp( "^" + getRest(word), "i");
 		var nodes = [];
