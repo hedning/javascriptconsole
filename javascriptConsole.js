@@ -238,6 +238,7 @@ function javascriptConsole () {
 					recObj = builtinType;
 				}
 			}
+			// builds up the element we'll look for matches in
 			while (restEle != ""){
 				// regexps this large is rather unreadable, fix and structure?
 				var ele = restEle.match(/^\[?[^\.\[]*/)[0];
@@ -260,6 +261,7 @@ function javascriptConsole () {
 		// used to weed out the nodes such as window["foo.bar"] and similar
 		// rather ugly though
 		var nonConstitutents = this.wordConstituents.replace(/^\[([^\.]*)\\.([^\.]*)\]$/, "[\^$1$2]|\\.");
+		// adds matching properties/methods
 		for ( var i in recObj ) {
 			var match = "";
 			if ( i.search(nonConstitutents) == -1){
@@ -278,7 +280,7 @@ function javascriptConsole () {
 				nodes = nodes.concat(objectNode, stringNode, regexpNode, arrayNode,
 						functionNode, numberNode);
 		}
-
+		// adds the matching builtins methods and properties of the object
 		for ( var i = 0; i < nodes.length; i++ ) {
 			if ( nodes[i].search(rest) != -1){
 				if ( recObj[nodes[i]] != undefined )
