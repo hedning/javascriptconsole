@@ -369,13 +369,16 @@ function javascriptConsole () {
 		}
 		function showComps (list) {
 
-			var output = "";
-			var spanClose = "</span>";
 			for ( var i=0; i<list.length; i++ ) {
-				var spanOpen = "<span id=\"cli" + i + "\">";
-				output += spanOpen+list[i].replace(/^.*\./, "")+spanClose+" ";
+				var span = document.createElement("span");
+				var separator = document.createElement("span");
+				separator.innerHTML = " ";
+				span.id = "cli" + i;
+				span.style.lineHeight = "normal";
+				span.innerHTML = list[i].replace(/^.*\./, ""); 
+				obj.autoCompOut.appendChild(span);
+				obj.autoCompOut.appendChild(separator);
 			}
-			obj.autoCompOut.innerHTML = output;
 			obj.autoCompOut.style.display = "block";
 
 		}
