@@ -414,6 +414,7 @@ function javascriptConsole () {
 			}
 
 		}
+		return true;
 	}
 
 
