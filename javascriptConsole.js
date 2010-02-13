@@ -34,6 +34,8 @@ function javascriptConsole () {
 	this.open = function () {
 		//this.applyStyle(this.query, this.queryStyle);
 		this.wrapDiv.style.display = "block";
+		// temporarily
+		this.helpOut.style.display = "none";
 		this.outPut.scrollTop = this.outPut.scrollHeight;
 		this.focus();
 	}
@@ -96,6 +98,16 @@ function javascriptConsole () {
 			this.currentHistIndex++;
 			this.query.value = nextEntry;
 		}
+	}
+	this.help = function (str){
+
+		var lHref = "https://developer.mozilla.org/Special:Search?search=";
+		var rHref = "&type=fulltext&go=Search";
+
+		this.helpOut.src = lHref+str+rHref;
+		this.query.blur();
+		this.helpOut.focus();
+		this.helpOut.style.display = "block";
 	}
 
 	this.insert = function (str, position) {
@@ -488,7 +500,12 @@ function javascriptConsole () {
 	this.outPut = this.create("div");
 	this.autoCompOut = this.create("div");
 	this.query = this.create("textarea");
+	this.helpOut = this.create("iframe");
+	this.helpOut.style.borderTop = 1;
+	this.helpOut.style.borderStyle = "solid"
+	this.helpOut.style.borderColor = "grey"
 	this.query.rows = 1;
+
 
 	this.outPut.clear = function () {
 		this.innerHTML = "";
@@ -588,3 +605,6 @@ window.addEventListener("keypress", queryopenHandler(cli, ";"), false);
 
 }, false)
 
+function help(str){
+	cli.help.call(cli,str);
+}
