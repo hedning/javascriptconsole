@@ -515,20 +515,22 @@ function javascriptConsole () {
 		if ( ctrlKey ) {
 			character = character.toUpperCase();
 		}
-		// 13 is enter
+		// evalkey is enter as standard
 		if ( keycode == obj.evalKey ){ 
-			obj.evalQuery();
-			e.preventDefault();
+			if ( !e.shiftKey ) {
+				obj.evalQuery();
+				e.preventDefault();
+			}
 		}
 		// 27 is escape
 		else if ( keycode == 27 ) 
 			obj.close();
 		else if ( keycode == 9 ) {
-			e.preventDefault();
-			if ( e.shiftKey )
-				obj.complete(true);
+			obj.complete(e.shiftKey);
+			if ( !ctrlKey )
+				e.preventDefault();
 			else
-				obj.complete();
+				obj.insert("    ");
 		}
 		else if ( character == "P" && ctrlKey){
 			obj.prevHistEntry();
