@@ -3,40 +3,31 @@ function javascriptConsole () {
 
 	_ = null;
 	var obj = this;
-	this.query = null;
-	this.outPut = null;
-	this.autoCompOut = null;
 	this.evalKey = 13;
-	this.wrapDiv = null;
 	this.prompt = "$ ".fontcolor("grey");
 	this.history = [];
 	this.currentHistIndex = 0;
 
-
-	this.create = function () {
-		if (! this.wrapDiv ) {
+	// appends a child of type elementType to this.wrapDiv
+	this.create = function (elementType) {
+		var createdEle;
+		function append(str){
+			createdEle = document.createElement(str);
+			if ( str == "div" )
+				this.applyStyle(createdEle, this.outStyle);
+			else 
+				this.applyStyle(createdEle, this.queryStyle);
+			this.wrapDiv.appendChild(createdEle);
+		}
+		if ( !this.wrapDiv ) {
 			this.wrapDiv = document.createElement("div");
 			this.applyStyle(this.wrapDiv, this.wrapDivStyle);
 			this.wrapDiv.style.display = "none";
 			document.body.appendChild(this.wrapDiv);
-			if ( ! this.outPut ){
-				this.outPut = document.createElement("div");
-				this.applyStyle(this.outPut, this.outStyle);
-				this.wrapDiv.appendChild(this.outPut);
-			}
-			if ( ! this.autoCompOut ){
-				this.autoCompOut = document.createElement("div");
-				this.applyStyle(this.autoCompOut, this.outStyle);
-				this.wrapDiv.appendChild(this.autoCompOut);
-			}
-			if (! this.query ){
-				// this is rather ugly and should be delegated elsewhere
-				this.query = document.createElement("input");
-				this.query.rows = 1;
-				this.applyStyle(this.query, this.queryStyle);
-				this.wrapDiv.appendChild(this.query);
-			}
 		}
+		append.call(this, elementType);
+		
+		return createdEle || true;
 	}
 
 
@@ -493,7 +484,10 @@ function javascriptConsole () {
 		}
 	}
 
-	this.create();
+	this.outPut = this.create("div");
+	this.autoCompOut = this.create("div");
+	this.query = this.create("textarea");
+	this.query.rows = 1;
 
 	this.outPut.clear = function () {
 		this.innerHTML = "";
