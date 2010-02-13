@@ -310,6 +310,10 @@ function javascriptConsole () {
 		var startWord = leftContext.length;
 		var endWord = startWord + activeWord.length;
 
+		// will not complete if you haven't started a word
+		if ( ! activeWord )
+			return false ;
+
 		var obj = this;
 		function expand (str) {
 			obj.replace(startWord, endWord, str);
