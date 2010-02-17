@@ -11,15 +11,10 @@ function javascriptConsole () {
 		var createdEle;
 		function append(str){
 			createdEle = document.createElement(str);
-			if ( str == "div" )
-				this.applyStyle(createdEle, this.outStyle);
-			else 
-				this.applyStyle(createdEle, this.queryStyle);
 			this.wrapDiv.appendChild(createdEle);
 		}
 		if ( !this.wrapDiv ) {
 			this.wrapDiv = document.createElement("div");
-			this.applyStyle(this.wrapDiv, this.wrapDivStyle);
 			this.wrapDiv.className = "wrapDiv";
 			this.wrapDiv.style.display = "none";
 			document.body.appendChild(this.wrapDiv);
@@ -455,67 +450,6 @@ function javascriptConsole () {
 	}
 
 
-	   // should propably move this to a separate css sheet
-	this.wrapDivStyle = { overflow: "hidden",
-		position: "fixed",
-		right: "7",
-		left: "7",
-		bottom: "2",
-		padding: "0",
-		margin: "auto",
-		width: "auto",
-		maxWidth: "700",
-		borderTop: "1",
-		borderRight: "0",
-		borderLeft: "0",
-		borderBottom: "0",
-		borderWidth: "2",
-		borderStyle: "solid",
-		borderColor: "grey",
-		backgroundColor: "black",
-		color: "white",
-		textAlign: "left",
-		zIndex: 7,
-		}
-	this.queryStyle = { overflow: "hidden",
-		width: "100%",
-		backgroundColor: "black",
-		color: "white",
-		height: "auto",
-		margin: 0,
-		marginTop: 0,
-		borderTop: "0",
-		borderRight: "0",
-		borderLeft: "0",
-		borderBottom: "0",
-		borderStyle: "solid",
-		borderColor: "grey",
-		padding: 2,
-		fontFamily: "Verdana",
-		fontSize: "14",
-		padding: "4",
-		}
-	this.outStyle = { overflow: "hidden",
-		display: "none",
-		padding: "0",
-		paddingLeft: "2",
-		paddingBottom: "2",
-		paddingTop: "2",
-		margin: "0",
-		border: "1px solid grey",
-		borderTop: 0,
-		borderLeft: 0,
-		borderRight: 0,
-		backgroundColor: "black",
-		fontFamily: "Verdana",
-		fontSize: "14",
-		color: "white",
-		width: "100%",
-		maxWidth: "100%",
-		maxHeight: "430",
-		}
-
-
 	this.applyStyle = function (element, style) {
 		for ( var i in style ) {
 			element.style[i] = style[i];
@@ -524,12 +458,15 @@ function javascriptConsole () {
 
 	this.outPut = this.create("div");
 	this.autoCompOut = this.create("div");
+	this.outPut.style.display = "none"; 
+	this.autoCompOut.style.display = "none";
 	this.query = this.create("textarea");
+	this.query.rows = 1;
+
 	this.helpOut = this.create("iframe");
 	this.helpOut.style.borderTop = 1;
 	this.helpOut.style.borderStyle = "solid"
 	this.helpOut.style.borderColor = "grey"
-	this.query.rows = 1;
 
 	this.wrapDiv.className = "wrapDiv"; 
 	this.outPut.className = "outPut"; 
