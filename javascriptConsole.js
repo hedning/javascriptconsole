@@ -261,7 +261,7 @@ function javascriptConsole () {
 			} 
 			builtIns = [];
 		} else {
-			nodes = nodes.concat(standardNode); 
+			objectNode = standardNode;
 		}
 
 		// all the characters that can't be used in string in element.string
