@@ -293,8 +293,7 @@ function javascriptConsole () {
 		}
 		// adds the matching builtins methods and properties of the object
 		for ( var i = 0; i < nodes.length; i++ ) {
-			if ( nodes[i].search(rest) != -1){
-				if ( recObj[nodes[i]] != undefined )
+			if ( nodes[i].search(rest) != -1 && recObj[nodes[i]] != undefined ) {
 					matches.push(element + nodes[i]);
 			}
 		}
