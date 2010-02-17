@@ -56,10 +56,7 @@ function javascriptConsole () {
 		var evalText = this.query.value;
 		this.query.value = "";
 		// should have a javascript validator here
-		if ( evalText.match(/^\s*$/))
-			return false;
 		this.histAppend(evalText);
-		this.currentHistIndex = this.history.length;
 		var output = this.evalWrap(evalText);
 		_ = output;
 		this.outPutAppend(output, evalText);
