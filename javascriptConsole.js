@@ -262,6 +262,8 @@ function javascriptConsole () {
 				}
 				recObj = recObj[ele];
 				restEle = restEle.replace(/^\[?[^\.\[]*\.?/, "");
+				if ( recObj == undefined )
+					return [];
 			} 
 			if (recObj)
 				objType = type(recObj);
