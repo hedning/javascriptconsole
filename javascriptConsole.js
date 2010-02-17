@@ -189,21 +189,21 @@ function javascriptConsole () {
 		// should take this outside and run a test for all the properties first
 		var builtIns = [ "function", "new", "var", "eval", "while", "break", 
 			"return", "true", "false", "switch", "for", "if", "typeof" ];
-		var standardNode = ["RegExp", "Function", "Array", 
+		var standardNode = ["Event", "RegExp", "Function", "Array", 
 			"scroll", "scrollBy", "Object", "String", "Number", "Boolean", ];
 		var objectNode = [ "toString", "constructor", "hasOwnProperty",
 		  "isProtoTypeOf", "propertyIsEnumerable", "valueOf", "__lookupGetter__",
-		  "__lookupSetter__", "match", "charAt", "charCodeAt", "concat",
-		  "indexOf", "lastIndexOf", "length", "replace", "search", "slice",
+		  "__lookupSetter__", "match", "charAt", "charCodeAt", "indexOf",
+		  "lastIndexOf", "length", "replace", "search", "slice",
 		  "split", "substr", "substring", "toLowerCase", "toUpperCase",
 		  "anchor", "big", "blink", "bold", "fontcolor", "fontsize", "italics",
 		  "link", "small", "strike", "sub", "sup", "global", "ignorecase", 
-		  "lastIndex", "multiline",
-		  "source", "exec", "test", "apply", "call", "length", "prototype",
-		  "toExponential", "toFixed", "t,  "input",  "pop", "push", "reverse",
+		  "lastIndex", "multiline", "source", "exec", "test", "apply",
+		  "call", "prototype", "toExponential", "toFixed", "toLocaleString",
+		  "toPrecision", "input",  "pop", "push", "reverse", 
 		  "shift", "sort", "splice", "unshift", "concat", "join", "slice",
 		  "indexOf", "lastIndexOf", "filter", "forEach", "every", "map",
-		   "some" ];
+		  "some" ];
 
 		var element = getElement(word);
 		var rest = RegExp( "^" + getRest(word), "i");
