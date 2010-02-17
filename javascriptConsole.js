@@ -106,6 +106,20 @@ function javascriptConsole () {
 		}
 
 	}
+
+	this.historySearch = function (str) {
+//		str = str.replace(/([\.^$\[\]\{\}\(\)\*\?\\\+])/g, "\\$1");
+		for ( var i=histPosition-1; i>=0; i-- ) {
+			if ( this.history[i].search(str) != -1 ){
+				histPosition = i;
+				this.query.value = this.history[i];
+				break;
+			}
+		}
+	}
+
+
+
 	this.help = function (str){
 
 		var lHref = "https://developer.mozilla.org/Special:Search?search=";
