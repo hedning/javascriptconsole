@@ -5,8 +5,6 @@ function javascriptConsole () {
 	var obj = this;
 	this.evalKey = 13;
 	this.prompt = "$ ".fontcolor("grey");
-	this.history = [];
-	this.currentHistIndex = 0;
 
 	// appends a child of type elementType to this.wrapDiv
 	this.create = function (elementType) {
@@ -67,13 +65,6 @@ function javascriptConsole () {
 		this.outPutAppend(output, evalText);
 		this.autoCompOut.clear()
 	}
-	this.histAppend = function (entry) {
-		var lastEntry = this.history[this.history.length - 1];
-		if ( entry == lastEntry )
-			return false;
-		else
-			this.history.push(entry);
-	}
 	this.outPutAppend  = function (output, input) {
 		if ( ! ( output == undefined ) ){
 			output = output.toString().replace(/<(.*?)>/g, "&lt;$1&gt;");
@@ -83,21 +74,40 @@ function javascriptConsole () {
 		this.outPut.scrollTop = this.outPut.scrollHeight;
 		this.outPut.style.display = "block";
 	}
+
+	this.history = new Array;
+	var histPosition = 0;
+	var cacheHist = new Array;
+
+	this.histAppend = function (entry) {
+		var lastEntry = this.history[this.history.length - 1]
+		if ( entry != lastEntry && ! entry.match(/^\s*$/) ){
+			this.history.push(entry);
+		}
+
+		histPosition = this.history.length;
+		for ( var i=0; i<this.history.length; i++) {
+			cacheHist[i] = this.history[i];
+		}
+	}
 	
 	this.prevHistEntry = function () {
-		var prevEntry = this.history[this.currentHistIndex - 1];
-		 if ( prevEntry ) {
-			this.currentHistIndex--;
+		var prevEntry = cacheHist[histPosition - 1];
+		if ( prevEntry ) {
+			cacheHist[histPosition] = this.query.value;
 			this.query.value = prevEntry;
+			histPosition--;
 		}
 	}
 
 	this.nextHistEntry = function () {
-		var nextEntry = this.history[this.currentHistIndex + 1];
-		if ( nextEntry ) {
-			this.currentHistIndex++;
+		var nextEntry = cacheHist[histPosition + 1];
+		if ( nextEntry || nextEntry == "") {
+			cacheHist[histPosition] = this.query.value;
 			this.query.value = nextEntry;
+			histPosition++;
 		}
+
 	}
 	this.help = function (str){
 
