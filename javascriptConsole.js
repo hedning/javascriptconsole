@@ -279,15 +279,9 @@ function javascriptConsole () {
 		// adds matching properties/methods
 		for ( var i in recObj ) {
 			var match = "";
-			if ( i.search(nonConstitutents) == -1){
-				if ( i.search(/^[0-9]+$/) != -1 ){
-					false;
-				} else {
-
-				match = i;
-					if ( i.search(rest) != -1){
-						matches.push(element + match);
-					}
+			if ( i.search(nonConstitutents) == -1 && i.search(/^[0-9]/) == -1 ){
+				if ( i.search(rest) != -1){
+					matches.push(element + i);
 				}
 			}
 		}
