@@ -214,7 +214,6 @@ function javascriptConsole () {
 		var nodes = [];
 		var matches = [];
 		var recObj = window;
-		var objType = null;
 
 		if ( element ){
 			var restEle = element;
@@ -265,8 +264,6 @@ function javascriptConsole () {
 				if ( recObj == undefined )
 					return [];
 			} 
-			if (recObj)
-				objType = type(recObj);
 			builtIns = [];
 		} else {
 			nodes = nodes.concat(standardNode); 
@@ -287,10 +284,8 @@ function javascriptConsole () {
 				}
 			}
 		}
-		if ( objType ) {
-				nodes = nodes.concat(objectNode, stringNode, regexpNode, arrayNode,
+		nodes = nodes.concat(objectNode, stringNode, regexpNode, arrayNode,
 						functionNode, numberNode);
-		}
 		// adds the matching builtins methods and properties of the object
 		for ( var i = 0; i < nodes.length; i++ ) {
 			if ( nodes[i].search(rest) != -1 && recObj[nodes[i]] != undefined ) {
