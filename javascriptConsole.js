@@ -20,6 +20,7 @@ function javascriptConsole () {
 		if ( !this.wrapDiv ) {
 			this.wrapDiv = document.createElement("div");
 			this.applyStyle(this.wrapDiv, this.wrapDivStyle);
+			this.wrapDiv.className = "wrapDiv";
 			this.wrapDiv.style.display = "none";
 			document.body.appendChild(this.wrapDiv);
 		}
@@ -530,6 +531,10 @@ function javascriptConsole () {
 	this.helpOut.style.borderColor = "grey"
 	this.query.rows = 1;
 
+	this.wrapDiv.className = "wrapDiv"; 
+	this.outPut.className = "outPut"; 
+	this.autoCompOut.className = "autoCompOut";
+	this.query.className = "query";
 
 	this.outPut.clear = function () {
 		this.innerHTML = "";
