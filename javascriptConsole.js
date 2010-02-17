@@ -192,26 +192,21 @@ function javascriptConsole () {
 		var standardNode = ["RegExp", "Function", "Array", 
 			"scroll", "scrollBy", "Object", "String", "Number", "Boolean", ];
 		var objectNode = [ "toString", "constructor", "hasOwnProperty",
-		  /*"isProtoTypeOf",*/ "propertyIsEnumerable", "valueOf", "__lookupGetter__",
-		  "__lookupSetter__" ];
-		var stringNode = [ "match", "charAt", "charCodeAt", "concat",
+		  "isProtoTypeOf", "propertyIsEnumerable", "valueOf", "__lookupGetter__",
+		  "__lookupSetter__", "match", "charAt", "charCodeAt", "concat",
 		  "indexOf", "lastIndexOf", "length", "replace", "search", "slice",
 		  "split", "substr", "substring", "toLowerCase", "toUpperCase",
 		  "anchor", "big", "blink", "bold", "fontcolor", "fontsize", "italics",
-		  "link", "small", "strike", "sub", "sup" ];
-		var regexpNode = [ "global", "ignorecase", "lastIndex", "multiline",
-			"source", "exec", "test" ];
-		var functionNode = [ "apply", "call", "length", "prototype" ];
-		var lengthNode = [];
-		var numberNode = ["toExponential", "toFixed", "toPrecision"];
-		var arrayNode = [  "input",  "pop", "push", "reverse",
-			"shift", "sort", "splice", "unshift", "concat", "join", "slice",
-			"indexOf", "lastIndexOf", "filter", "forEach", "every", "map",
-			"some" ];
+		  "link", "small", "strike", "sub", "sup", "global", "ignorecase", 
+		  "lastIndex", "multiline",
+		  "source", "exec", "test", "apply", "call", "length", "prototype",
+		  "toExponential", "toFixed", "t,  "input",  "pop", "push", "reverse",
+		  "shift", "sort", "splice", "unshift", "concat", "join", "slice",
+		  "indexOf", "lastIndexOf", "filter", "forEach", "every", "map",
+		   "some" ];
 
 		var element = getElement(word);
 		var rest = RegExp( "^" + getRest(word), "i");
-		var nodes = [];
 		var matches = [];
 		var recObj = window;
 
@@ -268,8 +263,6 @@ function javascriptConsole () {
 		} else {
 			nodes = nodes.concat(standardNode); 
 		}
-			
-
 
 		// all the characters that can't be used in string in element.string
 		// used to weed out the nodes such as window["foo.bar"] and similar
@@ -284,12 +277,10 @@ function javascriptConsole () {
 				}
 			}
 		}
-		nodes = nodes.concat(objectNode, stringNode, regexpNode, arrayNode,
-						functionNode, numberNode);
 		// adds the matching builtins methods and properties of the object
-		for ( var i = 0; i < nodes.length; i++ ) {
-			if ( nodes[i].search(rest) != -1 && recObj[nodes[i]] != undefined ) {
-					matches.push(element + nodes[i]);
+		for ( var i = 0; i < objectNode.length; i++ ) {
+			if ( objectNode[i].search(rest) != -1 && recObj[objectNode[i]] != undefined ) {
+					matches.push(element + objectNode[i]);
 			}
 		}
 		// adds the matching builtins, like typeof
