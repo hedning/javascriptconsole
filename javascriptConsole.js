@@ -315,7 +315,6 @@ function javascriptConsole () {
 		if ( ! activeWord )
 			return false ;
 
-		var obj = this;
 		function expand (str) {
 			obj.replace(startWord, endWord, str);
 			var newPosition = startWord + str.length;
@@ -545,7 +544,6 @@ function queryopenHandler (element, character) {
 document.addEventListener("DOMContentLoaded", function() {
 
 cli = new javascriptConsole();
-
 
 // chrome doesn't report event.ctrlKey on keypress.... nor escape it seems
 window.addEventListener("keypress", queryopenHandler(cli, ";"), false);
