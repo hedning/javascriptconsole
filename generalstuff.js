@@ -51,14 +51,15 @@ var mouseoutHandler = function  (e) {
 
 var clickHandler = function  (e) {
 	cli.focus();
+	e.preventDefault();
 	var name = e.target.nodeName ;
 	var id = e.target.id;
 	var className = e.target.className;
 	if ( id )
 		name += "_id$" + id;
 	if (className)
-		name += "_cl$" + className;
-	name = name.replace(/\s+/g, "_");
+		name += "_class$" + className;
+	name = name.replace(/[^\w$_]+/g, "_");
 	window[name] = e.target;
 	cli.replace(0, cli.query.textLength, name);
 
@@ -79,16 +80,100 @@ function stopSelectElement() {
 }
 
 
-function globalfunc() {
-
-	function isthisglobal () {
-		var i = "hoho";
-	}
-}
-
 function type(o){
 	return !!o && Object.prototype.toString.call(o).match(/(\w+)\]/)[1];
 }
+
+
+
+// alert wrapper
+
+var oldAlert = alert;
+
+function message(input) {
+	function close() {
+		document.body.removeChild(outbox);
+	}
+
+
+	var outbox = document.createElement("div");
+	var closebutton = document.createElement("button");
+	var closebutton = document.createElement("button");
+
+	if ( input != undefined )
+		outbox.innerHTML = input + "<br>";
+	closebutton.innerHTML = "close";
+	outbox.appendChild(closebutton);
+	outbox.style.position = "fixed";
+	outbox.style.overflow = "visible";
+	outbox.style.maxHeight = window.innerHeight;
+	outbox.style.maxWidth = 500;
+	outbox.style.textAlign = "center";
+	outbox.style.backgroundColor = "grey";
+	outbox.style.padding = 5;
+	outbox.style.border = "2px solid black";
+	closebutton.addEventListener("click", close, false);
+	document.body.appendChild(outbox);
+	outbox.style.minWidth = getComputedStyle(closebutton).width;
+	var style = getComputedStyle(outbox);
+	horizontalMargin = (window.innerWidth - style.width.replace(/px/,""))/2;
+	var verticalMargin = (window.innerHeight - style.height.replace(/px/,""))/2;
+	outbox.style.left = horizontalMargin;
+	outbox.style.right = horizontalMargin;
+//	outbox.style.top = verticalMargin;
+	outbox.style.bottom = verticalMargin;
+
+}
+
+
+function reportSizeInit() {
+
+	var outbox = document.createElement("div");
+	document.body.appendChild(outbox);
+
+
+	function reportSizeHandler (e) {
+	outbox.innerHTML = "innerHeight: "+window.innerHeight+"<br>"+"innerWidth: "+window.innerWidth;
+	outbox.style.width = 400;
+	outbox.style.height = 200;
+	outbox.style.backgroundColor = "grey";
+	outbox.style.padding = 5;
+	outbox.style.border = "2px solid black";
+	closebutton.addEventListener("click", close, false);
+	document.body.appendChild(outbox);
+	outbox.style.minWidth = getComputedStyle(closebutton).width;
+	var style = getComputedStyle(outbox);
+	var horizontalMargin = (window.innerWidth - style.width.replace(/px/,""))/2;
+	var verticalMargin = (window.innerHeight - style.height.replace(/px/,""))/2;
+	outbox.style.left = horizontalMargin;
+	outbox.style.right = horizontalMargin;
+
+
+
+	}
+
+
+
+}
+
+
+function $(id) {
+	return document.getElementById(id);
+}
+
+
+// from: http://blog.andyhot.gr/a/TapFX/?permalink=Allowing_Tapestry_components_to_contribute_CSS.html&smm=y
+function addRemoteStyleSheet(styleUrl) {
+	var styles = "@import url('" + styleUrl + "');";
+	var newSS=document.createElement('link');
+	newSS.rel='stylesheet';
+	newSS.href='data:text/css,'+escape(styles);
+	document.getElementsByTagName("head")[0].appendChild(newSS);
+}
+
+
+
+
 
 
 
