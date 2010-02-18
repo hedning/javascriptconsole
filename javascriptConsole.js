@@ -6,6 +6,7 @@ function javascriptConsole () {
 	this.evalKey = 13;
 	this.prompt = "$ ".fontcolor("grey");
 
+
 	// appends a child of type elementType to this.wrapDiv
 	this.create = function (elementType) {
 		var createdEle;
@@ -127,28 +128,148 @@ function javascriptConsole () {
 		this.helpOut.style.display = "block";
 	}
 
+
+
+	this.applyStyle = function (element, style) {
+		for ( var i in style ) {
+			element.style[i] = style[i];
+		}
+	}
+
+	this.outPut = this.create("div");
+	this.autoCompOut = this.create("div");
+	this.outPut.style.display = "none"; 
+	this.autoCompOut.style.display = "none";
+	this.query = this.create("textarea");
+	this.query.rows = 1;
+
+	this.query.completion = new completionObject(this.query, this.autoCompOut);
+	this.complete = this.query.completion.complete;
+
+	this.helpOut = this.create("iframe");
+	this.helpOut.style.borderTop = 1;
+	this.helpOut.style.borderStyle = "solid"
+	this.helpOut.style.borderColor = "grey"
+
+	this.wrapDiv.className = "wrapDiv"; 
+	this.outPut.className = "outPut"; 
+	this.autoCompOut.className = "autoCompOut";
+	this.query.className = "query";
+
+	this.outPut.clear = function () {
+		this.innerHTML = "";
+		this.style.display = "none";
+	}
+	this.autoCompOut.clear = function () {
+		this.innerHTML = "";
+		this.style.display = "none";
+	}
+
+	this.style = this.wrapDiv.style;
+	this.currentStyle = this.wrapDiv.currentStyle;
+
+
+	// bindings -- should be replaced by a more general and better system
+	var ctrlKey = false;
+	function cliKeyHandler (e) {
+		
+		// when ctrl is down browsers return a capital letter
+		// most browsers doesn't return e.ctrlKey being true
+		// on keypress...
+		var keycode = e.keyCode || e.charCode;
+		var character= String.fromCharCode(keycode);
+		if ( ctrlKey ) {
+			character = character.toUpperCase();
+		}
+		// evalkey is enter as standard
+		if ( keycode == obj.evalKey ){ 
+			if ( !e.shiftKey ) {
+				obj.evalQuery();
+				e.preventDefault();
+			}
+		}
+		// 27 is escape
+		else if ( keycode == 27 ) 
+			obj.close();
+		else if ( character == "P" && ctrlKey){
+			obj.prevHistEntry();
+			e.preventDefault();
+		}
+		else if ( character == "N" && ctrlKey ){
+			obj.nextHistEntry();
+			e.preventDefault();
+		}
+		else if ( character == "L" && ctrlKey ){
+			obj.outPut.clear();
+			e.preventDefault();
+		}
+
+		ctrlKey = false;
+	}
+	function ctrlKeyHandler (e) {
+		ctrlKey = e.ctrlKey;
+	}
+
+	this.query.addEventListener("keypress", cliKeyHandler, false);
+	this.query.addEventListener("keydown", ctrlKeyHandler, false);
+}
+
+
+function queryopenHandler (element, character) { 
+	return function (e) {
+		var keycode = e.keyCode || e.charCode;
+		var chr = String.fromCharCode(keycode);
+		var ctrl = e.ctrlKey;
+		var target = e.target;
+
+		if ( target.nodeName.toLowerCase() != 'input' && target.nodeName.toLowerCase() != 'textarea' && target.nodeName.toLowerCase() != 'div'){
+			if ( chr == character){
+				element.open();
+				e.preventDefault();
+			}
+		}
+	}
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+
+cli = new javascriptConsole();
+
+// chrome doesn't report event.ctrlKey on keypress.... nor escape it seems
+window.addEventListener("keypress", queryopenHandler(cli, ";"), false);
+
+}, false)
+
+function help(str){
+	cli.help.call(cli,str);
+}
+
+
+function completionObject(inputElement, outPutElement) {
+
 	this.insert = function (str, position) {
 		if ( ! position ) {
-			if ( this.query.selectionEnd != this.query.selectionStart )
+			if ( inputElement.selectionEnd != inputElement.selectionStart )
 				return false;
-			position = this.query.selectionEnd;
+			position = inputElement.selectionEnd;
 		}
-		var value = this.query.value;
+		var value = inputElement.value;
 
-		this.query.value = value.slice(0, position) + str 
+		inputElement.value = value.slice(0, position) + str 
 			+ value.slice(position, value.length);
 	}
 
 	this.replace = function(start, end, replacement) {
-		var value = this.query.value;
+		var value = inputElement.value;
 		var leftContext = value.slice(0,start);
 		var rightContext = value.slice(end,value.length);
 
-		this.query.value = leftContext + replacement + rightContext;
+		inputElement.value = leftContext + replacement + rightContext;
 	}
 
 	this.wordConstituents = "[/\\w\\{\\}_$\\.\\[\\]\"']";
 
+	obj = this;
 	function splitString (str, position) {
 
 		var output = [];
@@ -236,7 +357,7 @@ function javascriptConsole () {
 						builtinType = String.prototype;
 						break;
 					case '\\/':
-						matchingMark = '\\/';
+						matchingMark = '\\/[igm]*';
 						builtinType = RegExp.prototype;
 						break;
 				}
@@ -273,8 +394,7 @@ function javascriptConsole () {
 			var match = "";
 			if ( i.search(nonConstitutents) == -1 && i.search(/^[0-9]/) == -1 ){
 				if ( i.search(rest) != -1){
-					matches.push(element + i);
-				}
+					matches.push(element + i); }
 			}
 		}
 		// adds the matching builtins methods and properties of the object
@@ -299,11 +419,11 @@ function javascriptConsole () {
 
 	this.complete = function(directionSwitch) {
 
-		if ( !( this.query.selectionEnd == this.query.selectionStart ) )
+		if ( !( inputElement.selectionEnd == inputElement.selectionStart ) )
 			return false;
 
-		var inPutString = this.query.value;
-		var position = this.query.selectionEnd;
+		var inPutString = inputElement.value;
+		var position = inputElement.selectionEnd;
 		var valueTab = splitString(inPutString, position);
 		var leftContext = valueTab[0];
 		var activeWord = valueTab[1];
@@ -318,7 +438,7 @@ function javascriptConsole () {
 		function expand (str) {
 			obj.replace(startWord, endWord, str);
 			var newPosition = startWord + str.length;
-			obj.query.setSelectionRange(newPosition, newPosition);
+			inputElement.setSelectionRange(newPosition, newPosition);
 		}
 		function expandToClosest (list, word) {
 			var commonPart = "";
@@ -373,10 +493,10 @@ function javascriptConsole () {
 				span.id = "cli" + i;
 				span.style.lineHeight = "normal";
 				span.innerHTML = list[i].replace(/^.*\./, ""); 
-				obj.autoCompOut.appendChild(span);
-				obj.autoCompOut.appendChild(separator);
+				outPutElement.appendChild(span);
+				outPutElement.appendChild(separator);
 			}
-			obj.autoCompOut.style.display = "block";
+			outPutElement.style.display = "block";
 
 		}
 		function cycleMatches() {
@@ -412,7 +532,7 @@ function javascriptConsole () {
 
 			matches = this.completor(activeWord, leftContext, rightContext);
 
-			this.autoCompOut.clear();
+			outPutElement.clear();
 
 			if ( matches.length == 0 ){
 				return false;
@@ -429,127 +549,18 @@ function javascriptConsole () {
 		return true;
 	}
 
-
-	this.applyStyle = function (element, style) {
-		for ( var i in style ) {
-			element.style[i] = style[i];
-		}
-	}
-
-	this.outPut = this.create("div");
-	this.autoCompOut = this.create("div");
-	this.outPut.style.display = "none"; 
-	this.autoCompOut.style.display = "none";
-	this.query = this.create("textarea");
-	this.query.rows = 1;
-
-	this.helpOut = this.create("iframe");
-	this.helpOut.style.borderTop = 1;
-	this.helpOut.style.borderStyle = "solid"
-	this.helpOut.style.borderColor = "grey"
-
-	this.wrapDiv.className = "wrapDiv"; 
-	this.outPut.className = "outPut"; 
-	this.autoCompOut.className = "autoCompOut";
-	this.query.className = "query";
-
-	this.outPut.clear = function () {
-		this.innerHTML = "";
-		this.style.display = "none";
-	}
-	this.autoCompOut.clear = function () {
-		this.innerHTML = "";
-		this.style.display = "none";
-	}
-
-	this.style = this.wrapDiv.style;
-	this.currentStyle = this.wrapDiv.currentStyle;
-
-
-	// bindings -- should be replaced by a more general and better system
-	var ctrlKey = false;
-	function cliKeyHandler (e) {
-		
-		// when ctrl is down browsers return a capital letter
-		// most browsers doesn't return e.ctrlKey being true
-		// on keypress...
-		var keycode = e.keyCode || e.charCode;
-		var character= String.fromCharCode(keycode);
-		if ( ctrlKey ) {
-			character = character.toUpperCase();
-		}
-		// evalkey is enter as standard
-		if ( keycode == obj.evalKey ){ 
-			if ( !e.shiftKey ) {
-				obj.evalQuery();
-				e.preventDefault();
-			}
-		}
-		// 27 is escape
-		else if ( keycode == 27 ) 
-			obj.close();
-		else if ( keycode == 9 ) {
+	function completionHandler(e) {
+		var keycode = e.keyCode;
+		if ( keycode == 9 ) {
 			obj.complete(e.shiftKey);
-			if ( !ctrlKey )
-				e.preventDefault();
-			else
-				obj.insert("    ");
-		}
-		else if ( character == "P" && ctrlKey){
-			obj.prevHistEntry();
 			e.preventDefault();
-		}
-		else if ( character == "N" && ctrlKey ){
-			obj.nextHistEntry();
-			e.preventDefault();
-		}
-		else if ( character == "L" && ctrlKey ){
-			obj.outPut.clear();
-			e.preventDefault();
-		}
-
-		if ( keycode != 9 ){
+		} else {
 			lastMatches = null;
 			lastIndex = "new";
-			obj.autoCompOut.clear();
-		}
-
-		ctrlKey = false;
-	}
-	function ctrlKeyHandler (e) {
-		ctrlKey = e.ctrlKey;
-	}
-
-	this.query.addEventListener("keypress", cliKeyHandler, false);
-	this.query.addEventListener("keydown", ctrlKeyHandler, false);
-}
-
-
-function queryopenHandler (element, character) { 
-	return function (e) {
-		var keycode = e.keyCode || e.charCode;
-		var chr = String.fromCharCode(keycode);
-		var ctrl = e.ctrlKey;
-		var target = e.target;
-
-		if ( target.nodeName.toLowerCase() != 'input' && target.nodeName.toLowerCase() != 'textarea' && target.nodeName.toLowerCase() != 'div'){
-			if ( chr == character){
-				element.open();
-				e.preventDefault();
-			}
+			outPutElement.clear();
 		}
 	}
-}
 
-document.addEventListener("DOMContentLoaded", function() {
-
-cli = new javascriptConsole();
-
-// chrome doesn't report event.ctrlKey on keypress.... nor escape it seems
-window.addEventListener("keypress", queryopenHandler(cli, ";"), false);
-
-}, false)
-
-function help(str){
-	cli.help.call(cli,str);
+	inputElement.addEventListener("keypress", completionHandler, false);
+	
 }
