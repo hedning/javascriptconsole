@@ -61,7 +61,7 @@ var clickHandler = function  (e) {
 		name += "_class$" + className;
 	name = name.replace(/[^\w$_]+/g, "_");
 	window[name] = e.target;
-	cli.replace(0, cli.query.textLength, name);
+	cli.query.completion.replace(0, cli.query.textLength, name);
 
 }
 
