@@ -324,7 +324,7 @@ function completionObject(inputElement, outPutElement) {
 		  "toPrecision", "input",  "pop", "push", "reverse", 
 		  "shift", "sort", "splice", "unshift", "concat", "join", "slice",
 		  "indexOf", "lastIndexOf", "filter", "forEach", "every", "map",
-		  "some" ];
+		  "some", "setItem", "removeItem"];
 
 		var element = getElement(word);
 		var rest = RegExp( "^" + getRest(word), "i");
