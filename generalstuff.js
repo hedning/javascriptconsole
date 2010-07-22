@@ -172,11 +172,62 @@ function addRemoteStyleSheet(styleUrl) {
 }
 
 
+// returns and array with all the direct ancestors of element, the element at the start of the array, then the parent etc.
+function buildAncestorTree(element) {
+
+	var ancestorTree = new Array;
+	var currAncestor = element;
+
+	while ( currAncestor != document.body.parentElement ) {
+
+		ancestorTree.push(currAncestor);
+		currAncestor = currAncestor.parentElement;
+	}
+
+	return ancestorTree;
+}
 
 
+// return type: array
+// describes the tree you have to traverse to get to element with element.childNodes[i], starting at document.body
+function buildChildNodeTree(element) {
+
+	var ancestorTree = buildAncestorTree(element);
+	var childNodeTree = new Array;
+	var childNodes;
+
+	for ( var i=1; i < ancestorTree.length; i++) {
+
+		childNodes = ancestorTree[i].childNodes;
+
+		for ( var k=0; k < childNodes.length; k++ ) {
+			if ( childNodes[k] == ancestorTree[i-1] ) {
+				childNodeTree.push(k);
+				break;
+			}
+		}
+
+	}
+
+	childNodeTree.reverse();
+	return childNodeTree;
+
+}
 
 
+// takes an array with numbers and builds a tree like document.body.childNodes[array[0]].childNodes[array[1]]...
+function deferenceChildNodeTree(childNodeTree) {
 
+	var element = document.body;
+
+	for ( i=0; i < childNodeTree.length; i++ ) {
+
+		var childNodeCount = childNodeTree[i];
+		element = element.childNodes[childNodeCount];
+	}
+
+	return element;
+}
 
 
 
