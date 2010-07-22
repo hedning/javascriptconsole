@@ -216,7 +216,7 @@ function buildChildNodeTree(element) {
 
 
 // takes an array with numbers and builds a tree like document.body.childNodes[array[0]].childNodes[array[1]]...
-function deferenceChildNodeTree(childNodeTree) {
+function dereferenceChildNodeTree(childNodeTree) {
 
 	var element = document.body;
 
