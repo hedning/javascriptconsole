@@ -233,10 +233,13 @@ function queryopenHandler (element, character) {
 
 document.addEventListener("DOMContentLoaded", function() {
 
-cli = new javascriptConsole();
+	cli = new javascriptConsole();
+	window.addEventListener("keypress", queryopenHandler(cli, ";"), false);
 
-// chrome doesn't report event.ctrlKey on keypress.... nor escape it seems
-window.addEventListener("keypress", queryopenHandler(cli, ";"), false);
+	// applyStyles has to be called after javascriptConsole();
+	applyStyles();
+
+	// chrome doesn't report event.ctrlKey on keypress.... nor escape it seems
 
 }, false)
 
