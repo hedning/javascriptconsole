@@ -224,6 +224,9 @@ function dereferenceChildNodeTree(childNodeTree) {
 
 		var childNodeCount = childNodeTree[i];
 		element = element.childNodes[childNodeCount];
+		if (!element) {
+			return false;
+		}
 	}
 
 	return element;
