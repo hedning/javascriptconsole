@@ -1,5 +1,4 @@
-
-//function () {
+(function () {
 
 
 function getPersistentStyles() {
@@ -26,7 +25,7 @@ function getPersistentStyles() {
 
 }
 
-function applyStyles() {
+applyStyles = function () {
 
 	getPersistentStyles();
 
@@ -64,4 +63,4 @@ storeStyle = function (element, style) {
 
 //document.addEventListener("load", applyStyles(), false);
 
-//} ()
+}) ()
