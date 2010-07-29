@@ -245,6 +245,49 @@ function log() {
 	opera.postError(output);
 }
 
+function removeElement(element) {
+	storeStyle(element, {display: "none"});
+}
+
+(function() {
+
+
+function getLocalStylesheet() {
+
+	for ( var i=0; i < document.styleSheets.length; i++) {
+
+		if ( document.styleSheets[i].title == "localStyle")
+			return document.styleSheets[i];
+		else
+			return addLocalStyleSheet();
+	}
+}
+
+function addLocalStyleSheet () {
+
+	var styleSheet = document.createElement("link");
+	var head = document.getElementsByTagName("head")[0];
+
+	styleSheet.rel = "stylesheet";
+	styleSheet.title = "localStyle";
+	head.appendChild(styleSheet);
+
+	styleCount = document.styleSheets.length;
+	log("styleCount: "+styleCount);
+
+//	document.styleSheets[styleCount-1].title = "localStyleSheet";
+	return document.styleSheets[styleCount-1];
+}
+
+addUserCssRule = function (rule) {
+
+	var styleSheet = getLocalStylesheet();
+	styleSheet.insertRule(rule, styleSheet.cssRules.length);
+
+}
+
+})();
+
 
 
 
