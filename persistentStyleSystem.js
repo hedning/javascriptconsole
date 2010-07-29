@@ -1,10 +1,10 @@
 (function () {
 
+var persistentStyles = new Array;
+var ruleCount = 0;
 
 function getPersistentStyles() {
 
-	persistentStyles = new Array;
-	ruleCount = 0;
 	var i=0;
 	while ( localStorage["persistentStyleElement"+i] ) {
 
