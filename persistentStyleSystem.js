@@ -1,7 +1,22 @@
 (function () {
 
 var persistentStyles = new Array;
+var persistentCssRules = new Array;
 var ruleCount = 0;
+var ruleCountCss = 0;
+
+function applyPersistentCss() {
+
+	var i=0;
+	var rule;
+	while ( rule = localStorage["persistentCssRules"+i] ) {
+		addUserCssRule(rule);
+		ruleCountCss++;
+		i++;
+	}
+}
+
+//applyPersistentCss();
 
 function getPersistentStyles() {
 
@@ -43,22 +58,31 @@ applyStyles = function () {
 			element.style[k] = style[k];
 		}
 	}
+	applyPersistentCss();
 }
 
 storeStyle = function (element, style) {
 
-	var treeId = "[" + buildChildNodeTree(element).toString() + "]";
-	var styleString = "{";
+	if ( type(element) == "String") {
 
-	for ( var i in style ) {
-		styleString += i + ":'"+style[i]+"',";
+		localStorage.setItem("persistentCssRules"+ruleCountCss, element);
+		ruleCountCss++;
+
+	} else {
+
+		var treeId = "[" + buildChildNodeTree(element).toString() + "]";
+		var styleString = "{";
+
+		for ( var i in style ) {
+			styleString += i + ":'"+style[i]+"',";
+		}
+		styleString = styleString.replace(/,$/, "");
+		styleString += "}";
+
+		localStorage.setItem("persistentStyleElement"+ruleCount, treeId);
+		localStorage.setItem("persistentStyle"+ruleCount, styleString);
+		ruleCount++;
 	}
-	styleString = styleString.replace(/,$/, "");
-	styleString += "}";
-
-	localStorage.setItem("persistentStyleElement"+ruleCount, treeId);
-	localStorage.setItem("persistentStyle"+ruleCount, styleString);
-	ruleCount++;
 }
 
 //document.addEventListener("load", applyStyles(), false);
