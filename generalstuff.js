@@ -351,6 +351,8 @@ function keybindHandler(e) {
 				if ( !charIsSpecial ) {
 					if ( !shift ) 
 						character = character.toLowerCase();
+					else if ( character == character.toLowerCase() )
+						inputString += shift;
 				} else {
 					inputString += shift ? shift : "";
 				}
