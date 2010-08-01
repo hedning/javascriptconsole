@@ -252,5 +252,79 @@ removeElement = function (element) {
 
 
 
+//---{{{ keybinding system
+//
+// keypress does not fire when a modifier is down on chromium,
+// does fire on opera and firefox.
+//
+// e.preventDefault only works on keypress in opera.
+//
+// Chrome and firefox reports weirds keycodes on keydown/up for some keys.
+//
+// Firefox reports e.charCode instead of e.keyCode on keypress (esc, tab etc. uses keycode)
+// 
+// Modifier keys does not fire onkeypress (opera, chrome and ff).
+//
+// Esc, tab and backspace only fires keydown/up in chrome, also fires keypress
+// in opera and ff.
+//
+// alt-gr does not fire anything in opera, fires keydown/up in chrome,
+// and fires everything in ff (no key/charcode in either browser though).
+
+
+function keybindHandler(e) {
+
+
+	var keycode = e.keyCode;
+	var charcode = e.charCode;
+	var charCharacter = String.fromCharCode(charcode);
+	var keyCharacter = String.fromCharCode(keycode);
+
+	switch(keycode.toString()) {
+
+		case "16":
+			keyCharacter = "shift";
+			break;
+		case "17":
+			keyCharacter = "ctrl";
+			break;
+		case "18":
+			keyCharacter = "alt";
+			break;
+		case "27":
+			keyCharacter = "esc";
+			break;
+		case "9":
+			keyCharacter = "tab";
+			break;
+		case "8":
+			keyCharacter = "backspace";
+			break;
+		case "32":
+			keyCharacter = "space";
+			break;
+		case "13":
+			keyCharacter = "enter";
+			break;
+	}
+
+
+	log("eventType: "+e.type, 
+			"keycode: "+keycode+" "+keyCharacter, 
+			"charcode: "+charcode+" "+charCharacter )
+}
+
+window.addEventListener("keydown", keybindHandler, false);
+window.addEventListener("keypress", keybindHandler, false);
+window.addEventListener("keyup", keybindHandler, false);
+
+
+
+	
+
+
+//---}}} keybinding system
+
+
 
 })()
