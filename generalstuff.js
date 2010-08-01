@@ -265,53 +265,94 @@ removeElement = function (element) {
 // 
 // Modifier keys does not fire onkeypress (opera, chrome and ff).
 //
-// Esc, tab and backspace only fires keydown/up in chrome, also fires keypress
+// Esc, tab and backspace only fires keydown/up in chrome, keypress fires
 // in opera and ff.
 //
 // alt-gr does not fire anything in opera, fires keydown/up in chrome,
 // and fires everything in ff (no key/charcode in either browser though).
+//(function () {
 
+var inputString = new String;
 
 function keybindHandler(e) {
 
-
+	var eventType = e.type;
+	var modifiersDown = e.ctrlKey?"<ctrl>":false|| e.altKey?"<alt>":false;
+	var modifiersDown = (e.ctrlKey && e.altKey)?"<ctrlalt>": modifiersDown;
+	var keyIsModifier = false;
+	var charIsSpecial = false;
+	var shift = e.shiftKey?"<shift>":false;
 	var keycode = e.keyCode;
 	var charcode = e.charCode;
+	var target = type(e.target);
 	var charCharacter = String.fromCharCode(charcode);
-	var keyCharacter = String.fromCharCode(keycode);
+	var keyCharacter;
+
+	var code = keycode || charcode;
+	var character = String.fromCharCode(code);
+
 
 	switch(keycode.toString()) {
-
 		case "16":
-			keyCharacter = "shift";
+			character = "<shift>";
+			keyIsModifier = true;
 			break;
 		case "17":
-			keyCharacter = "ctrl";
+			character = "<ctrl>";
+			keyIsModifier = true;
 			break;
 		case "18":
-			keyCharacter = "alt";
+			character = "<alt>";
+			keyIsModifier = true;
 			break;
 		case "27":
-			keyCharacter = "esc";
+			character = "<esc>";
+			charIsSpecial = true;
 			break;
 		case "9":
-			keyCharacter = "tab";
+			character = "<tab>";
+			charIsSpecial = true;
 			break;
 		case "8":
-			keyCharacter = "backspace";
+			character = "<backspace>";
+			charIsSpecial = true;
 			break;
 		case "32":
-			keyCharacter = "space";
+			character = "<space>";
+//			charIsSpecial = true;
 			break;
 		case "13":
-			keyCharacter = "enter";
+			character = "<enter>";
+//			charIsSpecial = true;
 			break;
 	}
 
+	if ( keyIsModifier )
+		return false;
 
-	log("eventType: "+e.type, 
-			"keycode: "+keycode+" "+keyCharacter, 
-			"charcode: "+charcode+" "+charCharacter )
+	function keylog () {
+		log("eventType: "+eventType+", target: "+target,
+				"keycode: "+keycode+";"+character+", "+modifiersDown+", "+shift,
+				"inputString: "+inputString,
+				"charcode: "+charcode+" "+charCharacter);
+	}
+
+//	if ( !keyIsModifier ) {
+		if ( eventType == "keypress" && !modifiersDown && !charIsSpecial) {
+
+
+			inputString += character;
+			keylog();
+		}
+		if ( eventType == "keydown" && ( modifiersDown || charIsSpecial )) {
+
+			keylog();
+		}
+//	}
+
+
+	if ( !/</.test(keyCharacter) && eventType == "keyup")
+		log("-------end");
 }
 
 window.addEventListener("keydown", keybindHandler, false);
@@ -320,7 +361,36 @@ window.addEventListener("keyup", keybindHandler, false);
 
 
 
-	
+
+// action should get fed the match
+// special characters: <ctrlalt>, <shift>, <ctrl>, <esc>, <alt>, <tab>, <enter>, <backspace>, <space>
+// use \< and \> to escape them, propably
+// you also need to escape characters with special meanings in regexps
+function bindKeypress(keyRegExp, action, context, preventDefault, stopPropagating) {
+
+	if ( !preventDefault )
+		preventDefault = true;
+	if ( !stopPropagating )
+		stopPropagating = false;
+
+
+}
+
+//})()
+
+// Examples on how one would bind stuff:
+// bindKeypress( /oe/, newpage, body), nested
+// bindKeypress( /h/, scrollDown, body )
+// bindKeypress( /t/, scrollUp body )
+// bindKeypress( /<ctrl>u/, scrollPageUp, "*" ), modifier
+// bindKeypress( /\/*/, search, body), not sure about this one
+// bindKeypress( /\//, search, body)
+// bindKeypress( /<ctrl>a/, moveToStart, textArea)
+// bindKeypress( /<ctrl>k/, deleteToEndOfLine, textArea)
+// bindKeypress( /<ctrl>f?/, moveToChar, textArea)
+
+
+
 
 
 //---}}} keybinding system
