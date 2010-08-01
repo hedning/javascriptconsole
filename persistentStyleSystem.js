@@ -5,6 +5,61 @@ var persistentCssRules = new Array;
 var ruleCount = 0;
 var ruleCountCss = 0;
 
+
+function getLocalStylesheet() {
+
+	if ( ! document.styleSheets ) {
+		return addLocalStyleSheet();
+	}
+
+	for ( var i=0; i < document.styleSheets.length; i++) {
+
+		if ( document.styleSheets[i].title == "localStyle")
+			return document.styleSheets[i];
+		else
+			return addLocalStyleSheet();
+	}
+}
+
+
+function addLocalStyleSheet () {
+
+	var styleSheet = document.createElement("link");
+	var head = document.getElementsByTagName("head")[0];
+
+	styleSheet.rel = "stylesheet";
+	styleSheet.title = "localStyle";
+	head.appendChild(styleSheet);
+
+	styleCount = document.styleSheets.length;
+	//log("styleCount: "+styleCount);
+
+	return document.styleSheets[styleCount-1];
+}
+
+var localStylesheet = addLocalStyleSheet();
+log("site: "+location.hostname  , "stylesheet: "+localStylesheet.title );
+
+
+addUserCssRule = function (rule) {
+
+	log(localStylesheet.insertRule);
+	log("cssRule: "+rule);
+
+	localStylesheet = getLocalStylesheet();
+	try { 
+		localStylesheet.insertRule(rule, 0); 
+	}
+	catch(error){ 
+		err = error;
+		log("catch error: "+error);
+	}
+
+}
+
+
+
+
 function applyPersistentCss() {
 
 	var i=0;
@@ -16,7 +71,7 @@ function applyPersistentCss() {
 	}
 }
 
-//applyPersistentCss();
+applyPersistentCss();
 
 function getPersistentStyles() {
 
@@ -58,7 +113,7 @@ applyStyles = function () {
 			element.style[k] = style[k];
 		}
 	}
-	applyPersistentCss();
+//	applyPersistentCss();
 }
 
 storeStyle = function (element, style) {
