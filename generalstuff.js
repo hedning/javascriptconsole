@@ -1,4 +1,5 @@
-function inspect(obj, reg) {
+(function () {
+inspect = function (obj, reg) {
 
 	var output = "";
 	if ( reg ) {
@@ -15,7 +16,7 @@ function inspect(obj, reg) {
 	return output.replace(/\n$/, "");
 }	
 
-function newcli(str){
+newcli = function (str){
 	if ( ! str ) 
 		str = "cli2";
 	var newcli = window[str] = new javascriptConsole();
@@ -28,7 +29,7 @@ function newcli(str){
 var currentMouseOverElement = null;
 var lastStyle = null;
 
-var setStyle = function (ele, unset) {
+function setStyle(ele, unset) {
 	var styleAtt = "outline";
 	if ( !unset )
 		lastStyle = ele.style[styleAtt];
@@ -37,19 +38,19 @@ var setStyle = function (ele, unset) {
 //	ele.style.borderColor =( unset ? "" : "black");
 }
 
-var mouseoverHandler = function  (e) {
+function mouseoverHandler(e) {
 	_$ = e.target;
 	bubbles = e.bubbles;
 	currentMouseOverElement = e.target;
 	setStyle(e.target);
 }
 
-var mouseoutHandler = function  (e) {
+function mouseoutHandler(e) {
 	setStyle(e.target, true);
 }
 
 
-var clickHandler = function  (e) {
+function clickHandler(e) {
 	cli.focus();
 	e.preventDefault();
 	var name = e.target.nodeName ;
@@ -66,13 +67,13 @@ var clickHandler = function  (e) {
 }
 
 
-function initSelectElement() {
+initSelectElement = function () {
 	window.addEventListener("mouseover", mouseoverHandler, false);
 	window.addEventListener("mouseout", mouseoutHandler, false);
 	window.addEventListener("click", clickHandler, false);
 }
 
-function stopSelectElement() {
+stopSelectElement = function () {
 	window.removeEventListener("mouseover", mouseoverHandler, false);
 	window.removeEventListener("mouseout", mouseoutHandler, false);
 	window.removeEventListener("click", clickHandler, false);
@@ -80,7 +81,7 @@ function stopSelectElement() {
 }
 
 
-function type(o){
+type = function (o){
 	return !!o && Object.prototype.toString.call(o).match(/(\w+)\]/)[1];
 }
 
@@ -90,7 +91,7 @@ function type(o){
 
 var oldAlert = alert;
 
-function message(input) {
+message = function (input) {
 	function close() {
 		document.body.removeChild(outbox);
 	}
@@ -157,13 +158,13 @@ function reportSizeInit() {
 }
 
 
-function $(id) {
+$ = function (id) {
 	return document.getElementById(id);
 }
 
 
 // from: http://blog.andyhot.gr/a/TapFX/?permalink=Allowing_Tapestry_components_to_contribute_CSS.html&smm=y
-function addRemoteStyleSheet(styleUrl) {
+addRemoteStyleSheet = function (styleUrl) {
 	var styles = "@import url('" + styleUrl + "');";
 	var newSS=document.createElement('link');
 	newSS.rel='stylesheet';
@@ -190,7 +191,7 @@ function buildAncestorTree(element) {
 
 // return type: array
 // describes the tree you have to traverse to get to element with element.childNodes[i], starting at document.body
-function buildChildNodeTree(element) {
+buildChildNodeTree = function (element) {
 
 	var ancestorTree = buildAncestorTree(element);
 	var childNodeTree = new Array;
@@ -216,7 +217,7 @@ function buildChildNodeTree(element) {
 
 
 // takes an array with numbers and builds a tree like document.body.childNodes[array[0]].childNodes[array[1]]...
-function dereferenceChildNodeTree(childNodeTree) {
+dereferenceChildNodeTree = function (childNodeTree) {
 
 	var element = document.body;
 
@@ -233,7 +234,7 @@ function dereferenceChildNodeTree(childNodeTree) {
 }
 
 
-function log() {
+log = function () {
 
 
 	var output = new String;
@@ -245,13 +246,11 @@ function log() {
 	opera.postError(output);
 }
 
-function removeElement(element) {
+removeElement = function (element) {
 	storeStyle(element, {display: "none"});
 }
 
 
 
 
-
-
-
+})()
