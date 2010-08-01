@@ -243,7 +243,7 @@ log = function () {
 	}
 	output = output.replace(/\n$/, "");
 
-	opera.postError(output);
+	console.log(output);
 }
 
 removeElement = function (element) {
