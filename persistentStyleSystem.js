@@ -105,7 +105,7 @@ applyStyles = function () {
 
 	for ( var i=0; i < persistentStyles.length; i++ ) {
 
-		opera.postError(persistentStyles[i].element+"\n"+ persistentStyles[i].element.constructor);
+		log(persistentStyles[i].element+"\n"+ persistentStyles[i].element.constructor);
 		element = persistentStyles[i].element;
 		eval("style = " + persistentStyles[i].style);
 
