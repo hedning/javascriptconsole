@@ -319,11 +319,11 @@ function keybindHandler(e) {
 			break;
 		case "32":
 			character = "<space>";
-//			charIsSpecial = true;
+			charIsSpecial = true;
 			break;
 		case "13":
 			character = "<enter>";
-//			charIsSpecial = true;
+			charIsSpecial = true;
 			break;
 	}
 
@@ -346,6 +346,19 @@ function keybindHandler(e) {
 		}
 		if ( eventType == "keydown" && ( modifiersDown || charIsSpecial )) {
 
+			if ( modifiersDown ) {
+				inputString += modifiersDown;
+				if ( !charIsSpecial ) {
+					if ( !shift ) 
+						character = character.toLowerCase();
+				} else {
+					inputString += shift ? shift : "";
+				}
+			
+			} else {
+				inputString += shift ? shift : "";
+			}
+			inputString += character;
 			keylog();
 		}
 //	}
