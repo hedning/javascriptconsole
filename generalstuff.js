@@ -317,7 +317,7 @@ function evaluateKeycode(keycode) {
 	return [ character, keyIsModifier, charIsSpecial ];
 }
 
-function keybindHandler(e) {
+function keyeventHandler(e) {
 
 	var eventType = e.type;
 	var modifiersDown = e.ctrlKey?"<ctrl>":false || e.altKey?"<alt>":false;
@@ -372,9 +372,9 @@ function keybindHandler(e) {
 		log("-------end");
 }
 
-window.addEventListener("keydown", keybindHandler, false);
-window.addEventListener("keypress", keybindHandler, false);
-window.addEventListener("keyup", keybindHandler, false);
+window.addEventListener("keydown", keyeventHandler, false);
+window.addEventListener("keypress", keyeventHandler, false);
+window.addEventListener("keyup", keyeventHandler, false);
 
 
 
