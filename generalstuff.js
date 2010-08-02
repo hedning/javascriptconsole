@@ -343,11 +343,10 @@ function keyeventHandler(e) {
 
 	if ( eventType == "keypress" && !modifiersDown && !charIsSpecial) {
 
-
 		inputString += character;
 		keylog();
-	}
-	if ( eventType == "keydown" && ( modifiersDown || charIsSpecial )) {
+	} 
+	else if ( eventType == "keydown" && ( modifiersDown || charIsSpecial )) {
 
 		if ( modifiersDown ) {
 			inputString += modifiersDown;
