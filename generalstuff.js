@@ -366,10 +366,37 @@ function keyeventHandler(e) {
 		keylog();
 	}
 
+	keybindHandler();
+
 
 	if ( !/</.test(character) && eventType == "keyup")
 		log("-------end");
 }
+
+
+function keybindHandler() {
+
+	var matches;
+	var match;
+	var bind, action, mode, context;
+	for ( var i=0; i < keybindings.length; i++ ) {
+
+		bind = keybindings[i].bind;
+		action = keybindings[i].action;
+		match = bind.exec(inputString);
+
+		if ( match ) {
+			action(match);
+			inputString = "";
+			break;
+		}
+	}
+}
+
+
+
+
+
 
 window.addEventListener("keydown", keyeventHandler, false);
 window.addEventListener("keypress", keyeventHandler, false);
