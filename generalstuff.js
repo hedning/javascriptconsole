@@ -345,6 +345,7 @@ function keyeventHandler(e) {
 
 		inputString += character;
 		keylog();
+		keybindHandler() ? e.preventDefault() : false;
 	} 
 	else if ( eventType == "keydown" && ( modifiersDown || charIsSpecial )) {
 
@@ -364,9 +365,9 @@ function keyeventHandler(e) {
 		}
 		inputString += character;
 		keylog();
+		keybindHandler() ? e.preventDefault() : false;
 	}
 
-	keybindHandler();
 
 
 	if ( !/</.test(character) && eventType == "keyup")
@@ -388,7 +389,7 @@ function keybindHandler() {
 		if ( match ) {
 			action(match);
 			inputString = "";
-			break;
+			return true;
 		}
 	}
 }
