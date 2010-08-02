@@ -1,0 +1,14 @@
+{
+	"name": "stuff",
+	"version": "1",
+	
+	"content_scripts": [
+	{
+		"matches": ["http://*/*", "file:///*/*"],
+		"css": ["javascriptConsole.css"],
+		"js": ["generalstuff.js", "javascriptConsole.js", "keybindings.js" ],
+		"run_at": "document_start"
+	}
+	]
+
+}
