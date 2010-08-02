@@ -168,50 +168,12 @@ function javascriptConsole () {
 	this.style = this.wrapDiv.style;
 	this.currentStyle = this.wrapDiv.currentStyle;
 
-
-	// bindings -- should be replaced by a more general and better system
-	var ctrlKey = false;
-	function cliKeyHandler (e) {
-		
-		// when ctrl is down browsers return a capital letter
-		// most browsers doesn't return e.ctrlKey being true
-		// on keypress...
-		var keycode = e.keyCode || e.charCode;
-		var character= String.fromCharCode(keycode);
-		if ( ctrlKey ) {
-			character = character.toUpperCase();
-		}
-		// evalkey is enter as standard
-		if ( keycode == obj.evalKey ){ 
-			if ( !e.shiftKey ) {
-				obj.evalQuery();
-				e.preventDefault();
-			}
-		}
-		// 27 is escape
-		else if ( keycode == 27 ) 
-			obj.close();
-		else if ( character == "P" && ctrlKey){
-			obj.prevHistEntry();
-			e.preventDefault();
-		}
-		else if ( character == "N" && ctrlKey ){
-			obj.nextHistEntry();
-			e.preventDefault();
-		}
-		else if ( character == "L" && ctrlKey ){
-			obj.outPut.clear();
-			e.preventDefault();
-		}
-
-		ctrlKey = false;
-	}
-	function ctrlKeyHandler (e) {
-		ctrlKey = e.ctrlKey;
-	}
-
-	this.query.addEventListener("keypress", cliKeyHandler, false);
-	this.query.addEventListener("keydown", ctrlKeyHandler, false);
+	defineBindings( { bind: /<enter>$/, action: function(){ obj.evalQuery()}, context: obj.query },
+					{ bind: /<esc>$/, action:function(){ obj.close()}, context: obj.query },
+					{ bind: /<ctrl>p$/, action:function(){obj.prevHistEntry()}, context: obj.query },
+					{ bind: /<ctrl>n$/, action:function(){obj.nextHistEntry()}, context: obj.query },
+					{ bind: /<ctrl>l$/, action:function(){obj.outPut.clear()}, context: obj.query }
+			);
 }
 
 
@@ -231,10 +193,17 @@ function queryopenHandler (element, character) {
 	}
 }
 
+function openQuery() {
+
+	cli.open()
+
+}
+
 document.addEventListener("DOMContentLoaded", function() {
 
 	cli = new javascriptConsole();
-	window.addEventListener("keypress", queryopenHandler(cli, ";"), false);
+	defineBindings({ bind: /;$/, action: openQuery, context: document.body }) ;
+//	window.addEventListener("keypress", queryopenHandler(cli, ";"), false);
 
 	// applyStyles has to be called after javascriptConsole();
 	applyStyles();
@@ -326,7 +295,7 @@ function completionObject(inputElement, outPutElement) {
 		  "call", "prototype", "toExponential", "toFixed", "toLocaleString",
 		  "toPrecision", "input",  "pop", "push", "reverse", 
 		  "shift", "sort", "splice", "unshift", "concat", "join", "slice",
-		  "indexOf", "lastIndexOf", "filter", "forEach", "every", "map",
+		  "indexOf", "fromCharCode", "filter", "forEach", "every", "map",
 		  "some", "setItem", "removeItem"];
 
 		var element = getElement(word);
@@ -555,8 +524,8 @@ function completionObject(inputElement, outPutElement) {
 	function completionHandler(e) {
 		var keycode = e.keyCode;
 		if ( keycode == 9 ) {
-			obj.complete(e.shiftKey);
-			e.preventDefault();
+	//		e.preventDefault();
+	//		obj.complete(e.shiftKey);
 		} else {
 			lastMatches = null;
 			lastIndex = "new";
@@ -565,5 +534,7 @@ function completionObject(inputElement, outPutElement) {
 	}
 
 	inputElement.addEventListener("keypress", completionHandler, false);
+	defineBindings( { bind: /<shift><tab>$/, action: function(){ obj.complete(true)}, context: inputElement } );
+	defineBindings( { bind: /<tab>$/, action: function(){ obj.complete()}, context: inputElement } );
 	
 }
