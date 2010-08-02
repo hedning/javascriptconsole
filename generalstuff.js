@@ -323,7 +323,7 @@ function keyeventHandler(e) {
 	var modifiersDown = e.ctrlKey?"<ctrl>":false || e.altKey?"<alt>":false;
 	var modifiersDown = (e.ctrlKey && e.altKey) ? "<ctrlalt>" : modifiersDown;
 	var shift = e.shiftKey ? "<shift>" : false;
-	var target = type(e.target);
+	var target = e.target;
 
 	var keycode = e.keyCode, charcode = e.charCode;
 	var code = keycode || charcode;
@@ -345,7 +345,7 @@ function keyeventHandler(e) {
 
 		inputString += character;
 		keylog();
-		keybindHandler() ? e.preventDefault() : false;
+		keybindHandler(target) ? e.preventDefault() : false;
 	} 
 	else if ( eventType == "keydown" && ( modifiersDown || charIsSpecial )) {
 
@@ -365,7 +365,7 @@ function keyeventHandler(e) {
 		}
 		inputString += character;
 		keylog();
-		keybindHandler() ? e.preventDefault() : false;
+		keybindHandler(target) ? e.preventDefault() : false;
 	}
 
 
@@ -375,7 +375,7 @@ function keyeventHandler(e) {
 }
 
 
-function keybindHandler() {
+function keybindHandler(eventContext) {
 
 	var matches;
 	var match;
@@ -384,12 +384,17 @@ function keybindHandler() {
 
 		bind = keybindings[i].bind;
 		action = keybindings[i].action;
+		context = keybindings[i].context;
 		match = bind.exec(inputString);
 
+
 		if ( match ) {
-			action(match);
-			inputString = "";
-			return true;
+			log(bind, action, context);
+			if ( eventContext == context ) {
+				action(match);
+				inputString = "";
+				return true;
+			}
 		}
 	}
 }
