@@ -274,23 +274,10 @@ removeElement = function (element) {
 
 var inputString = new String;
 
-function keybindHandler(e) {
+function evaluateKeycode(keycode) {
 
-	var eventType = e.type;
-	var modifiersDown = e.ctrlKey?"<ctrl>":false|| e.altKey?"<alt>":false;
-	var modifiersDown = (e.ctrlKey && e.altKey)?"<ctrlalt>": modifiersDown;
-	var keyIsModifier = false;
-	var charIsSpecial = false;
-	var shift = e.shiftKey?"<shift>":false;
-	var keycode = e.keyCode;
-	var charcode = e.charCode;
-	var target = type(e.target);
-	var charCharacter = String.fromCharCode(charcode);
-	var keyCharacter;
-
-	var code = keycode || charcode;
-	var character = String.fromCharCode(code);
-
+	var keyIsModifier = false, charIsSpecial = false;
+	var character = String.fromCharCode(keycode); 
 
 	switch(keycode.toString()) {
 		case "16":
@@ -327,6 +314,23 @@ function keybindHandler(e) {
 			break;
 	}
 
+	return [ character, keyIsModifier, charIsSpecial ];
+}
+
+function keybindHandler(e) {
+
+	var eventType = e.type;
+	var modifiersDown = e.ctrlKey?"<ctrl>":false || e.altKey?"<alt>":false;
+	var modifiersDown = (e.ctrlKey && e.altKey) ? "<ctrlalt>" : modifiersDown;
+	var shift = e.shiftKey ? "<shift>" : false;
+	var target = type(e.target);
+
+	var keycode = e.keyCode, charcode = e.charCode;
+	var code = keycode || charcode;
+	var evaluatedKeycodeArray = evaluateKeycode(code);
+	var character = evaluatedKeycodeArray[0], keyIsModifier = evaluatedKeycodeArray[1],
+		charIsSpecial = evaluatedKeycodeArray[2];
+
 	if ( keyIsModifier )
 		return false;
 
@@ -334,39 +338,37 @@ function keybindHandler(e) {
 		log("eventType: "+eventType+", target: "+target,
 				"keycode: "+keycode+";"+character+", "+modifiersDown+", "+shift,
 				"inputString: "+inputString,
-				"charcode: "+charcode+" "+charCharacter);
+				"charcode: "+charcode+" "+String.fromCharCode(charcode))
 	}
 
-//	if ( !keyIsModifier ) {
-		if ( eventType == "keypress" && !modifiersDown && !charIsSpecial) {
+	if ( eventType == "keypress" && !modifiersDown && !charIsSpecial) {
 
 
-			inputString += character;
-			keylog();
-		}
-		if ( eventType == "keydown" && ( modifiersDown || charIsSpecial )) {
+		inputString += character;
+		keylog();
+	}
+	if ( eventType == "keydown" && ( modifiersDown || charIsSpecial )) {
 
-			if ( modifiersDown ) {
-				inputString += modifiersDown;
-				if ( !charIsSpecial ) {
-					if ( !shift ) 
-						character = character.toLowerCase();
-					else if ( character == character.toLowerCase() )
-						inputString += shift;
-				} else {
-					inputString += shift ? shift : "";
-				}
-			
+		if ( modifiersDown ) {
+			inputString += modifiersDown;
+			if ( !charIsSpecial ) {
+				if ( !shift ) 
+					character = character.toLowerCase();
+				else if ( character == character.toLowerCase() )
+					inputString += shift;
 			} else {
 				inputString += shift ? shift : "";
 			}
-			inputString += character;
-			keylog();
+		
+		} else {
+			inputString += shift ? shift : "";
 		}
-//	}
+		inputString += character;
+		keylog();
+	}
 
 
-	if ( !/</.test(keyCharacter) && eventType == "keyup")
+	if ( !/</.test(character) && eventType == "keyup")
 		log("-------end");
 }
 
