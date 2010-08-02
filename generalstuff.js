@@ -273,12 +273,12 @@ removeElement = function (element) {
 //(function () {
 
 var inputString = new String;
+var keybindings = new Array;
 
 function evaluateKeycode(keycode) {
 
 	var keyIsModifier = false, charIsSpecial = false;
 	var character = String.fromCharCode(keycode); 
-
 	switch(keycode.toString()) {
 		case "16":
 			character = "<shift>";
@@ -383,28 +383,36 @@ window.addEventListener("keyup", keyeventHandler, false);
 // special characters: <ctrlalt>, <shift>, <ctrl>, <esc>, <alt>, <tab>, <enter>, <backspace>, <space>
 // use \< and \> to escape them, propably
 // you also need to escape characters with special meanings in regexps
-function bindKeypress(keyRegExp, action, context, preventDefault, stopPropagating) {
+// context can either be a context class or a specific element
+// keyregexp need to end in an $, should fix this
+// not sure if modes should be implemented in regexps, propably not
+// { bind: regExp, action: function, mode: string, context: string/node, actiontype: string, preventDefault: boolean, stopPropagating: boolean} 
+defineBindings = function () {
 
-	if ( !preventDefault )
-		preventDefault = true;
-	if ( !stopPropagating )
-		stopPropagating = false;
+	for ( var i=0; i < arguments.length; i++ ) {
 
+		if ( ! arguments[i].bind ) 
+			break;
+		arguments[i].preventDefault = arguments[i].preventDefault ? true : false;
+		arguments[i].stopPropagating = arguments[i].stopPropagating ? true : false;
+		arguments[i].context = arguments[i].context ? arguments[i].context : "document";
+		arguments[i].mode = arguments[i].mode ? arguments[i].mode : "default"; 
+
+		keybindings.push(arguments[i]);
+	}
 
 }
 
 //})()
 
 // Examples on how one would bind stuff:
-// bindKeypress( /oe/, newpage, body), nested
-// bindKeypress( /h/, scrollDown, body )
-// bindKeypress( /t/, scrollUp body )
-// bindKeypress( /<ctrl>u/, scrollPageUp, "*" ), modifier
-// bindKeypress( /\/*/, search, body), not sure about this one
-// bindKeypress( /\//, search, body)
-// bindKeypress( /<ctrl>a/, moveToStart, textArea)
-// bindKeypress( /<ctrl>k/, deleteToEndOfLine, textArea)
-// bindKeypress( /<ctrl>f?/, moveToChar, textArea)
+//
+// defineBindings( { bind: /h$/, action: scrollDown },
+// 				   { bind: /<ctrl>u$/, action: scrollPageUp },
+// 				   { bind: /<ctrl>a$/, action: moveToStartofLine, context: "textInput" },
+// 				   { bind: /<esc>$/, action: actionSetMode("command") },
+// 				   { bind: /i$/, action: actionSetMode("insert"), context: "textInput" },
+// 				   { bind: /f(.?)$/, action: moveToChar, mode: "command", context: "textInput" } )
 
 
 
