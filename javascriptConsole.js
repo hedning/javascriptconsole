@@ -415,27 +415,27 @@ function completionObject(inputElement, outPutElement) {
 		function expandToClosest (list, word) {
 			var commonPart = "";
 			var common = true;
-			var preserveCase = false;
 			var shortest = list[0].length;
 			var testCommon = word;
 
 			for ( var p = 0; p < shortest; p++ ) {
 				testCommon = list[0][p];
-				
+				var preserveCase = false;
+
 				for ( var i = 1; i < list.length; i++ ) {
 					var curr = list[i];
 					if ( shortest > curr.length )
 						shortest = curr.length;
 					
-					var reg = new RegExp( curr[p], "i");
-					if ( testCommon != curr[p] ) {
-						if ( testCommon.search(reg) == -1 ){
+					if ( curr[p] != testCommon ) {
+						if ( curr[p].toLowerCase() != testCommon.toLowerCase() ) {
 							common = false;
 							break;
 						} else {
 							preserveCase = true;
 						}
 					}
+
 				}
 
 				if ( common ) {
