@@ -1,6 +1,6 @@
 defineBindings( 
-		{ bind: /h$/, action: function() {window.scrollBy(0,25)}, context: document.body },
-		{ bind: /t$/, action: function() {window.scrollBy(0,-25)}, context: document.body }
+		{ bind: /h$/, action: (function() {window.scrollBy(0,25)}) },
+		{ bind: /t$/, action: function() {window.scrollBy(0,-25)} }
 //	  	{ bind: /<ctrl>u$/, action: scrollPageUp },
 //	  	{ bind: /<ctrl>a$/, action: moveToStartofLine, context: "textInput" },
 //	  	{ bind: /<esc>$/, action: actionSetMode("command") },

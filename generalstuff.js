@@ -243,7 +243,10 @@ log = function () {
 	}
 	output = output.replace(/\n$/, "");
 
-	console.log(output);
+	if (window.opera)
+		opera.postError(output);
+	else
+		console.log(output);
 }
 
 removeElement = function (element) {
@@ -317,9 +320,11 @@ function evaluateKeycode(keycode) {
 	return [ character, keyIsModifier, charIsSpecial ];
 }
 
+
 function keyeventHandler(e) {
 
 	var eventType = e.type;
+	var key = "";
 	var modifiersDown = e.ctrlKey?"<ctrl>":false || e.altKey?"<alt>":false;
 	var modifiersDown = (e.ctrlKey && e.altKey) ? "<ctrlalt>" : modifiersDown;
 	var shift = e.shiftKey ? "<shift>" : false;
@@ -336,46 +341,59 @@ function keyeventHandler(e) {
 
 	function keylog () {
 		log("eventType: "+eventType+", target: "+target,
-				"keycode: "+keycode+";"+character+", "+modifiersDown+", "+shift,
+				"keycode: "+keycode+";"+key+", "+modifiersDown+", "+shift,
 				"inputString: "+inputString,
 				"charcode: "+charcode+" "+String.fromCharCode(charcode))
 	}
 
-	if ( eventType == "keypress" && !modifiersDown && !charIsSpecial) {
-
-		inputString += character;
-		keylog();
-		keybindHandler(target) ? e.preventDefault() : false;
+	if ( eventType == "keypress" ) {
+		if ( !modifiersDown && !charIsSpecial ) {
+			if ( character == "<" || character == ">" )
+				character = "\\"+character;
+			key += character;
+		} else if ( preventDefault ) {
+			e.preventDefault();
+		}
 	} 
 	else if ( eventType == "keydown" && ( modifiersDown || charIsSpecial )) {
 
 		if ( modifiersDown ) {
-			inputString += modifiersDown;
+			key += modifiersDown;
 			if ( !charIsSpecial ) {
 				if ( !shift ) 
 					character = character.toLowerCase();
 				else if ( character == character.toLowerCase() )
-					inputString += shift;
+					key += shift;
 			} else {
-				inputString += shift ? shift : "";
+				key += shift ? shift : "";
 			}
-		
 		} else {
-			inputString += shift ? shift : "";
+			key += shift ? shift : "";
 		}
-		inputString += character;
-		keylog();
-		keybindHandler(target) ? e.preventDefault() : false;
+		if ( character == "<" || character == ">" )
+			character = "\\"+character;
+		key += character;
 	}
 
+	if ( key ) {
+		keylog();
+		if ( keybindHandler(key, target) ) {
+			e.preventDefault();
+			preventDefault = true;
+		}
+	}
 
+	//if ( preventDefault )
+	//	e.preventDefault();
 
-	if ( !/</.test(character) && eventType == "keyup")
+	if ( eventType == "keyup") {
+		preventDefault = false; 
 		log("-------end");
+	}
 }
 
 
-function keybindHandler(eventContext) {
+function keybindHandler(key, eventContext) {
 
 	var matches;
 	var match;
@@ -385,23 +403,26 @@ function keybindHandler(eventContext) {
 		bind = keybindings[i].bind;
 		action = keybindings[i].action;
 		context = keybindings[i].context;
-		match = bind.exec(inputString);
+		keyMatch = bind.exec(key);
 
+		if ( keyMatch ) {
+
+		}
+
+		match = bind.exec(inputString+key);
 
 		if ( match ) {
-			log(bind, action, context);
+			log( bind, action, context, eventContext);
 			if ( eventContext == context ) {
-				action(match);
 				inputString = "";
+				action(match);
 				return true;
 			}
 		}
 	}
+	inputString += key;
+	return false;
 }
-
-
-
-
 
 
 window.addEventListener("keydown", keyeventHandler, false);
@@ -413,7 +434,7 @@ window.addEventListener("keyup", keyeventHandler, false);
 
 // action should get fed the match
 // special characters: <ctrlalt>, <shift>, <ctrl>, <esc>, <alt>, <tab>, <enter>, <backspace>, <space>
-// use \< and \> to escape them, propably
+// use \< and \> to escape < and >
 // you also need to escape characters with special meanings in regexps
 // context can either be a context class or a specific element
 // keyregexp need to end in an $, should fix this
@@ -432,10 +453,17 @@ defineBindings = function () {
 
 		keybindings.push(arguments[i]);
 	}
-
 }
 
-//})()
+
+function actionSetMode(mode) {
+
+	function setMode () {
+	}
+	return setMode;
+}
+
+//}());
 
 // Examples on how one would bind stuff:
 //
@@ -454,4 +482,4 @@ defineBindings = function () {
 
 
 
-})()
+}())
