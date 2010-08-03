@@ -241,7 +241,7 @@ function completionObject(inputElement, outPutElement) {
 
 	this.wordConstituents = "[/\\w\\{\\}_$\\.\\[\\]\"']";
 
-	obj = this;
+	var obj = this;
 	function splitString (str, position) {
 
 		var output = [];
