@@ -408,8 +408,7 @@ function keybindHandler(key, eventContext) {
 		if ( keyMatch ) {
 			if ( eventContext == context )
 				matches.splice(0, 0, {index: i, match: keyMatch});
-		}
-		if ( match ) {
+		} else if ( match ) {
 			if ( eval(eventContext) == context )
 				matches.push({index: i, match: match});
 		}
