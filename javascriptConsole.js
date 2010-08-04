@@ -168,11 +168,11 @@ function javascriptConsole () {
 	this.style = this.wrapDiv.style;
 	this.currentStyle = this.wrapDiv.currentStyle;
 
-	defineBindings( { bind: /<enter>$/, action: function(){ obj.evalQuery()}, context: obj.query },
-					{ bind: /<esc>$/, action:function(){ obj.close()}, context: obj.query },
-					{ bind: /<ctrl>p$/, action:function(){obj.prevHistEntry()}, context: obj.query },
-					{ bind: /<ctrl>n$/, action:function(){obj.nextHistEntry()}, context: obj.query },
-					{ bind: /<ctrl>l$/, action:function(){obj.outPut.clear()}, context: obj.query }
+	defineBindings( { bind: "<enter>", action: function(){ obj.evalQuery()}, context: obj.query },
+					{ bind: "<esc>", action:function(){ obj.close()}, context: obj.query },
+					{ bind: "<ctrl>p", action:function(){obj.prevHistEntry()}, context: obj.query },
+					{ bind: "<ctrl>n", action:function(){obj.nextHistEntry()}, context: obj.query },
+					{ bind: "<ctrl>l", action:function(){obj.outPut.clear()}, context: obj.query }
 			);
 }
 
@@ -202,7 +202,7 @@ function openQuery() {
 document.addEventListener("DOMContentLoaded", function() {
 
 	cli = new javascriptConsole();
-	defineBindings({ bind: /;$/, action: openQuery, context: document.body }) ;
+	defineBindings({ bind: ";", action: openQuery, context: document.body }) ;
 //	window.addEventListener("keypress", queryopenHandler(cli, ";"), false);
 
 	// applyStyles has to be called after javascriptConsole();
@@ -534,7 +534,7 @@ function completionObject(inputElement, outPutElement) {
 	}
 
 	inputElement.addEventListener("keypress", completionHandler, false);
-	defineBindings( { bind: /<shift><tab>$/, action: function(){ obj.complete(true)}, context: inputElement } );
-	defineBindings( { bind: /<tab>$/, action: function(){ obj.complete()}, context: inputElement } );
+	defineBindings( { bind: "<shift><tab>", action: function(){ obj.complete(true)}, context: inputElement } );
+	defineBindings( { bind: "<tab>", action: function(){ obj.complete()}, context: inputElement } );
 	
 }
