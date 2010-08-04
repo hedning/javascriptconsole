@@ -416,14 +416,16 @@ function keybindHandler(key, eventContext) {
 
 
 	if ( matches.length !== 0 ) {
-		inputString = "";
 		for ( var i=0; i < matches.length; i++ ){
 			var binding = keybindings[matches[i].index]
 			action = binding.action;
 			log("binding: "+binding.bind, "action taken: "+action);
 			action(matches[0].match);
-			if ( ! binding.hookBind )
+			if ( ! binding.hookBind ) {
+				inputString = "";
 				return binding.preventDefault;
+			} else
+				inputString += key;
 		}
 	}
 
