@@ -320,7 +320,7 @@ function evaluateKeycode(keycode) {
 	return [ character, keyIsModifier, charIsSpecial ];
 }
 
-
+var preventDefault = false;
 function keyeventHandler(e) {
 
 	var eventType = e.type;
