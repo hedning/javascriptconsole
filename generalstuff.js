@@ -325,8 +325,8 @@ function keyeventHandler(e) {
 
 	var eventType = e.type;
 	var key = "";
-	var modifiersDown = e.ctrlKey?"<ctrl>":false || e.altKey?"<alt>":false;
-	var modifiersDown = (e.ctrlKey && e.altKey) ? "<ctrlalt>" : modifiersDown;
+	var ctrl = e.ctrlKey?"<ctrl>":"", alt = e.altKey?"<alt>":"", meta = e.metaKey?"<meta>":"";
+	var modifiersDown = ctrl+alt+meta;
 	var shift = e.shiftKey ? "<shift>" : false;
 	var target = e.target;
 
