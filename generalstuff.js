@@ -397,20 +397,22 @@ function keybindHandler(key, eventContext) {
 
 	var matches;
 	var match;
-	var bind, action, mode, context, preventDefault;
+	var bind, action, mode, context, preventDefault, hookBind;
 	for ( var i=0; i < keybindings.length; i++ ) {
 
 		bind = keybindings[i].bind;
 		action = keybindings[i].action;
 		context = keybindings[i].context;
 		preventDefault = keybindings[i].preventDefault;
+		hookBind = keybindings[i].hookBind;
 		keyMatch = key.match("^"+bind+"$");
 
 		if ( keyMatch ) {
 			if ( eventContext == context ) {
 				inputString = "";
 				action(keyMatch);
-				return preventDefault;
+				if ( ! hookBind )
+					return preventDefault;
 			}
 		}
 
@@ -421,7 +423,8 @@ function keybindHandler(key, eventContext) {
 			if ( eventContext == context ) {
 				inputString = "";
 				action(match);
-				return preventDefault;
+				if ( ! hookBind )
+					return preventDefault;
 			}
 		}
 	}
@@ -455,6 +458,7 @@ defineBindings = function () {
 		arguments[i].stopPropagating = arguments[i].stopPropagating ? true : false;
 		arguments[i].context = arguments[i].context ? arguments[i].context : "document";
 		arguments[i].mode = arguments[i].mode ? arguments[i].mode : "default"; 
+		arguments[i].hookBind = arguments[i].hookBind ? arguments[i].hookBind : false; 
 
 		keybindings.push(arguments[i]);
 	}
