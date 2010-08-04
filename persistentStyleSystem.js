@@ -25,7 +25,7 @@ function getLocalStylesheet() {
 function addLocalStyleSheet () {
 
 	var styleSheet = document.createElement("link");
-	var head = document.getElementsByTagName("head")[0];
+	var head = document.documentElement.firstElementChild;
 
 	styleSheet.rel = "stylesheet";
 	styleSheet.title = "localStyle";
