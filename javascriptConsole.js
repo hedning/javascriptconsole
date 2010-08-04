@@ -521,19 +521,16 @@ function completionObject(inputElement, outPutElement) {
 		return true;
 	}
 
-	function completionHandler(e) {
-		var keycode = e.keyCode;
-		if ( keycode == 9 ) {
-	//		e.preventDefault();
-	//		obj.complete(e.shiftKey);
-		} else {
+	function clearComp (match) {
+		log("match: "+match[0]);
+		if ( match[0] != "<tab>" && match[0] != "<shift><tab>" ) {
 			lastMatches = null;
 			lastIndex = "new";
 			outPutElement.clear();
 		}
 	}
 
-	inputElement.addEventListener("keypress", completionHandler, false);
+	defineBindings( { bind: ".*", action: clearComp, context: inputElement, hookBind: true} );
 	defineBindings( { bind: "<shift><tab>", action: function(){ obj.complete(true)}, context: inputElement } );
 	defineBindings( { bind: "<tab>", action: function(){ obj.complete()}, context: inputElement } );
 	
