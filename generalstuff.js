@@ -403,20 +403,23 @@ function keybindHandler(key, eventContext) {
 		bind = keybindings[i].bind;
 		action = keybindings[i].action;
 		context = keybindings[i].context;
-		keyMatch = bind.exec(key);
+		keyMatch = key.match("^"+bind+"$");
 
 		if ( keyMatch ) {
-
+			if ( eventContext == context ) {
+				inputString = "";
+				action(keyMatch);
+				return true;
+			}
 		}
 
-		match = bind.exec(inputString+key);
+		match = (inputString+key).match(bind+"$");
 
 		if ( match ) {
 			log( bind, action, context, eventContext);
 			if ( eventContext == context ) {
 				inputString = "";
 				action(match);
-				return true;
 			}
 		}
 	}
