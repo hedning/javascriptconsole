@@ -383,9 +383,6 @@ function keyeventHandler(e) {
 		}
 	}
 
-	//if ( preventDefault )
-	//	e.preventDefault();
-
 	if ( eventType == "keyup") {
 		preventDefault = false; 
 		log("-------end");
@@ -393,7 +390,7 @@ function keyeventHandler(e) {
 }
 
 
-function keybindHandler(key, eventContext) {
+function keybindHandler(key, eventTarget) {
 
 	var matches = [];
 	var match, keyMatch;
@@ -405,7 +402,7 @@ function keybindHandler(key, eventContext) {
 		keyMatch = key.match("^"+bind+"$");
 		match = (inputString+key).match(bind+"$");
 
-		if ( eventContext == context ) {
+		if ( context(eventTarget) ) {
 			if ( keyMatch )
 				matches.splice(0, 0, {index: i, match: keyMatch});
 			else if ( keyMatch != match )
