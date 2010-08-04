@@ -251,7 +251,7 @@ log = function () {
 
 removeElement = function (element) {
 	storeStyle(element, {display: "none"});
-}
+};
 
 
 
@@ -273,7 +273,7 @@ removeElement = function (element) {
 //
 // alt-gr does not fire anything in opera, fires keydown/up in chrome,
 // and fires everything in ff (no key/charcode in either browser though).
-//(function () {
+(function () {
 
 var inputString = new String;
 var keybindings = new Array;
@@ -473,7 +473,7 @@ function actionSetMode(mode) {
 	return setMode;
 }
 
-//}());
+})();
 
 // Examples on how one would bind stuff:
 //
@@ -492,4 +492,4 @@ function actionSetMode(mode) {
 
 
 
-}())
+})()
