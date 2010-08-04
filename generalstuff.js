@@ -405,12 +405,12 @@ function keybindHandler(key, eventContext) {
 		keyMatch = key.match("^"+bind+"$");
 		match = (inputString+key).match(bind+"$");
 
-		if ( keyMatch ) {
-			if ( eventContext == context )
+		if ( eventContext == context ) {
+			if ( keyMatch )
 				matches.splice(0, 0, {index: i, match: keyMatch});
-		} else if ( match ) {
-			if ( eval(eventContext) == context )
-				matches.push({index: i, match: match});
+			else if ( keyMatch != match )
+				if ( match )
+					matches.push({index: i, match: match});
 		}
 	}
 
