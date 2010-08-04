@@ -395,39 +395,39 @@ function keyeventHandler(e) {
 
 function keybindHandler(key, eventContext) {
 
-	var matches;
-	var match;
-	var bind, action, mode, context, preventDefault, hookBind;
+	var matches = [];
+	var match, keyMatch;
+	var bind, action, mode, context;
 	for ( var i=0; i < keybindings.length; i++ ) {
 
 		bind = keybindings[i].bind;
-		action = keybindings[i].action;
 		context = keybindings[i].context;
-		preventDefault = keybindings[i].preventDefault;
-		hookBind = keybindings[i].hookBind;
 		keyMatch = key.match("^"+bind+"$");
-
-		if ( keyMatch ) {
-			if ( eventContext == context ) {
-				inputString = "";
-				action(keyMatch);
-				if ( ! hookBind )
-					return preventDefault;
-			}
-		}
-
 		match = (inputString+key).match(bind+"$");
 
+		if ( keyMatch ) {
+			if ( eventContext == context )
+				matches.splice(0, 0, {index: i, match: keyMatch});
+		}
 		if ( match ) {
-			log( bind, action, context, eventContext);
-			if ( eventContext == context ) {
-				inputString = "";
-				action(match);
-				if ( ! hookBind )
-					return preventDefault;
-			}
+			if ( eval(eventContext) == context )
+				matches.push({index: i, match: match});
 		}
 	}
+
+
+	if ( matches.length !== 0 ) {
+		inputString = "";
+		for ( var i=0; i < matches.length; i++ ){
+			var binding = keybindings[matches[i].index]
+			action = binding.action;
+			log("binding: "+binding.bind, "action taken: "+action);
+			action(matches[0].match);
+			if ( ! binding.hookBind )
+				return binding.preventDefault;
+		}
+	}
+
 	inputString += key;
 	return false;
 }
