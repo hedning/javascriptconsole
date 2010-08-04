@@ -397,19 +397,20 @@ function keybindHandler(key, eventContext) {
 
 	var matches;
 	var match;
-	var bind, action, mode, context;
+	var bind, action, mode, context, preventDefault;
 	for ( var i=0; i < keybindings.length; i++ ) {
 
 		bind = keybindings[i].bind;
 		action = keybindings[i].action;
 		context = keybindings[i].context;
+		preventDefault = keybindings[i].preventDefault;
 		keyMatch = key.match("^"+bind+"$");
 
 		if ( keyMatch ) {
 			if ( eventContext == context ) {
 				inputString = "";
 				action(keyMatch);
-				return true;
+				return preventDefault;
 			}
 		}
 
@@ -420,6 +421,7 @@ function keybindHandler(key, eventContext) {
 			if ( eventContext == context ) {
 				inputString = "";
 				action(match);
+				return preventDefault;
 			}
 		}
 	}
