@@ -399,6 +399,8 @@ function keybindHandler(key, eventTarget) {
 
 		bind = keybindings[i].bind;
 		context = keybindings[i].context;
+		if ( type(context) === "String" )
+			context = getContext(context);
 		keyMatch = key.match("^"+bind+"$");
 		match = (inputString+key).match(bind+"$");
 
@@ -446,6 +448,16 @@ window.addEventListener("keyup", keyeventHandler, false);
 // keyregexp need to end in an $, should fix this
 // not sure if modes should be implemented in regexps, propably not
 // { bind: regExp, action: function, mode: string, context: string/node, actiontype: string, preventDefault: boolean, stopPropagating: boolean} 
+
+var contexts = new Object;
+defineContext = function (name, func) {
+	contexts[name] = func;
+}
+getContext = function(name) {
+	return contexts[name];
+}
+
+
 defineBindings = function () {
 
 	for ( var i=0; i < arguments.length; i++ ) {
