@@ -446,7 +446,7 @@ defineBindings = function () {
 
 		if ( ! arguments[i].bind ) 
 			break;
-		arguments[i].preventDefault = arguments[i].preventDefault ? true : false;
+		arguments[i].preventDefault = arguments[i].preventDefault != undefined ? arguments[i].preventDefault : true;
 		arguments[i].stopPropagating = arguments[i].stopPropagating ? true : false;
 		arguments[i].context = arguments[i].context ? arguments[i].context : "document";
 		arguments[i].mode = arguments[i].mode ? arguments[i].mode : "default"; 
