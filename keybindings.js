@@ -1,9 +1,11 @@
 (function(){
 
 bindContexts = new Object;
-bindContexts.documentContext = function (node) {
+defineContext("document", function (node) {
 	return node == document.body || node.nodeName == "A";
-}
+});
+
+defineContext("global", function () { return true; });
 
 function scrollAction(x, y) {
 	var relative;
@@ -50,23 +52,23 @@ function scrollAction(x, y) {
 	}
 }
 
-bindContexts.globalCon = function () { return true; }
 
 defineBindings( 
-		{ bind: "h", action: scrollAction(40), context: bindContexts.documentContext },
-		{ bind: "t", action: scrollAction(-40), context: bindContexts.documentContext },
-		{ bind: "g", action: scrollAction("start"), context: bindContexts.documentContext },
-		{ bind: "G", action: scrollAction("end"), context: bindContexts.documentContext },
-		{ bind: "\\$", action: scrollAction(null, "start"), context: bindContexts.documentContext },
-		{ bind: "0", action: scrollAction(null, "end"), context: bindContexts.documentContext },
-		{ bind: "r", action: function(){location.reload()}, context: bindContexts.documentContext },
-		{ bind: ",", action: function(){history.back()}, context: bindContexts.documentContext },
-		{ bind: "\\.", action: function(){history.forward()}, context: bindContexts.documentContext },
-		{ bind: "<ctrl>u", action: scrollAction("pageUp"), context: bindContexts.globalCon },
-		{ bind: "<shift><space>", action: scrollAction("pageUp"), context: bindContexts.globalCon },
-		{ bind: "<ctrl>d", action: scrollAction("pageDown"), context: bindContexts.globalCon },
-		{ bind: "<space>", action: scrollAction("pageDown"), context: bindContexts.globalCon },
-		{ bind: "<ctrl>t", action: (function(){}), context: bindContexts.globalCon, preventDefault: false }, // dummy binding to prevent "t" from stealing <ctrl>t from the browser
+		{ bind: "h", action: scrollAction(40), context: "document" },
+		{ bind: "t", action: scrollAction(-40), context: "document" },
+		{ bind: "g", action: scrollAction("start"), context: "document" },
+		{ bind: "G", action: scrollAction("end"), context: "document" },
+		{ bind: "\\$", action: scrollAction(null, "start"), context: "document" },
+		{ bind: "0", action: scrollAction(null, "end"), context: "document" },
+		{ bind: "r", action: function(){location.reload()}, context: "document" },
+		{ bind: ",", action: function(){history.back()}, context: "document" },
+		{ bind: "\\.", action: function(){history.forward()}, context: "document" },
+		{ bind: "<ctrl>u", action: scrollAction("pageUp"), context: "global" },
+		{ bind: "<shift><space>", action: scrollAction("pageUp"), context: "global" },
+		{ bind: "<ctrl>d", action: scrollAction("pageDown"), context: "global" },
+		{ bind: "<space>", action: scrollAction("pageDown"), context: "document" },
+		{ bind: "<ctrl>t", action: (function(){}), context: "global", preventDefault: false }, // dummy binding to prevent "t" from stealing <ctrl>t from the browser
+		{ bind: "<ctrl>u", action: (function(){}), context: "console", preventDefault: false } // dummy binding to prevent "t" from stealing <ctrl>t from the browser
 //	  	{ bind: /<ctrl>u$/, action: scrollPageUp },
 //	  	{ bind: /<ctrl>a$/, action: moveToStartofLine, context: "textInput" },
 //	  	{ bind: /<esc>$/, action: actionSetMode("command") },

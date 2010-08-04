@@ -168,11 +168,12 @@ function javascriptConsole () {
 	this.style = this.wrapDiv.style;
 	this.currentStyle = this.wrapDiv.currentStyle;
 
-	defineBindings( { bind: "<enter>", action: function(){ obj.evalQuery()}, context: obj.query },
-					{ bind: "<esc>", action:function(){ obj.close()}, context: obj.query },
-					{ bind: "<ctrl>p", action:function(){obj.prevHistEntry()}, context: obj.query },
-					{ bind: "<ctrl>n", action:function(){obj.nextHistEntry()}, context: obj.query },
-					{ bind: "<ctrl>l", action:function(){obj.outPut.clear()}, context: obj.query }
+
+	defineBindings( { bind: "<enter>", action: function(){ obj.evalQuery()}, context: "console" },
+					{ bind: "<esc>", action:function(){ obj.close()}, context: "console" },
+					{ bind: "<ctrl>p", action:function(){obj.prevHistEntry()}, context: "console" },
+					{ bind: "<ctrl>n", action:function(){obj.nextHistEntry()}, context: "console" },
+					{ bind: "<ctrl>l", action:function(){obj.outPut.clear()}, context: "console" }
 			);
 }
 
@@ -194,15 +195,14 @@ function queryopenHandler (element, character) {
 }
 
 function openQuery() {
-
 	cli.open()
-
 }
+
 
 document.addEventListener("DOMContentLoaded", function() {
 
 	cli = new javascriptConsole();
-	defineBindings({ bind: ";", action: openQuery, context: document.body }) ;
+	defineBindings({ bind: ";", action: openQuery, context: "document" }) ;
 //	window.addEventListener("keypress", queryopenHandler(cli, ";"), false);
 
 	// applyStyles has to be called after javascriptConsole();
@@ -530,8 +530,12 @@ function completionObject(inputElement, outPutElement) {
 		}
 	}
 
-	defineBindings( { bind: ".*", action: clearComp, context: inputElement, hookBind: true} );
-	defineBindings( { bind: "<shift><tab>", action: function(){ obj.complete(true)}, context: inputElement } );
-	defineBindings( { bind: "<tab>", action: function(){ obj.complete()}, context: inputElement } );
+	defineContext("console", function (node) {
+		return node == inputElement;
+	} );
+
+	defineBindings( { bind: ".*", action: clearComp, context: "console", hookBind: true} );
+	defineBindings( { bind: "<shift><tab>", action: function(){ obj.complete(true)}, context: "console" } );
+	defineBindings( { bind: "<tab>", action: function(){ obj.complete()}, context: "console" } );
 	
 }
