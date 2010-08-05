@@ -283,35 +283,35 @@ function evaluateKeycode(keycode) {
 	var keyIsModifier = false, charIsSpecial = false;
 	var character = String.fromCharCode(keycode); 
 	switch(keycode.toString()) {
-		case "16":
+		case "16": case "Shift":
 			character = "<shift>";
 			keyIsModifier = true;
 			break;
-		case "17":
+		case "17": case "Control":
 			character = "<ctrl>";
 			keyIsModifier = true;
 			break;
-		case "18":
+		case "18": case "Alt":
 			character = "<alt>";
 			keyIsModifier = true;
 			break;
-		case "27":
+		case "27": case "U+001B":
 			character = "<esc>";
 			charIsSpecial = true;
 			break;
-		case "9":
+		case "9": case "U+0009":
 			character = "<tab>";
 			charIsSpecial = true;
 			break;
-		case "8":
+		case "8": case "U+0008":
 			character = "<backspace>";
 			charIsSpecial = true;
 			break;
-		case "32":
+		case "32": case "U+0020":
 			character = "<space>";
 			charIsSpecial = true;
 			break;
-		case "13":
+		case 13: case "Enter":
 			character = "<enter>";
 			charIsSpecial = true;
 			break;
@@ -330,9 +330,9 @@ function keyeventHandler(e) {
 	var shift = e.shiftKey ? "<shift>" : false;
 	var target = e.target;
 
-	var keycode = e.keyCode, charcode = e.charCode;
-	var code = keycode || charcode;
-	var evaluatedKeycodeArray = evaluateKeycode(code);
+	var keycode = e.keyCode, charcode = e.charCode, keyId = e.keyIdentifier;
+	var code = keyId || keycode || charcode;
+	var evaluatedKeycodeArray = evaluateKeycode(code); 
 	var character = evaluatedKeycodeArray[0], keyIsModifier = evaluatedKeycodeArray[1],
 		charIsSpecial = evaluatedKeycodeArray[2];
 
