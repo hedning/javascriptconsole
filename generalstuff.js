@@ -278,7 +278,7 @@ removeElement = function (element) {
 var inputString = new String;
 var keybindings = new Array;
 
-function evaluateKeycode(keycode) {
+function evaluateKeycode(keycode, eventType) {
 
 	var keyIsModifier = false, charIsSpecial = false;
 	var character = String.fromCharCode(keycode); 
@@ -316,6 +316,50 @@ function evaluateKeycode(keycode) {
 			charIsSpecial = true;
 			break;
 	}
+	if ( eventType == "keydown" || eventType == "keyup" ) {
+		switch(keycode) {
+			case 40: case "Down":
+				character = "<down>";
+				charIsSpecial = true;
+				break;
+			case 39: case "Right":
+				character = "<right>";
+				charIsSpecial = true;
+				break;
+			case 38: case "Up":
+				character = "<up>";
+				charIsSpecial = true;
+				break;
+			case 37: case "Left":
+				character = "<left>";
+				charIsSpecial = true;
+				break;
+			case 45: case "Insert":
+				character = "<insert>";
+				charIsSpecial = true;
+				break;
+			case 46: case "Delete":
+				character = "<delete>";
+				charIsSpecial = true;
+				break;
+			case 36: case "Home":
+				character = "<home>";
+				charIsSpecial = true;
+				break;
+			case 35: case "End":
+				character = "<end>";
+				charIsSpecial = true;
+				break;
+			case 33: case "PageUp":
+				character = "<pageUp>";
+				charIsSpecial = true;
+				break;
+			case 34: case "PageDown":
+				character = "<pageDown>";
+				charIsSpecial = true;
+				break;
+		}
+	}
 
 	return [ character, keyIsModifier, charIsSpecial ];
 }
@@ -332,7 +376,7 @@ function keyeventHandler(e) {
 
 	var keycode = e.keyCode, charcode = e.charCode, keyId = e.keyIdentifier;
 	var code = keyId || keycode || charcode;
-	var evaluatedKeycodeArray = evaluateKeycode(code); 
+	var evaluatedKeycodeArray = evaluateKeycode(code, eventType); 
 	var character = evaluatedKeycodeArray[0], keyIsModifier = evaluatedKeycodeArray[1],
 		charIsSpecial = evaluatedKeycodeArray[2];
 
