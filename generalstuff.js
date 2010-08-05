@@ -420,7 +420,7 @@ function keybindHandler(key, eventTarget) {
 			var binding = keybindings[matches[i].index]
 			action = binding.action;
 			log("binding: "+binding.bind, "action taken: "+action);
-			action(matches[0].match);
+			action(matches[0].match, eventTarget);
 			if ( ! binding.hookBind ) {
 				inputString = "";
 				return binding.preventDefault;
