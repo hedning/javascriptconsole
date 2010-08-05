@@ -353,6 +353,7 @@ function keyeventHandler(e) {
 			key += character;
 		} else if ( preventDefault ) {
 			e.preventDefault();
+			preventDefault == false;
 		}
 	} 
 	else if ( eventType == "keydown" && ( modifiersDown || charIsSpecial )) {
