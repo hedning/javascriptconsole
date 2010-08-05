@@ -278,40 +278,40 @@ removeElement = function (element) {
 var inputString = new String;
 var keybindings = new Array;
 
-function evaluateKeycode(keycode, eventType) {
+function evaluateKeycode(keycode, eventType, which, modifiersDown) {
 
 	var keyIsModifier = false, charIsSpecial = false;
 	var character = String.fromCharCode(keycode); 
-	switch(keycode.toString()) {
-		case "16": case "Shift":
+	switch(keycode) {
+		case 16: case "Shift":
 			character = "<shift>";
 			keyIsModifier = true;
 			break;
-		case "17": case "Control":
+		case 17: case "Control":
 			character = "<ctrl>";
 			keyIsModifier = true;
 			break;
-		case "18": case "Alt":
+		case 18: case "Alt":
 			character = "<alt>";
 			keyIsModifier = true;
 			break;
-		case "27": case "U+001B":
+		case 27: case "U+001B":
 			character = "<esc>";
 			charIsSpecial = true;
 			break;
-		case "9": case "U+0009":
+		case 9: case "U+0009":
 			character = "<tab>";
 			charIsSpecial = true;
 			break;
-		case "8": case "U+0008":
+		case 8: case "U+0008":
 			character = "<backspace>";
 			charIsSpecial = true;
 			break;
-		case "32": case "U+0020":
+		case 32: case "U+0020":
 			character = "<space>";
 			charIsSpecial = true;
 			break;
-		case "13": case "Enter":
+		case 13: case "Enter":
 			character = "<enter>";
 			charIsSpecial = true;
 			break;
@@ -361,7 +361,12 @@ function evaluateKeycode(keycode, eventType) {
 		}
 	}
 
-	return [ character, keyIsModifier, charIsSpecial ];
+	if ( which == 0 || modifiersDown || charIsSpecial )
+		var keydown = true, keypress = false;
+	else
+		keydown = false, keypress = true
+
+	return [ character, keyIsModifier, keydown, keypress, charIsSpecial ];
 }
 
 var preventDefault = false;
@@ -376,9 +381,10 @@ function keyeventHandler(e) {
 
 	var keycode = e.keyCode, charcode = e.charCode, which = e.which, keyId = e.keyIdentifier;
 	var code = keyId || keycode || charcode;
-	var evaluatedKeycodeArray = evaluateKeycode(code, eventType); 
-	var character = evaluatedKeycodeArray[0], keyIsModifier = evaluatedKeycodeArray[1],
-		charIsSpecial = evaluatedKeycodeArray[2];
+	var evalArray = evaluateKeycode(code, eventType, which, modifiersDown); 
+	var character = evalArray[0], keyIsModifier = evalArray[1];
+	var handleKeyOnDown = evalArray[2], handleKeyOnPress = evalArray[3];
+	var charIsSpecial = evalArray[4];
 
 	if ( keyIsModifier )
 		return false;
@@ -391,7 +397,7 @@ function keyeventHandler(e) {
 	}
 
 	if ( eventType == "keypress" ) {
-		if ( !modifiersDown && !charIsSpecial && which != 0) {
+		if ( handleKeyOnPress ) {
 			if ( character == "<" || character == ">" )
 				character = "\\"+character;
 			key += character;
@@ -400,7 +406,7 @@ function keyeventHandler(e) {
 			preventDefault == false;
 		}
 	} 
-	else if ( eventType == "keydown" && ( modifiersDown || charIsSpecial )) {
+	else if ( eventType == "keydown" && handleKeyOnDown ) {
 
 		if ( modifiersDown ) {
 			key += modifiersDown;
