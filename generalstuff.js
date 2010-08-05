@@ -372,7 +372,7 @@ function evaluateKeycode(keycode, eventType, which, modifiersDown) {
 	return [ character, charIsSpecial, keydown, keypress];
 }
 
-var preventDefault = false;
+keyeventHandler.preventDefault = false;
 function keyeventHandler(e) {
 
 	var eventType = e.type;
@@ -400,9 +400,9 @@ function keyeventHandler(e) {
 			if ( character == "<" || character == ">" )
 				character = "\\"+character;
 			key += character;
-		} else if ( preventDefault ) {
+		} else if ( keyeventHandler.preventDefault ) {
 			e.preventDefault();
-			preventDefault == false;
+			keyeventHandler.preventDefault == false;
 		}
 	} 
 	else if ( eventType == "keydown" && handleKeyOnDown ) {
@@ -429,13 +429,13 @@ function keyeventHandler(e) {
 		keylog();
 		if ( keybindHandler(key, target) ) {
 			e.preventDefault();
-			preventDefault = true;
+			keyeventHandler.preventDefault = true;
 		}
 	}
 
 	if ( eventType == "keyup") {
-		preventDefault = false; 
 		log("-------end");
+		keyeventHandler.preventDefault = false; 
 	}
 }
 
