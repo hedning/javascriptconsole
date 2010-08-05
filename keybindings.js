@@ -32,11 +32,26 @@ defineBindings(
 		{ bind: "<ctrl>u", action: scrollAction("pageUp"), context: "global" },
 		{ bind: "<shift><space>", action: scrollAction("pageUp"), context: "global" },
 		{ bind: "<ctrl>d", action: scrollAction("pageDown"), context: "global" },
+		{ bind: "<ctrl>s", action: selectElement(), context: "global" },
 		{ bind: "<space>", action: scrollAction("pageDown"), context: "document" },
 		{ bind: "<ctrl>t", action: (function(){}), context: "global", preventDefault: false }, // dummy binding to prevent "t" from stealing <ctrl>t from the browser
 		{ bind: "<ctrl>u", action: (function(){}), context: "textInput", preventDefault: false } // dummy binding to prevent "t" from stealing <ctrl>t from the browser
 );
 
+function selectElement() {
+
+	var toggle = false;
+	return function () {
+		if ( ! toggle ) {
+			initSelectElement();
+			toggle = true;
+		} else {
+			stopSelectElement();
+			toggle = false;
+		}
+	}
+
+}
 
 function scrollAction(y, x) {
 	var relative;
