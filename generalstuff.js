@@ -372,6 +372,8 @@ function evaluateKeycode(keycode, eventType, which, modifiersDown) {
 	return [ character, charIsSpecial, keydown, keypress];
 }
 
+log.keyLogging = false;
+log.actionLogging = false;
 keyeventHandler.preventDefault = false;
 function keyeventHandler(e) {
 
@@ -387,10 +389,18 @@ function keyeventHandler(e) {
 	var handleKeyOnKeydown = evalArray[2], handleKeyOnKeypress = evalArray[3];
 
 	function keylog () {
-		log("eventType: "+eventType+", target: "+target,
-				"keycode: "+keycode+";"+key+", "+modifiersDown+", "+shift,
-				"inputString: "+inputString,
-				"charcode: "+charcode+" "+String.fromCharCode(charcode))
+		if ( log.keyLogging ) {
+			var cha = charcode ? "charcode: "+charcode+", " : "";
+			var ke = keycode ? "keycode: "+keycode+", " : "";
+			var whi = which ? "which: "+which+", " : "";
+			var id = keyId ? "keyId: "+keyId+", " : "";
+			var keyid = (ke+cha+whi+id).replace(/, $/, "");
+			log("eventType: "+eventType+", target: "+target,
+					keyid,
+					"modifiers: "+modifiersDown+shift,
+//					"inputString: "+inputString,
+					key ? "key: "+key:"");
+		}
 	}
 
 	var key = "";
@@ -424,9 +434,9 @@ function keyeventHandler(e) {
 		key += character;
 	}
 
+	keylog();
 	var target = e.target;
 	if ( key ) {
-		keylog();
 		if ( keybindHandler(key, target) ) {
 			e.preventDefault();
 			keyeventHandler.preventDefault = true;
@@ -434,8 +444,9 @@ function keyeventHandler(e) {
 	}
 
 	if ( eventType == "keyup") {
-		log("-------end");
 		keyeventHandler.preventDefault = false; 
+		if ( log.keyLogging )
+			log("-------end");
 	}
 }
 
@@ -468,7 +479,8 @@ function keybindHandler(key, eventTarget) {
 		for ( var i=0; i < matches.length; i++ ){
 			var binding = keybindings[matches[i].index]
 			action = binding.action;
-			log("binding: "+binding.bind, "action taken: "+action);
+			if ( log.actionLogging )
+				log("binding: "+binding.bind, "action taken: "+action, "eventTarget: "+eventTarget);
 			action(matches[0].match, eventTarget);
 			if ( ! binding.hookBind ) {
 				inputString = "";
