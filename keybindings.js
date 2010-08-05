@@ -7,50 +7,7 @@ defineContext("document", function (node) {
 
 defineContext("global", function () { return true; });
 
-function scrollAction(x, y) {
-	var relative;
-	if ( type(x) == "Number" )
-		relative = true;
-	if ( type(y) == "Number" )
-		relative = true;
-	if ( x == "pageDown" )
-		relative = true;
-	if ( x == "pageUp" )
-		relative = true;
 
-	if ( relative ) {
-		if ( ! y )
-			y = 0;
-		if ( x == null )
-			x = 0;
-		return function () {
-			var clientHeight = document.documentElement.clientHeight;
-			var innerHeight = window.innerHeight
-			if ( x == "pageDown" )
-				 x = clientHeight <= innerHeight ? clientHeight-10 : innerHeight-10;
-			if ( x == "pageUp" )
-				 x = clientHeight <= innerHeight ? -clientHeight+10 : -innerHeight+10;
-			log("x: "+x);
-			scrollBy(y,x);
-		}
-	} else {
-		return function () {
-			if ( ! y )
-				y = window.pageYOffset;
-			if ( x == null )
-				x = window.pageXOffset;
-			if ( x == "end" )
-				x = document.documentElement.offsetHeight;
-			if ( x == "start" )
-				x = 0;
-			if ( y == "end" )
-				y = document.documentElement.offsetWidth;
-			if ( y == "start" )
-				y = 0;
-			scroll(y,x);
-		}
-	}
-}
 
 
 defineBindings( 
@@ -74,6 +31,52 @@ defineBindings(
 //	  	{ bind: /<esc>$/, action: actionSetMode("command") },
 //	 	{ bind: /i$/, action: actionSetMode("insert"), context: "textInput" },
 //		{ bind: /f(.?)$/, action: moveToChar, mode: "command", context: "textInput" } )
-)
+);
+
+
+function scrollAction(y, x) {
+	var relative;
+	if ( type(x) == "Number" || type(y) == "Number" || y == "pageDown" || y == "pageUp" )
+		relative = true;
+
+	if ( relative ) {
+		return function () {
+			var argX = x;
+			var argY = y;
+			var clientHeight = document.documentElement.clientHeight;
+			var innerHeight = window.innerHeight;
+			log( clientHeight, innerHeight );
+			if ( ! x )
+				argX = 0;
+			if ( y == null )
+				argY = 0;
+			if ( y == "pageDown" )
+				 argY = clientHeight <= innerHeight ? clientHeight-10 : innerHeight-10;
+			if ( y == "pageUp" )
+				 argY = clientHeight <= innerHeight ? -clientHeight+10 : -innerHeight+10;
+//			log("x: "+x+", "+argX,"y: "+y+", "+argY);
+			scrollBy(argX,argY);
+		}
+	} else {
+		return function () {
+			var argX;
+			var argY;
+			if ( x == undefined )
+				argX = window.pageXOffset;
+			if ( y == null )
+				argY = window.pageYOffset;
+			if ( y == "end" )
+				argY = document.documentElement.offsetHeight;
+			if ( y == "start" )
+				argY = 0;
+			if ( x == "end" )
+				argX = document.documentElement.offsetWidth;
+			if ( x == "start" )
+				argX = 0;
+//			log("x: "+x+", "+argX,"y: "+y+", "+argY);
+			scroll(argX,argY);
+		}
+	}
+}
 
 }());
