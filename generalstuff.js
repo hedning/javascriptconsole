@@ -374,7 +374,7 @@ function keyeventHandler(e) {
 	var shift = e.shiftKey ? "<shift>" : false;
 	var target = e.target;
 
-	var keycode = e.keyCode, charcode = e.charCode, keyId = e.keyIdentifier;
+	var keycode = e.keyCode, charcode = e.charCode, which = e.which, keyId = e.keyIdentifier;
 	var code = keyId || keycode || charcode;
 	var evaluatedKeycodeArray = evaluateKeycode(code, eventType); 
 	var character = evaluatedKeycodeArray[0], keyIsModifier = evaluatedKeycodeArray[1],
@@ -391,7 +391,7 @@ function keyeventHandler(e) {
 	}
 
 	if ( eventType == "keypress" ) {
-		if ( !modifiersDown && !charIsSpecial ) {
+		if ( !modifiersDown && !charIsSpecial && which != 0) {
 			if ( character == "<" || character == ">" )
 				character = "\\"+character;
 			key += character;
