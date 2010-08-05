@@ -7,6 +7,13 @@ defineContext("document", function (node) {
 
 defineContext("global", function () { return true; });
 
+defineContext("textInput", function (node) { 
+	var nodeName = node.nodeName.toLowerCase();
+	if ( nodeName == "input" || nodeName == "textarea" )
+		return true;
+	else
+		return false;
+});
 
 
 
@@ -27,12 +34,7 @@ defineBindings(
 		{ bind: "<ctrl>d", action: scrollAction("pageDown"), context: "global" },
 		{ bind: "<space>", action: scrollAction("pageDown"), context: "document" },
 		{ bind: "<ctrl>t", action: (function(){}), context: "global", preventDefault: false }, // dummy binding to prevent "t" from stealing <ctrl>t from the browser
-		{ bind: "<ctrl>u", action: (function(){}), context: "console", preventDefault: false } // dummy binding to prevent "t" from stealing <ctrl>t from the browser
-//	  	{ bind: /<ctrl>u$/, action: scrollPageUp },
-//	  	{ bind: /<ctrl>a$/, action: moveToStartofLine, context: "textInput" },
-//	  	{ bind: /<esc>$/, action: actionSetMode("command") },
-//	 	{ bind: /i$/, action: actionSetMode("insert"), context: "textInput" },
-//		{ bind: /f(.?)$/, action: moveToChar, mode: "command", context: "textInput" } )
+		{ bind: "<ctrl>u", action: (function(){}), context: "textInput", preventDefault: false } // dummy binding to prevent "t" from stealing <ctrl>t from the browser
 );
 
 
