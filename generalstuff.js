@@ -311,7 +311,7 @@ function evaluateKeycode(keycode) {
 			character = "<space>";
 			charIsSpecial = true;
 			break;
-		case 13: case "Enter":
+		case "13": case "Enter":
 			character = "<enter>";
 			charIsSpecial = true;
 			break;
