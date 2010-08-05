@@ -439,7 +439,6 @@ window.addEventListener("keyup", keyeventHandler, false);
 
 
 
-
 // action should get fed the match
 // special characters: <ctrlalt>, <shift>, <ctrl>, <esc>, <alt>, <tab>, <enter>, <backspace>, <space>
 // use \< and \> to escape < and >
@@ -462,15 +461,16 @@ defineBindings = function () {
 
 	for ( var i=0; i < arguments.length; i++ ) {
 
-		if ( ! arguments[i].bind ) 
+		var binding = arguments[i];
+		if ( ! binding.bind ) 
 			break;
-		arguments[i].preventDefault = arguments[i].preventDefault != undefined ? arguments[i].preventDefault : true;
-		arguments[i].stopPropagating = arguments[i].stopPropagating ? true : false;
-		arguments[i].context = arguments[i].context ? arguments[i].context : "document";
-		arguments[i].mode = arguments[i].mode ? arguments[i].mode : "default"; 
-		arguments[i].hookBind = arguments[i].hookBind ? arguments[i].hookBind : false; 
+		binding.preventDefault = binding.preventDefault != undefined ? binding.preventDefault : true;
+		binding.stopPropagating = binding.stopPropagating ? true : false;
+		binding.context = binding.context ? binding.context : "document";
+		binding.mode = binding.mode ? binding.mode : "default"; 
+		binding.hookBind = binding.hookBind ? binding.hookBind : false; 
 
-		keybindings.push(arguments[i]);
+		keybindings.push(binding);
 	}
 }
 
