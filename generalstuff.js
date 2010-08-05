@@ -460,8 +460,6 @@ function keybindHandler(key, eventTarget) {
 
 		bind = keybindings[i].bind;
 		context = keybindings[i].context;
-		if ( type(context) === "String" )
-			context = getContext(context);
 		keyMatch = key.match("^"+bind+"$");
 		match = (inputString+key).match(bind+"$");
 
@@ -529,6 +527,8 @@ defineBindings = function () {
 		binding.preventDefault = binding.preventDefault != undefined ? binding.preventDefault : true;
 		binding.stopPropagating = binding.stopPropagating ? true : false;
 		binding.context = binding.context ? binding.context : "document";
+		if ( type(binding.context) === "String" )
+			binding.context = getContext(binding.context);
 		binding.mode = binding.mode ? binding.mode : "default"; 
 		binding.hookBind = binding.hookBind ? binding.hookBind : false; 
 
