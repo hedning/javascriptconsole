@@ -366,7 +366,10 @@ function evaluateKeycode(keycode, eventType, which, modifiersDown) {
 	else
 		keydown = false, keypress = true
 
-	return [ character, keyIsModifier, keydown, keypress, charIsSpecial ];
+	if ( keyIsModifier )
+		keydown = false, keypress = false;
+
+	return [ character, charIsSpecial, keydown, keypress];
 }
 
 var preventDefault = false;
@@ -382,12 +385,8 @@ function keyeventHandler(e) {
 	var keycode = e.keyCode, charcode = e.charCode, which = e.which, keyId = e.keyIdentifier;
 	var code = keyId || keycode || charcode;
 	var evalArray = evaluateKeycode(code, eventType, which, modifiersDown); 
-	var character = evalArray[0], keyIsModifier = evalArray[1];
+	var character = evalArray[0], charIsSpecial = evalArray[1];
 	var handleKeyOnDown = evalArray[2], handleKeyOnPress = evalArray[3];
-	var charIsSpecial = evalArray[4];
-
-	if ( keyIsModifier )
-		return false;
 
 	function keylog () {
 		log("eventType: "+eventType+", target: "+target,
