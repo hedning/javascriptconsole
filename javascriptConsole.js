@@ -143,6 +143,9 @@ function javascriptConsole () {
 	this.query = this.create("textarea");
 	this.query.rows = 1;
 
+	defineContext("console", function (node) {
+		return node == obj.query;
+	} );
 	this.query.completion = new completionObject(this.query, this.autoCompOut);
 	this.complete = this.query.completion.complete;
 
@@ -194,22 +197,13 @@ function queryopenHandler (element, character) {
 	}
 }
 
-function openQuery() {
-	cli.open()
-}
-
-
 document.addEventListener("DOMContentLoaded", function() {
 
 	cli = new javascriptConsole();
-	defineBindings({ bind: ";", action: openQuery, context: "document" }) ;
-//	window.addEventListener("keypress", queryopenHandler(cli, ";"), false);
+	defineBindings({ bind: ";", action: function(){cli.open()}, context: "document" }) ;
 
 	// applyStyles has to be called after javascriptConsole();
 	applyStyles();
-
-	// chrome doesn't report event.ctrlKey on keypress.... nor escape it seems
-
 }, false)
 
 function help(str){
@@ -522,7 +516,6 @@ function completionObject(inputElement, outPutElement) {
 	}
 
 	function clearComp (match) {
-		log("match: "+match[0]);
 		if ( match[0] != "<tab>" && match[0] != "<shift><tab>" ) {
 			lastMatches = null;
 			lastIndex = "new";
@@ -530,9 +523,6 @@ function completionObject(inputElement, outPutElement) {
 		}
 	}
 
-	defineContext("console", function (node) {
-		return node == inputElement;
-	} );
 
 	defineBindings( { bind: ".*", action: clearComp, context: "console", hookBind: true} );
 	defineBindings( { bind: "<shift><tab>", action: function(){ obj.complete(true)}, context: "console" } );
