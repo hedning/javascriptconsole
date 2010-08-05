@@ -376,17 +376,15 @@ keyeventHandler.preventDefault = false;
 function keyeventHandler(e) {
 
 	var eventType = e.type;
-	var key = "";
 	var ctrl = e.ctrlKey?"<ctrl>":"", alt = e.altKey?"<alt>":"", meta = e.metaKey?"<meta>":"";
 	var modifiersDown = ctrl+alt+meta;
-	var shift = e.shiftKey ? "<shift>" : false;
-	var target = e.target;
+	var shift = e.shiftKey ? "<shift>" : "";
 
 	var keycode = e.keyCode, charcode = e.charCode, which = e.which, keyId = e.keyIdentifier;
 	var code = keyId || keycode || charcode;
 	var evalArray = evaluateKeycode(code, eventType, which, modifiersDown); 
 	var character = evalArray[0], charIsSpecial = evalArray[1];
-	var handleKeyOnDown = evalArray[2], handleKeyOnPress = evalArray[3];
+	var handleKeyOnKeydown = evalArray[2], handleKeyOnKeypress = evalArray[3];
 
 	function keylog () {
 		log("eventType: "+eventType+", target: "+target,
@@ -395,8 +393,9 @@ function keyeventHandler(e) {
 				"charcode: "+charcode+" "+String.fromCharCode(charcode))
 	}
 
+	var key = "";
 	if ( eventType == "keypress" ) {
-		if ( handleKeyOnPress ) {
+		if ( handleKeyOnKeypress ) {
 			if ( character == "<" || character == ">" )
 				character = "\\"+character;
 			key += character;
@@ -405,7 +404,7 @@ function keyeventHandler(e) {
 			keyeventHandler.preventDefault == false;
 		}
 	} 
-	else if ( eventType == "keydown" && handleKeyOnDown ) {
+	else if ( eventType == "keydown" && handleKeyOnKeydown ) {
 
 		if ( modifiersDown ) {
 			key += modifiersDown;
@@ -425,6 +424,7 @@ function keyeventHandler(e) {
 		key += character;
 	}
 
+	var target = e.target;
 	if ( key ) {
 		keylog();
 		if ( keybindHandler(key, target) ) {
