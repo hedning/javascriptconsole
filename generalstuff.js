@@ -281,6 +281,8 @@ var keybindings = new Array;
 function evaluateKeycode(keycode, eventType, which, modifiersDown) {
 
 	var keyIsModifier = false, charIsSpecial = false;
+	if ( keycode.replace )
+		keycode = keycode.replace(/^U\+/, "0x");
 	var character = String.fromCharCode(keycode); 
 	switch(keycode) {
 		case 16: case "Shift":
@@ -295,19 +297,19 @@ function evaluateKeycode(keycode, eventType, which, modifiersDown) {
 			character = "<alt>";
 			keyIsModifier = true;
 			break;
-		case 27: case "U+001B":
+		case 27: case "0x001B":
 			character = "<esc>";
 			charIsSpecial = true;
 			break;
-		case 9: case "U+0009":
+		case 9: case "0x0009":
 			character = "<tab>";
 			charIsSpecial = true;
 			break;
-		case 8: case "U+0008":
+		case 8: case "0x0008":
 			character = "<backspace>";
 			charIsSpecial = true;
 			break;
-		case 32: case "U+0020":
+		case 32: case "0x0020":
 			character = "<space>";
 			charIsSpecial = true;
 			break;
