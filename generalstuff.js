@@ -457,7 +457,7 @@ function keybindHandler(key, eventTarget) {
 
 	var matches = [];
 	var match, keyMatch;
-	var bind, action, mode, context, longest=0;
+	var bind, action, mode, context, longest=0, length;
 	inputString += key;
 	for ( var i=0; i < keybindings.length; i++ ) {
 
@@ -466,9 +466,11 @@ function keybindHandler(key, eventTarget) {
 		match = inputString.match(bind+"$");
 
 		if ( match && context(eventTarget) ) {
-			if ( match[0].length >= longest ) {
+			length = match[0].length;
+
+			if ( length >= longest ) {
 				matches.splice(0, 0, {index: i, match: match});
-				longest = match[0].length;
+				longest = length;
 			} else {
 				matches.push({index: i, match: match});
 			}
