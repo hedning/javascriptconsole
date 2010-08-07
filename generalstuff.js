@@ -457,21 +457,25 @@ function keybindHandler(key, eventTarget) {
 
 	var matches = [];
 	var match, keyMatch;
-	var bind, action, mode, context;
+	var bind, action, mode, context, longest=0;
 	inputString += key;
 	for ( var i=0; i < keybindings.length; i++ ) {
 
 		bind = keybindings[i].bind;
 		context = keybindings[i].context;
-		keyMatch = key.match("^"+bind+"$");
 		match = inputString.match(bind+"$");
 
 		if ( context(eventTarget) ) {
-			if ( keyMatch )
-				matches.splice(0, 0, {index: i, match: keyMatch});
-			else if ( keyMatch != match )
-				if ( match )
+
+
+			if ( match ) {
+				if ( match.length > longest ) {
+					matches.splice(0, 0, {index: i, match: match});
+					longest = match.length;
+				} else {
 					matches.push({index: i, match: match});
+				}
+			}
 		}
 	}
 
