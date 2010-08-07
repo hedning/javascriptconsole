@@ -481,7 +481,7 @@ function keybindHandler(key, eventTarget) {
 			action = binding.action;
 			if ( log.actionLogging )
 				log("binding: "+binding.bind, "action taken: "+action, "eventTarget: "+eventTarget);
-			action(matches[0].match, eventTarget);
+			action(matches[i].match, eventTarget);
 			if ( ! binding.hookBind ) {
 				inputString = "";
 				return binding.preventDefault;
