@@ -455,14 +455,15 @@ function keyeventHandler(e) {
 var inputString = new String;
 function keybindHandler(key, eventTarget) {
 
-	var matches = [];
-	var match, keyMatch;
-	var bind, action, mode, context, longest=0, length;
+	var matches = [], match;
+	var bind, action, mode, context, longest=0, length, binding;
 	inputString += key;
+
 	for ( var i=0; i < keybindings.length; i++ ) {
 
-		bind = keybindings[i].bind;
-		context = keybindings[i].context;
+		binding = keybindings[i];
+		bind = binding.bind;
+		context = binding.context;
 		match = inputString.match(bind+"$");
 
 		if ( match && context(eventTarget) ) {
