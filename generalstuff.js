@@ -370,6 +370,9 @@ function evaluateKeycode(keycode, eventType, which, modifiersDown) {
 	if ( keyIsModifier )
 		keydown = false, keypress = false;
 
+	if ( character === "<" || character === ">" )
+		character = "\\"+character;
+
 	return [ character, charIsSpecial, keydown, keypress];
 }
 
@@ -407,8 +410,6 @@ function keyeventHandler(e) {
 	var key = "";
 	if ( eventType == "keypress" ) {
 		if ( handleKeyOnKeypress ) {
-			if ( character == "<" || character == ">" )
-				character = "\\"+character;
 			key += character;
 		} else if ( keyeventHandler.preventDefault ) {
 			e.preventDefault();
@@ -430,8 +431,6 @@ function keyeventHandler(e) {
 		} else {
 			key += shift ? shift : "";
 		}
-		if ( character == "<" || character == ">" )
-			character = "\\"+character;
 		key += character;
 	}
 
