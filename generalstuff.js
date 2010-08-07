@@ -466,12 +466,10 @@ function keybindHandler(key, eventTarget) {
 		match = inputString.match(bind+"$");
 
 		if ( context(eventTarget) ) {
-
-
 			if ( match ) {
-				if ( match.length >= longest ) {
+				if ( match[0].length >= longest ) {
 					matches.splice(0, 0, {index: i, match: match});
-					longest = match.length;
+					longest = match[0].length;
 				} else {
 					matches.push({index: i, match: match});
 				}
