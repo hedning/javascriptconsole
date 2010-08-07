@@ -479,17 +479,15 @@ function keybindHandler(key, eventTarget) {
 	}
 
 
-	if ( matches.length !== 0 ) {
-		for ( var i=0; i < matches.length; i++ ){
-			var binding = keybindings[matches[i].index]
-			action = binding.action;
-			if ( log.actionLogging )
-				log("binding: "+binding.bind, "action taken: "+action, "eventTarget: "+eventTarget);
-			action(matches[i].match, eventTarget);
-			if ( ! binding.hookBind ) {
-				inputString = "";
-				return binding.preventDefault;
-			}
+	for ( var i=0; i < matches.length; i++ ){
+		binding = keybindings[matches[i].index]
+		action = binding.action;
+		if ( log.actionLogging && !binding.hookBind )
+			log("binding: "+binding.bind, "action taken: "+action, "eventTarget: "+eventTarget, "match: "+matches[i].match);
+		action(matches[i].match, eventTarget);
+		if ( ! binding.hookBind ) {
+			inputString = "";
+			return binding.preventDefault;
 		}
 	}
 	return false;
