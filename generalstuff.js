@@ -275,7 +275,6 @@ removeElement = function (element) {
 // and fires everything in ff (no key/charcode in either browser though).
 (function () {
 
-var inputString = new String;
 var keybindings = new Array;
 
 function evaluateKeycode(keycode, eventType, which, modifiersDown) {
@@ -453,17 +452,19 @@ function keyeventHandler(e) {
 }
 
 
+var inputString = new String;
 function keybindHandler(key, eventTarget) {
 
 	var matches = [];
 	var match, keyMatch;
 	var bind, action, mode, context;
+	inputString += key;
 	for ( var i=0; i < keybindings.length; i++ ) {
 
 		bind = keybindings[i].bind;
 		context = keybindings[i].context;
 		keyMatch = key.match("^"+bind+"$");
-		match = (inputString+key).match(bind+"$");
+		match = inputString.match(bind+"$");
 
 		if ( context(eventTarget) ) {
 			if ( keyMatch )
@@ -488,8 +489,6 @@ function keybindHandler(key, eventTarget) {
 			}
 		}
 	}
-
-	inputString += key;
 	return false;
 }
 
