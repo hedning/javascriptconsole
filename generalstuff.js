@@ -485,8 +485,7 @@ function keybindHandler(key, eventTarget) {
 			if ( ! binding.hookBind ) {
 				inputString = "";
 				return binding.preventDefault;
-			} else
-				inputString += key;
+			}
 		}
 	}
 
