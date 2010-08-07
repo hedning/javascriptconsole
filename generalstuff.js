@@ -469,7 +469,7 @@ function keybindHandler(key, eventTarget) {
 
 
 			if ( match ) {
-				if ( match.length > longest ) {
+				if ( match.length >= longest ) {
 					matches.splice(0, 0, {index: i, match: match});
 					longest = match.length;
 				} else {
