@@ -30,10 +30,10 @@ defineBindings(
 		{ bind: ",", action: function(){history.back()}, context: "document" },
 		{ bind: "\\.", action: function(){history.forward()}, context: "document" },
 		{ bind: "<ctrl>u", action: scrollAction("pageUp"), context: "global" },
-		{ bind: "<shift><space>", action: scrollAction("pageUp"), context: "global" },
+		{ bind: "<shift> ", action: scrollAction("pageUp"), context: "document" },
 		{ bind: "<ctrl>d", action: scrollAction("pageDown"), context: "global" },
+		{ bind: " ", action: scrollAction("pageDown"), context: "document" },
 		{ bind: "<ctrl>s", action: selectElement(), context: "global" },
-		{ bind: "<space>", action: scrollAction("pageDown"), context: "document" },
 		{ bind: "<ctrl>t", action: (function(){}), context: "global", preventDefault: false }, // dummy binding to prevent "t" from stealing <ctrl>t from the browser
 		{ bind: "<ctrl>u", action: (function(){}), context: "textInput", preventDefault: false } // dummy binding to prevent "t" from stealing <ctrl>t from the browser
 );
