@@ -309,7 +309,6 @@ function evaluateKeycode(keycode, eventType, which, modifiersDown) {
 			charIsSpecial = true;
 			break;
 		case 32: case "0x0020":
-			character = "<space>";
 			charIsSpecial = true;
 			break;
 		case 13: case "Enter":
