@@ -466,16 +466,15 @@ function keybindHandler(key, eventTarget) {
 
 		if ( match && context(eventTarget) ) {
 			length = match[0].length;
-
-			if ( length >= longest ) {
-				matches.splice(0, 0, {index: i, match: match});
-				longest = length;
-			} else {
-				matches.push({index: i, match: match});
-			}
+			matches.unshift({index: i, match: match, priority: length});
 		}
 	}
-
+	
+	matches.sort( function (a, b) {
+			if ( a.priority < b.priority ) return 1;
+			if ( a.priority > b.priority ) return -1;
+			return 0;
+			});
 
 	for ( var i=0; i < matches.length; i++ ){
 		binding = keybindings[matches[i].index]
