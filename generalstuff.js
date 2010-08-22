@@ -466,11 +466,14 @@ function keybindHandler(key, eventTarget) {
 
 		if ( match && context(eventTarget) ) {
 			length = match[0].length;
+			if ( binding.hookBind ) length = 0;
 			matches.unshift({index: i, match: match, priority: length});
 		}
 	}
 	
 	matches.sort( function (a, b) {
+			if ( a.priority === 0 ) return -1;
+			if ( b.priority === 0 ) return 1;
 			if ( a.priority < b.priority ) return 1;
 			if ( a.priority > b.priority ) return -1;
 			return 0;
