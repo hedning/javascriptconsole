@@ -525,13 +525,16 @@ defineBindings = function () {
 		var binding = arguments[i];
 		if ( ! binding.bind ) 
 			break;
-		binding.preventDefault = binding.preventDefault != undefined ? binding.preventDefault : true;
-		binding.stopPropagating = binding.stopPropagating ? true : false;
-		binding.context = binding.context ? binding.context : "document";
+		binding.preventDefault = binding.preventDefault || true;
+		binding.stopPropagating = binding.stopPropagating || false;
+		binding.context = binding.context || "document";
 		if ( type(binding.context) === "String" )
 			binding.context = getContext(binding.context);
-		binding.mode = binding.mode ? binding.mode : "default"; 
-		binding.hookBind = binding.hookBind ? binding.hookBind : false; 
+		binding.mode = binding.mode || "default"; 
+		binding.mode = binding.mode || "default"; 
+		binding.hookBind = binding.hookBind || false; 
+		binding.action = binding.action || function(){}; 
+		binding.subMap = binding.subMap || false; 
 
 		keybindings.push(binding);
 	}
