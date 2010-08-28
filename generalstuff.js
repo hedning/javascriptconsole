@@ -525,7 +525,7 @@ defineBindings = function () {
 		var binding = arguments[i];
 		if ( ! binding.bind ) 
 			break;
-		binding.preventDefault = binding.preventDefault || true;
+		binding.preventDefault = binding.preventDefault === false ? false : true;
 		binding.stopPropagating = binding.stopPropagating || false;
 		binding.context = binding.context || "document";
 		if ( type(binding.context) === "String" )
