@@ -461,7 +461,7 @@ function keybindHandler(key, eventTarget) {
 
 		binding = keybindings[i];
 		bind = binding.bind;
-		context = binding.context;
+		context = getContext(binding.context);
 		match = inputString.match(bind+"$");
 
 		if ( match && context(eventTarget) ) {
@@ -514,7 +514,11 @@ defineContext = function (name, func) {
 	contexts[name] = func;
 }
 getContext = function(name) {
-	return contexts[name];
+	if ( typeof name === "function" ) {
+		return name;
+	} else {
+		return contexts[name] || function(){ return true };
+	}
 }
 
 
