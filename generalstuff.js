@@ -513,12 +513,8 @@ var contexts = new Object;
 defineContext = function (name, func) {
 	contexts[name] = func;
 }
-getContext = function(name) {
-	if ( typeof name === "function" ) {
-		return name;
-	} else {
-		return contexts[name] || function(){ return true };
-	}
+var getContext = function(name) {
+	return contexts[name] || name;
 }
 
 
