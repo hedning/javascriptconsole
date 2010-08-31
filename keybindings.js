@@ -2,14 +2,15 @@
 
 bindContexts = new Object;
 defineContext("document", function (node) {
-	return node == document.body || node.nodeName == "A";
+	nodeName = node.nodeName.toLowerCase();
+	return nodeName !== "input" && nodeName !== "textarea" && !node.isContentEditable;
 });
 
 defineContext("global", function () { return true; });
 
 defineContext("textInput", function (node) { 
 	var nodeName = node.nodeName.toLowerCase();
-	if ( nodeName == "input" || nodeName == "textarea" )
+	if ( nodeName === "input" || nodeName === "textarea" || node.isContentEditable )
 		return true;
 	else
 		return false;
