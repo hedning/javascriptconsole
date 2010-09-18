@@ -31,7 +31,6 @@ function javascriptConsole () {
 		//this.applyStyle(this.query, this.queryStyle);
 		this.wrapDiv.style.display = "block";
 		// temporarily
-		this.helpOut.style.display = "none";
 		this.outPut.scrollTop = this.outPut.scrollHeight;
 		this.focus();
 	}
@@ -116,21 +115,6 @@ function javascriptConsole () {
 		}
 	}
 
-
-
-	this.help = function (str){
-
-		var lHref = "https://developer.mozilla.org/Special:Search?search=";
-		var rHref = "&type=fulltext&go=Search";
-
-		this.helpOut.src = lHref+str+rHref;
-		this.query.blur();
-		this.helpOut.focus();
-		this.helpOut.style.display = "block";
-	}
-
-
-
 	this.applyStyle = function (element, style) {
 		for ( var i in style ) {
 			element.style[i] = style[i];
@@ -149,11 +133,6 @@ function javascriptConsole () {
 	} );
 	this.query.completion = new completionObject(this.query, this.autoCompOut);
 	this.complete = this.query.completion.complete;
-
-	this.helpOut = this.create("iframe");
-	this.helpOut.style.borderTop = 1;
-	this.helpOut.style.borderStyle = "solid"
-	this.helpOut.style.borderColor = "grey"
 
 	this.wrapDiv.className = "wrapDiv"; 
 	this.outPut.className = "outPut"; 
@@ -198,10 +177,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
 	applyStyles();
 }, false)
-
-function help(str){
-	cli.help.call(cli,str);
-}
 
 
 function completionObject(inputElement, outPutElement) {
