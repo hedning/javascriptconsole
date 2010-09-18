@@ -488,7 +488,7 @@ function completionObject(inputElement, outPutElement) {
 
 		} else {
 
-			matches = this.completor(activeWord, leftContext, rightContext);
+			var matches = this.completor(activeWord, leftContext, rightContext);
 
 			outPutElement.clear();
 
