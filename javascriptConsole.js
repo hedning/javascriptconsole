@@ -181,21 +181,7 @@ function javascriptConsole () {
 }
 
 
-function queryopenHandler (element, character) { 
-	return function (e) {
-		var keycode = e.keyCode || e.charCode;
-		var chr = String.fromCharCode(keycode);
-		var ctrl = e.ctrlKey;
-		var target = e.target;
 
-		if ( target.nodeName.toLowerCase() != 'input' && target.nodeName.toLowerCase() != 'textarea' && target.nodeName.toLowerCase() != 'div'){
-			if ( chr == character){
-				element.open();
-				e.preventDefault();
-			}
-		}
-	}
-}
 
 document.addEventListener("DOMContentLoaded", function() {
 
