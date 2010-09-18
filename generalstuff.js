@@ -51,7 +51,8 @@ function mouseoutHandler(e) {
 
 
 function clickHandler(e) {
-	cli.focus();
+	var cli = document.getElementsByClassName("wrapDiv")[0];
+	var input = cli.getElementsByTagName("textarea")[0];
 	e.preventDefault();
 	var name = e.target.nodeName ;
 	var id = e.target.id;
@@ -62,8 +63,7 @@ function clickHandler(e) {
 		name += "_class$" + className;
 	name = name.replace(/[^\w$_]+/g, "_");
 	window[name] = e.target;
-	cli.query.completion.replace(0, cli.query.textLength, name);
-
+	input.completion.replace(0, input.textLength, name);
 }
 
 
