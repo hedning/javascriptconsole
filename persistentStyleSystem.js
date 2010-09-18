@@ -141,5 +141,10 @@ storeStyle = function (element, style) {
 }
 
 //document.addEventListener("load", applyStyles(), false);
+//
+
+document.addEventListener("DOMContentLoaded", function() {
+	applyStyles();
+}, false)
 
 }) ()

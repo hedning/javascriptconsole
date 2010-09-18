@@ -171,14 +171,6 @@ function javascriptConsole () {
 }());
 
 
-
-
-document.addEventListener("DOMContentLoaded", function() {
-
-	applyStyles();
-}, false)
-
-
 function completionObject(inputElement, outPutElement) {
 
 	this.insert = function (str, position) {
