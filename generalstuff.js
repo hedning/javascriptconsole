@@ -246,7 +246,7 @@ log = function () {
 	if (window.opera)
 		opera.postError(output);
 	else
-		console.log(output);
+		window.console && console.log(output);
 }
 
 removeElement = function (element) {
