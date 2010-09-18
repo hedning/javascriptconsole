@@ -1,3 +1,4 @@
+(function () {
 function javascriptConsole () {
 
 
@@ -521,3 +522,4 @@ function completionObject(inputElement, outPutElement) {
 	defineBindings( { bind: "<tab>", action: function(){ obj.complete()}, context: "console" } );
 	
 }
+}())
