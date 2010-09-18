@@ -65,7 +65,6 @@ function scrollAction(y, x) {
 			var argY = y;
 			var clientHeight = document.documentElement.clientHeight;
 			var innerHeight = window.innerHeight;
-			log( clientHeight, innerHeight );
 			if ( ! x )
 				argX = 0;
 			if ( y == null )
