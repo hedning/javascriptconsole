@@ -180,15 +180,21 @@ function javascriptConsole () {
 			);
 }
 
+(function(){
+	var cli;
+	function openJavascriptConsole () {
+		if (!cli)
+			cli = new javascriptConsole();
+		cli.open();
+	};
+	defineBindings({ bind: ";", action: openJavascriptConsole, context: "document"});
+}());
+
 
 
 
 document.addEventListener("DOMContentLoaded", function() {
 
-	cli = new javascriptConsole();
-	defineBindings({ bind: ";", action: function(){cli.open()}, context: "document" }) ;
-
-	// applyStyles has to be called after javascriptConsole();
 	applyStyles();
 }, false)
 
