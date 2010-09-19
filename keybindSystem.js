@@ -236,7 +236,9 @@ function keybindHandler(key, eventTarget) {
 		action = binding.action;
 		if ( log.actionLogging && !binding.hookBind )
 			log("binding: "+binding.bind, "action taken: "+action, "eventTarget: "+eventTarget, "match: "+matches[i].match);
-		action(matches[i].match, eventTarget);
+		try {
+			action(matches[i].match, eventTarget); 
+		} catch(e) { log(e); };
 		if ( ! binding.hookBind ) {
 			inputString = "";
 			return binding.preventDefault;
