@@ -253,13 +253,13 @@ window.addEventListener("keyup", keyeventHandler, false);
 
 
 // action should get fed the match
-// special characters: <ctrlalt>, <shift>, <ctrl>, <esc>, <alt>, <tab>, <enter>, <backspace>, <space>
+// special characters: <ctrlalt>, <shift>, <ctrl>, <esc>, <alt>, <tab>, <enter>, <backspace>
 // use \< and \> to escape < and >
 // you also need to escape characters with special meanings in regexps
 // context can either be a context class or a specific element
 // keyregexp need to end in an $, should fix this
 // not sure if modes should be implemented in regexps, propably not
-// { bind: regExp, action: function, mode: string, context: string/node, actiontype: string, preventDefault: boolean, stopPropagating: boolean} 
+// { bind: regExp, action: function, mode: string, context: string/function, actiontype: string, preventDefault: boolean, stopPropagating: boolean} 
 
 var contexts = new Object;
 defineContext = function (name, func) {
