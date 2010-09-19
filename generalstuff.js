@@ -239,7 +239,8 @@ log = function () {
 
 	var output = new String;
 	for (var i=0;i<arguments.length;i++) {
-		output += arguments[i]+"\n";
+		output += typeof arguments[i]== "object" ? JSON.stringify(arguments[i]): arguments[i];
+		output += "\n";
 	}
 	output = output.replace(/\n$/, "");
 
