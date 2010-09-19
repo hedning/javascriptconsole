@@ -292,12 +292,4 @@ defineBindings = function () {
 	}
 }
 
-
-function actionSetMode(mode) {
-
-	function setMode () {
-	}
-	return setMode;
-}
-
 }());
