@@ -26,6 +26,7 @@ newcli = function (str){
 }
 
 
+(function(){
 var currentMouseOverElement = null;
 var lastStyle = null;
 var mouseoverBinding = { bind: "<mouseover.>", action: mouseoverHandler };
@@ -39,7 +40,8 @@ function setStyle(ele, unset) {
 	var unStyle = lastStyle;
 	ele.style[styleAtt] =( unset ? unStyle: "blue solid 1px");
 //	ele.style.borderColor =( unset ? "" : "black");
-}
+};
+
 
 function mouseoverHandler(match, target) {
 	currentMouseOverElement = target;
