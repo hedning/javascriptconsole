@@ -136,7 +136,8 @@ keyeventHandler.preventDefault = false;
 function keyeventHandler(e) {
 
 	var eventType = e.type;
-	var ctrl = e.ctrlKey?"<ctrl>":"", alt = e.altKey?"<alt>":"", meta = e.metaKey?"<meta>":"";
+	var ctrl = e.ctrlKey ? "<ctrl>" : "", alt = e.altKey?"<alt>" : "",
+		meta = e.metaKey ? "<meta>" : "";
 	var modifiers = ctrl+alt+meta;
 	var shift = e.shiftKey ? "<shift>" : "";
 
