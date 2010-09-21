@@ -41,8 +41,13 @@ defineBindings(
 		{ bind: "<ctrl>s", action: selectElement(), context: "global" },
 		{ bind: "<ctrl>[^dus]", context: "global", preventDefault: false }, // dummy binding to enable certain standard keybindings
 		{ bind: "<esc>", action: blurInput, context: "textInput"},
+		{ bind: "<ctrl>u", action: clearInput, context: "textInput"},
+		{ bind: "<ctrl>d", action: forwardDelete, context: "textInput"},
+		{ bind: "<ctrl>a", action: moveToLineStart, context: "textInput"},
+		{ bind: "<ctrl>e", action: moveToLineEnd, context: "textInput"},
+		{ bind: "<ctrl>o", context: "textInput", subMap: true },
+		{ bind: "<ctrl>o(.)", action: moveToKey, context: "textInput" }
 );
-
 
 function blurInput(match, input) {
 	input.blur();
@@ -121,4 +126,58 @@ function scrollAction(y, x) {
 	}
 }
 
-}());
+
+
+// ---{{{ start text edit functions
+
+
+
+function setCursorPosition(input, index) {
+	input.setSelectionRange(index, index);
+}
+
+function clearInput(match, eventTarget) { eventTarget.value = ""; };
+
+function forwardDelete(match, input) {
+
+	var value = input.value;
+	var pos = input.selectionEnd
+
+	var right = value.slice(pos + 1);
+	var left = value.slice(0, pos);
+
+	input.value = left + right;
+	setCursorPosition(input, pos);
+}
+
+function moveToLineEnd(match, input) {
+	var end = input.textLength;
+	setCursorPosition(input, end);
+}
+
+function moveToLineStart(match, input) {
+	setCursorPosition(input, 0);
+}
+
+function moveToKey(match, input) {
+
+	var key = match[1];
+	if ( input.selectionEnd == input.selectionStart ) {
+		var position = input.selectionEnd;
+		var str = input.value.slice(position);
+		var newPosition = str.indexOf(key)+position;
+		if ( newPosition == position )
+			newPosition = str.indexOf(key, 1)+position;
+
+		if ( newPosition > position )
+			input.setSelectionRange(newPosition, newPosition);
+//		log("key: "+key,"str: "+str,"newPosition: "+newPosition, "matchL: "+match);
+
+	}
+}
+
+// ---}}} end text edit functions
+
+
+
+}())
