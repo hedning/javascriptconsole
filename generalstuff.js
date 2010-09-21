@@ -14,7 +14,7 @@ inspect = function (obj, reg) {
 	}
 
 	return output.replace(/\n$/, "");
-}	
+};
 
 newcli = function (str){
 	if ( ! str ) 
@@ -69,18 +69,18 @@ function clickHandler(match, target) {
 
 initSelectElement = function () {
 	defineBindings(mouseoutBinding, mouseoverBinding, clickBinding);
-}
+};
 
 stopSelectElement = function () {
 	deleteBindings(mouseoutBinding, mouseoverBinding, clickBinding);
 	setStyle(currentMouseOverElement, true);
-}
+};
 
 }());
 
 type = function (o){
 	return !!o && Object.prototype.toString.call(o).match(/(\w+)\]/)[1];
-}
+};
 
 
 
@@ -121,7 +121,7 @@ message = function (input) {
 //	outbox.style.top = verticalMargin;
 	outbox.style.bottom = verticalMargin;
 
-}
+};
 
 
 function reportSizeInit() {
@@ -157,7 +157,7 @@ function reportSizeInit() {
 
 $ = function (id) {
 	return document.getElementById(id);
-}
+};
 
 
 // from: http://blog.andyhot.gr/a/TapFX/?permalink=Allowing_Tapestry_components_to_contribute_CSS.html&smm=y
@@ -167,7 +167,7 @@ addRemoteStyleSheet = function (styleUrl) {
 	newSS.rel='stylesheet';
 	newSS.href='data:text/css,'+escape(styles);
 	document.getElementsByTagName("head")[0].appendChild(newSS);
-}
+};
 
 
 // returns and array with all the direct ancestors of element, the element at the start of the array, then the parent etc.
@@ -210,7 +210,7 @@ buildChildNodeTree = function (element) {
 	childNodeTree.reverse();
 	return childNodeTree;
 
-}
+};
 
 
 // takes an array with numbers and builds a tree like document.body.childNodes[array[0]].childNodes[array[1]]...
@@ -228,7 +228,7 @@ dereferenceChildNodeTree = function (childNodeTree) {
 	}
 
 	return element;
-}
+};
 
 
 log = function () {
@@ -245,7 +245,7 @@ log = function () {
 		opera.postError(output);
 	else
 		window.console && console.log(output);
-}
+};
 
 removeElement = function (element) {
 	storeStyle(element, {display: "none"});

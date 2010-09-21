@@ -24,7 +24,7 @@ function javascriptConsole () {
 		append.call(this, elementType);
 		
 		return createdEle || true;
-	}
+	};
 
 
 	this.open = function () {
@@ -33,14 +33,14 @@ function javascriptConsole () {
 		// temporarily
 		this.outPut.scrollTop = this.outPut.scrollHeight;
 		this.focus();
-	}
+	};
 	this.close = function () {
 		this.query.blur();
 		this.wrapDiv.style.display = "none";
-	}
+	};
 	this.focus = function () {
 		this.query.focus();
-	}
+	};
 	this.evalWrap = function (str) {
 		try {
 			return eval.call(window, str); // calls eval from window
@@ -48,7 +48,7 @@ function javascriptConsole () {
 		catch(error) {
 			return error;
 		}
-	}
+	};
 	this.evalQuery = function () {
 		var evalText = this.query.value;
 		this.query.value = "";
@@ -58,7 +58,7 @@ function javascriptConsole () {
 		_ = output;
 		this.outPutAppend(output, evalText);
 		this.autoCompOut.clear()
-	}
+	};
 	this.outPutAppend  = function (output, input) {
 		if ( ! ( output == undefined ) ){
 			output = output.toString().replace(/<(.*?)>/g, "&lt;$1&gt;");
@@ -67,7 +67,7 @@ function javascriptConsole () {
 		this.outPut.innerHTML += this.prompt + input + "<BR>" + output + "<BR>" ;
 		this.outPut.scrollTop = this.outPut.scrollHeight;
 		this.outPut.style.display = "block";
-	}
+	};
 
 	this.history = new Array;
 	var histPosition = 0;
@@ -83,7 +83,7 @@ function javascriptConsole () {
 		for ( var i=0; i<this.history.length; i++) {
 			cacheHist[i] = this.history[i];
 		}
-	}
+	};
 	
 	this.prevHistEntry = function () {
 		var prevEntry = cacheHist[histPosition - 1];
@@ -92,7 +92,7 @@ function javascriptConsole () {
 			this.query.value = prevEntry;
 			histPosition--;
 		}
-	}
+	};
 
 	this.nextHistEntry = function () {
 		var nextEntry = cacheHist[histPosition + 1];
@@ -102,7 +102,7 @@ function javascriptConsole () {
 			histPosition++;
 		}
 
-	}
+	};
 
 	this.historySearch = function (str) {
 //		str = str.replace(/([\.^$\[\]\{\}\(\)\*\?\\\+])/g, "\\$1");
@@ -113,13 +113,13 @@ function javascriptConsole () {
 				break;
 			}
 		}
-	}
+	};
 
 	this.applyStyle = function (element, style) {
 		for ( var i in style ) {
 			element.style[i] = style[i];
 		}
-	}
+	};
 
 	this.outPut = this.create("div");
 	this.autoCompOut = this.create("div");
@@ -183,7 +183,7 @@ function completionObject(inputElement, outPutElement) {
 
 		inputElement.value = value.slice(0, position) + str 
 			+ value.slice(position, value.length);
-	}
+	};
 
 	this.replace = function(start, end, replacement) {
 		var value = inputElement.value;
@@ -191,7 +191,7 @@ function completionObject(inputElement, outPutElement) {
 		var rightContext = value.slice(end,value.length);
 
 		inputElement.value = leftContext + replacement + rightContext;
-	}
+	};
 
 	this.wordConstituents = "[/\\w\\{\\}_$\\.\\[\\]\"']";
 
@@ -338,7 +338,7 @@ function completionObject(inputElement, outPutElement) {
 
 		return matches;
 
-	}
+	};
 
 	var lastMatches = null;
 	var lastIndex = "new";
@@ -473,7 +473,7 @@ function completionObject(inputElement, outPutElement) {
 
 		}
 		return true;
-	}
+	};
 
 	function clearComp (match) {
 		if ( match[0] != "<tab>" && match[0] != "<shift><tab>" ) {
