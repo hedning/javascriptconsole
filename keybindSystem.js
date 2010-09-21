@@ -306,6 +306,15 @@ defineBindings = function () {
 
 		keybindings.push(binding);
 	}
-}
+};
+
+deleteBindings = function () {
+
+	var index;
+	for ( var i=0; i < arguments.length; i++ ) {
+		index = keybindings.indexOf(arguments[i]);
+		keybindings.splice(index, 1);
+	}
+};
 
 }());
