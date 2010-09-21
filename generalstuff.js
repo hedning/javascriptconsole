@@ -22,8 +22,8 @@ newcli = function (str){
 	var newcli = window[str] = new javascriptConsole();
 
 	newcli.style.bottom = "50%";
-	newcli.open()
-}
+	newcli.open();
+};
 
 
 (function(){
