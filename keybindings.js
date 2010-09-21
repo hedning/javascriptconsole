@@ -16,6 +16,10 @@ defineContext("textInput", function (node) {
 		return false;
 });
 
+defineContext("link", function (node) {
+	if ( node.nodeName.toLowerCase() === "a" )
+		return true;
+});
 
 
 defineBindings( 
