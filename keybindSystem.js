@@ -174,19 +174,14 @@ function keyeventHandler(e) {
 		}
 	}
 	else if ( eventType === "keydown" && handleKeyOnKeydown ) {
-
-		if ( modifiers ) {
-			key += modifiers;
-			if ( !charIsSpecial ) {
-				if ( !shift ) 
-					character = character.toLowerCase();
-				else if ( character === character.toLowerCase() )
-					key += shift;
-			} else {
-				key += shift ? shift : "";
-			}
+		key += modifiers;
+		if ( !charIsSpecial ) {
+			if ( !shift )
+				character = character.toLowerCase();
+			else if ( character === character.toLowerCase() )
+				key += shift;
 		} else {
-			key += shift ? shift : "";
+			key += shift;
 		}
 		key += character;
 	}
