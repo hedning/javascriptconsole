@@ -28,55 +28,49 @@ newcli = function (str){
 
 var currentMouseOverElement = null;
 var lastStyle = null;
+var mouseoverBinding = { bind: "<mouseover.>", action: mouseoverHandler };
+var mouseoutBinding = { bind: "<mouseout.>", action: mouseoutHandler };
+var clickBinding = { bind: "<click0>", action: clickHandler };
 
 function setStyle(ele, unset) {
 	var styleAtt = "outline";
 	if ( !unset )
 		lastStyle = ele.style[styleAtt];
 	var unStyle = lastStyle;
-	ele.style[styleAtt] =( unset ? unStyle: "blue solid 2px");
+	ele.style[styleAtt] =( unset ? unStyle: "blue solid 1px");
 //	ele.style.borderColor =( unset ? "" : "black");
 }
 
-function mouseoverHandler(e) {
-	_$ = e.target;
-	bubbles = e.bubbles;
-	currentMouseOverElement = e.target;
-	setStyle(e.target);
+function mouseoverHandler(match, target) {
+	currentMouseOverElement = target;
+	setStyle(target);
 }
 
-function mouseoutHandler(e) {
-	setStyle(e.target, true);
+function mouseoutHandler(match, target) {
+	setStyle(target, true);
 }
 
 
-function clickHandler(e) {
+function clickHandler(match, target) {
 	var cli = document.getElementsByClassName("wrapDiv")[0];
 	var input = cli.getElementsByTagName("textarea")[0];
-	e.preventDefault();
-	var name = e.target.nodeName ;
-	var id = e.target.id;
-	var className = e.target.className;
+	var name = target.nodeName, id = target.id, className = target.className;
 	if ( id )
 		name += "_id$" + id;
 	if (className)
 		name += "_class$" + className;
 	name = name.replace(/[^\w$_]+/g, "_");
-	window[name] = e.target;
+	window[name] = target;
 	input.completion.replace(0, input.textLength, name);
 }
 
 
 initSelectElement = function () {
-	window.addEventListener("mouseover", mouseoverHandler, false);
-	window.addEventListener("mouseout", mouseoutHandler, false);
-	window.addEventListener("click", clickHandler, false);
+	defineBindings(mouseoutBinding, mouseoverBinding, clickBinding);
 }
 
 stopSelectElement = function () {
-	window.removeEventListener("mouseover", mouseoverHandler, false);
-	window.removeEventListener("mouseout", mouseoutHandler, false);
-	window.removeEventListener("click", clickHandler, false);
+	deleteBindings(mouseoutBinding, mouseoverBinding, clickBinding);
 	setStyle(currentMouseOverElement, true);
 }
 
