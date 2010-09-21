@@ -39,8 +39,7 @@ defineBindings(
 		{ bind: "<ctrl>d", action: scrollAction("pageDown"), context: "global" },
 		{ bind: " ", action: scrollAction("pageDown"), context: "document" },
 		{ bind: "<ctrl>s", action: selectElement(), context: "global" },
-		{ bind: "<ctrl>t", action: (function(){}), context: "global", preventDefault: false }, // dummy binding to prevent "t" from stealing <ctrl>t from the browser
-		{ bind: "<ctrl>u", action: (function(){}), context: "textInput", preventDefault: false } // dummy binding to prevent "t" from stealing <ctrl>t from the browser
+		{ bind: "<ctrl>[^dus]", context: "global", preventDefault: false }, // dummy binding to enable certain standard keybindings
 		{ bind: "<esc>", action: blurInput, context: "textInput"},
 );
 
