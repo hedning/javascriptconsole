@@ -68,7 +68,7 @@ function evaluateKeycode(keycode, eventType, which, modifiersDown) {
 			charIsSpecial = true;
 			break;
 	}
-	if ( eventType == "keydown" || eventType == "keyup" ) {
+	if ( eventType === "keydown" || eventType === "keyup" ) {
 		switch(keycode) {
 			case 40: case "Down":
 				character = "<down>";
@@ -116,10 +116,10 @@ function evaluateKeycode(keycode, eventType, which, modifiersDown) {
 			character = "<"+eventType+keycode+">";
 	}
 
-	if ( which == 0 || modifiersDown || charIsSpecial )
+	if ( which === 0 || modifiersDown || charIsSpecial )
 		var keydown = true, keypress = false;
 	else
-		keydown = false, keypress = true
+		keydown = false, keypress = true;
 
 	if ( keyIsModifier )
 		keydown = false, keypress = false;
@@ -164,22 +164,22 @@ function keyeventHandler(e) {
 	}
 
 	var key = "";
-	if ( eventType == "keypress" ) {
+	if ( eventType === "keypress" ) {
 		if ( handleKeyOnKeypress ) {
 			key += character;
 		} else if ( keyeventHandler.preventDefault ) {
 			e.preventDefault();
 			keyeventHandler.preventDefault == false;
 		}
-	} 
-	else if ( eventType == "keydown" && handleKeyOnKeydown ) {
+	}
+	else if ( eventType === "keydown" && handleKeyOnKeydown ) {
 
 		if ( modifiersDown ) {
 			key += modifiersDown;
 			if ( !charIsSpecial ) {
 				if ( !shift ) 
 					character = character.toLowerCase();
-				else if ( character == character.toLowerCase() )
+				else if ( character === character.toLowerCase() )
 					key += shift;
 			} else {
 				key += shift ? shift : "";
@@ -202,7 +202,7 @@ function keyeventHandler(e) {
 		}
 	}
 
-	if ( eventType == "keyup") {
+	if ( eventType === "keyup") {
 		keyeventHandler.preventDefault = false; 
 		if ( log.keyLogging )
 			log("-------end");
