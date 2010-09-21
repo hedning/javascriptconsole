@@ -151,9 +151,9 @@ function javascriptConsole () {
 	this.style = this.wrapDiv.style;
 	this.currentStyle = this.wrapDiv.currentStyle;
 
+	this.query.addEventListener("blur", function(){obj.close()}, false);
 
-	defineBindings( { bind: "<enter>", action: function(){ obj.evalQuery()}, context: "console" },
-					{ bind: "<esc>", action:function(){ obj.close()}, context: "console" },
+	defineBindings( { bind: "<enter>", action: function(){obj.evalQuery()}, context: "console" },
 					{ bind: "<ctrl>p", action:function(){obj.prevHistEntry()}, context: "console" },
 					{ bind: "<ctrl>n", action:function(){obj.nextHistEntry()}, context: "console" },
 					{ bind: "<ctrl>l", action:function(){obj.outPut.clear()}, context: "console" }
