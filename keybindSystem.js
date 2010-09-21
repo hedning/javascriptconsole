@@ -112,6 +112,9 @@ function evaluateKeycode(keycode, eventType, which, modifiersDown) {
 				break;
 		}
 	}
+	if ( eventType.search(/mouse|click/) !== -1 ) {
+			character = "<"+eventType+keycode+">";
+	}
 
 	if ( which == 0 || modifiersDown || charIsSpecial )
 		var keydown = true, keypress = false;
@@ -137,8 +140,10 @@ function keyeventHandler(e) {
 	var modifiersDown = ctrl+alt+meta;
 	var shift = e.shiftKey ? "<shift>" : "";
 
-	var keycode = e.keyCode, charcode = e.charCode, which = e.which, keyId = e.keyIdentifier;
-	var code = keyId || keycode || charcode;
+	var keycode = e.keyCode, charcode = e.charCode, which = e.which,
+		keyId = e.keyIdentifier, button = e.button;
+	//button has to be last as it could be 0 which is falsy
+	var code = keyId || keycode || charcode || button;
 	var evalArray = evaluateKeycode(code, eventType, which, modifiersDown); 
 	var character = evalArray[0], charIsSpecial = evalArray[1];
 	var handleKeyOnKeydown = evalArray[2], handleKeyOnKeypress = evalArray[3];
@@ -183,6 +188,9 @@ function keyeventHandler(e) {
 			key += shift ? shift : "";
 		}
 		key += character;
+	}
+	else if ( eventType.search(/mouse|click/) !== -1 ) {
+		key = modifiersDown + shift + character;
 	}
 
 	keylog();
@@ -251,6 +259,12 @@ function keybindHandler(key, eventTarget) {
 window.addEventListener("keydown", keyeventHandler, false);
 window.addEventListener("keypress", keyeventHandler, false);
 window.addEventListener("keyup", keyeventHandler, false);
+window.addEventListener("click", keyeventHandler, false);
+window.addEventListener("dblclick", keyeventHandler, false);
+window.addEventListener("mouseover", keyeventHandler, false);
+window.addEventListener("mouseout", keyeventHandler, false);
+window.addEventListener("mousedown", keyeventHandler, false);
+window.addEventListener("mouseup", keyeventHandler, false);
 
 
 
