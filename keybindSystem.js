@@ -154,7 +154,7 @@ function keyeventHandler(e) {
 					keyid,
 					"modifiers: "+modifiersDown+shift,
 //					"inputString: "+inputString,
-					key ? "key: "+key:"");
+					key ? "key: '"+key+"'":"");
 		}
 	}
 
