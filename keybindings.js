@@ -41,10 +41,15 @@ defineBindings(
 		{ bind: "<ctrl>s", action: selectElement(), context: "global" },
 		{ bind: "<ctrl>t", action: (function(){}), context: "global", preventDefault: false }, // dummy binding to prevent "t" from stealing <ctrl>t from the browser
 		{ bind: "<ctrl>u", action: (function(){}), context: "textInput", preventDefault: false } // dummy binding to prevent "t" from stealing <ctrl>t from the browser
+		{ bind: "<esc>", action: blurInput, context: "textInput"},
 );
 
-function selectElement() {
 
+function blurInput(match, input) {
+	input.blur();
+}
+
+function selectElement() {
 	var toggle = false;
 	return function () {
 		if ( ! toggle ) {
