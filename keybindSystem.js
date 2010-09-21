@@ -277,10 +277,31 @@ window.addEventListener("mouseup", keyeventHandler, false);
 var contexts = new Object;
 defineContext = function (name, func) {
 	contexts[name] = func;
-}
-var getContext = function(name) {
+};
+var getContext = function (name) {
 	return contexts[name] || name;
+};
+
+function evalMode(context, modeName) {
+	return getContext(context).mode === modeName;
 }
+
+defineMode = function (contextName, modeName) {
+
+	context = getContext(contextName);
+
+	mode = function (target) {
+		return context(target) &&
+			evalMode(contextName, modeName);
+	};
+	
+	contexts[contextName+"."+modeName] = mode;
+
+};
+
+setMode = function (context, mode) {
+	getContext(context).mode = mode;
+};
 
 
 defineBindings = function () {
