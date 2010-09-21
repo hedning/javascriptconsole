@@ -48,6 +48,21 @@ function blurInput(match, input) {
 	input.blur();
 }
 
+
+// zoom bindings for chromium
+if ( window.chrome ) {
+
+	function zoom(match) {
+		var zoomLevel = 100 + (10*Number(match[1]));
+		document.body.style.zoom = zoomLevel+"%";
+	}
+
+	defineBindings(
+			{ bind: "z([0-9])", action: zoom, context: "document" },
+			{ bind: "zz", action: function(){document.body.style.zoom = "100%"}, context: "document" }
+	);
+}
+
 function selectElement() {
 	var toggle = false;
 	return function () {
