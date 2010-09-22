@@ -290,7 +290,7 @@ defineMode = function (contextName, modeName) {
 
 	context = getContext(contextName);
 
-	mode = function (target) {
+	var mode = function (target) {
 		return context(target) &&
 			evalMode(contextName, modeName);
 	};
