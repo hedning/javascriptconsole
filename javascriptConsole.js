@@ -1,6 +1,12 @@
 (function () {
-function javascriptConsole () {
 
+var privateEval = (function () {
+	return function (str) {
+		return eval(str);
+	};
+}());
+
+function javascriptConsole() {
 
 	_ = null;
 	var obj = this;
@@ -43,7 +49,7 @@ function javascriptConsole () {
 	};
 	this.evalWrap = function (str) {
 		try {
-			return eval.call(window, str); // calls eval from window
+			return privateEval(str);
 		}
 		catch(error) {
 			return error;
