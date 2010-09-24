@@ -1,9 +1,12 @@
 (function(){
 
-var defineBindings = keybindSystem.defineBindings,
-defineContext = keybindSystem.defineContext,
-setMode = keybindSystem.setMode,
-defineMode = keybindSystem.defineMode;
+var bindings = importModule("bindings");
+
+var defineBindings = bindings.defineBindings,
+defineContext = bindings.defineContext,
+setMode = bindings.setMode,
+defineMode = bindings.defineMode;
+
 
 bindContexts = new Object;
 defineContext("document", function (node) {

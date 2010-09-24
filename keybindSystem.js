@@ -25,7 +25,7 @@
 // 				   { bind: /<esc>$/, action: actionSetMode("command") },
 // 				   { bind: /i$/, action: actionSetMode("insert"), context: "textInput" },
 // 				   { bind: /f(.?)$/, action: moveToChar, mode: "command", context: "textInput" } )
-keybindSystem = (function () {
+(function () {
 
 var keybindings = new Array;
 var keybindSystem = {};
@@ -338,6 +338,6 @@ keybindSystem.deleteBindings = function () {
 	}
 };
 
-return keybindSystem;
+createModule("bindings", keybindSystem);
 
 }());

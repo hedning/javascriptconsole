@@ -68,14 +68,14 @@ function clickHandler(match, target) {
 
 
 initSelectElement = function () {
-	var defineBindings = keybindSystem.defineBindings;
+	var defineBindings = importModule("bindings").defineBindings;
 
 	defineBindings(mouseoutBinding, mouseoverBinding, clickBinding);
 };
 
 stopSelectElement = function () {
-	var defineBindings = keybindSystem.defineBindings,
-	deleteBindings = keybindSystem.deleteBindings;
+	var defineBindings = importModule("bindings").defineBindings,
+	deleteBindings = importModule("bindings").deleteBindings;
 
 	deleteBindings(mouseoutBinding, mouseoverBinding, clickBinding);
 	setStyle(currentMouseOverElement, true);
