@@ -267,8 +267,8 @@ createModule("persistentState", (function () {
 	};
 
 	this.getVariable = function (name) {
-		var stringified = localStorage[identifier+name] || "[]";
-		return JSON.parse(stringified);
+		var stringified = localStorage[identifier+name];
+		return stringified ? JSON.parse(stringified) : false;
 	};
 
 	this.deleteVariable = function (name) {
