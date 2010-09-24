@@ -4,7 +4,6 @@ var state = importModule("persistentState");
 var persistentStyles = new Array;
 var persistentCssRules = state.getVariable("persistentCssRules");
 var ruleCount = 0;
-var ruleCountCss = 0;
 
 
 function getLocalStylesheet() {
