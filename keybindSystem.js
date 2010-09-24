@@ -276,81 +276,89 @@ window.addEventListener("mouseup", keyeventHandler, false);
 // { bind: regExp, action: function, mode: string, context: string/function, actiontype: string, preventDefault: boolean, stopPropagating: boolean} 
 
 var contexts = new Object;
+
+var defineContext = function (name, func) {
+	if ( arguments.length === 0 ) {
+		return JSON.stringify(contexts, function (key, value) {
+				if ( typeof value === "function" ) {
+					return value.toString();
+				}
+				return value
+				});
+	}
+	contexts[name] = func;
+};
+
 var getContext = function (name) {
 	return contexts[name] || name;
 };
 
-createModule("bindings", (function () {
+function evalMode(context, modeName) {
+	return getContext(context).mode === modeName;
+}
 
-	this.defineContext = function (name, func) {
-		if ( arguments.length === 0 ) {
-			return JSON.stringify(contexts, function (key, value) {
-					if ( typeof value === "function" ) {
-						return value.toString();
-					}
-					return value
-					});
-		}
-		contexts[name] = func;
+var defineMode = function (contextName, modeName) {
+
+	context = getContext(contextName);
+
+	var mode = function (target) {
+		return context(target) &&
+			evalMode(contextName, modeName);
 	};
+	
+	contexts[contextName+"."+modeName] = mode;
 
-	function evalMode(context, modeName) {
-		return getContext(context).mode === modeName;
+};
+
+var setMode = function (context, mode) {
+	return function () {
+		getContext(context).mode = mode;
+	};
+};
+
+
+// context: string := contextname.modename
+var defineBindings = function () {
+
+	for ( var i=0; i < arguments.length; i++ ) {
+
+		var binding = arguments[i];
+		if ( ! binding.bind ) 
+			break;
+		binding.preventDefault = binding.preventDefault === false ? false : true;
+		binding.stopPropagating = binding.stopPropagating || false;
+		binding.context = binding.context || "document";
+		if ( type(binding.context) === "String" )
+			binding.context = getContext(binding.context);
+		binding.mode = binding.mode || "default"; 
+		binding.mode = binding.mode || "default"; 
+		binding.hookBind = binding.hookBind || false; 
+		binding.action = binding.action || function(){}; 
+		binding.subMap = binding.subMap || false; 
+
+		keybindings.push(binding);
 	}
+};
 
-	this.defineMode = function (contextName, modeName) {
+var deleteBindings = function () {
 
-		context = getContext(contextName);
+	var index;
+	for ( var i=0; i < arguments.length; i++ ) {
+		index = keybindings.indexOf(arguments[i]);
+		keybindings.splice(index, 1);
+	}
+};
 
-		var mode = function (target) {
-			return context(target) &&
-				evalMode(contextName, modeName);
-		};
+createModule("bindings", function () {
+
+		this.defineBindings = defineBindings;
+		this.deleteBindings = deleteBindings;
+		this.defineContext = defineContext;
 		
-		contexts[contextName+"."+modeName] = mode;
+		this.setMode = setMode;
+		this.defineMode = defineMode;
 
-	};
-
-	this.setMode = function (context, mode) {
-		return function () {
-			getContext(context).mode = mode;
-		};
-	};
-
-
-	// context: string := contextname.modename
-	this.defineBindings = function () {
-
-		for ( var i=0; i < arguments.length; i++ ) {
-
-			var binding = arguments[i];
-			if ( ! binding.bind ) 
-				break;
-			binding.preventDefault = binding.preventDefault === false ? false : true;
-			binding.stopPropagating = binding.stopPropagating || false;
-			binding.context = binding.context || "document";
-			if ( type(binding.context) === "String" )
-				binding.context = getContext(binding.context);
-			binding.mode = binding.mode || "default"; 
-			binding.mode = binding.mode || "default"; 
-			binding.hookBind = binding.hookBind || false; 
-			binding.action = binding.action || function(){}; 
-			binding.subMap = binding.subMap || false; 
-
-			keybindings.push(binding);
 		}
-	};
-
-	this.deleteBindings = function () {
-
-		var index;
-		for ( var i=0; i < arguments.length; i++ ) {
-			index = keybindings.indexOf(arguments[i]);
-			keybindings.splice(index, 1);
-		}
-	};
-})
-)
-
+);
 
 }());
