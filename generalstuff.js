@@ -258,7 +258,7 @@ removeElement = function (element) {
 
 
 
-var persistentState = new (function () {
+createModule("persistentState", (function () {
 	var identifier = "myStoredVariable:";
 
 	this.saveVariable = function (name, variable) {
@@ -276,9 +276,8 @@ var persistentState = new (function () {
 		localStorage.removeItem(identifier+name);
 		return oldVar;
 	}
-})();
-
-createModule("persistentState", persistentState);
+})
+);
 
 
 }());
