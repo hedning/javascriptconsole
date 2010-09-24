@@ -93,9 +93,7 @@ function javascriptConsole() {
 		}
 
 		histPosition = this.history.length;
-		for ( var i=0; i<this.history.length; i++) {
-			cacheHist[i] = this.history[i];
-		}
+		cacheHist = this.history.slice(0);
 	};
 	
 	this.prevHistEntry = function () {
