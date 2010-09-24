@@ -121,11 +121,11 @@ function scrollAction(y, x) {
 			if ( y == null )
 				argY = window.pageYOffset;
 			if ( y == "end" )
-				argY = document.documentElement.offsetHeight;
+				argY = document.documentElement.scrollHeight;
 			if ( y == "start" )
 				argY = 0;
 			if ( x == "end" )
-				argX = document.documentElement.offsetWidth;
+				argX = document.documentElement.scrollWidth;
 			if ( x == "start" )
 				argX = 0;
 //			log("x: "+x+", "+argX,"y: "+y+", "+argY);
