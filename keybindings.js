@@ -1,5 +1,10 @@
 (function(){
 
+var defineBindings = keybindSystem.defineBindings,
+defineContext = keybindSystem.defineContext,
+setMode = keybindSystem.setMode,
+defineMode = keybindSystem.defineMode;
+
 bindContexts = new Object;
 defineContext("document", function (node) {
 	nodeName = node.nodeName.toLowerCase();
