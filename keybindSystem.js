@@ -25,9 +25,10 @@
 // 				   { bind: /<esc>$/, action: actionSetMode("command") },
 // 				   { bind: /i$/, action: actionSetMode("insert"), context: "textInput" },
 // 				   { bind: /f(.?)$/, action: moveToChar, mode: "command", context: "textInput" } )
-(function () {
+keybindSystem = (function () {
 
 var keybindings = new Array;
+var keybindSystem = {};
 
 function evaluateKeycode(keycode, eventType, which, modifiersDown) {
 
@@ -275,7 +276,7 @@ window.addEventListener("mouseup", keyeventHandler, false);
 // { bind: regExp, action: function, mode: string, context: string/function, actiontype: string, preventDefault: boolean, stopPropagating: boolean} 
 
 var contexts = new Object;
-defineContext = function (name, func) {
+keybindSystem.defineContext = function (name, func) {
 	contexts[name] = func;
 };
 var getContext = function (name) {
@@ -286,7 +287,7 @@ function evalMode(context, modeName) {
 	return getContext(context).mode === modeName;
 }
 
-defineMode = function (contextName, modeName) {
+keybindSystem.defineMode = function (contextName, modeName) {
 
 	context = getContext(contextName);
 
@@ -299,12 +300,14 @@ defineMode = function (contextName, modeName) {
 
 };
 
-setMode = function (context, mode) {
-	getContext(context).mode = mode;
+keybindSystem.setMode = function (context, mode) {
+	return function () {
+		getContext(context).mode = mode;
+	};
 };
 
 
-defineBindings = function () {
+keybindSystem.defineBindings = function () {
 
 	for ( var i=0; i < arguments.length; i++ ) {
 
@@ -326,7 +329,7 @@ defineBindings = function () {
 	}
 };
 
-deleteBindings = function () {
+keybindSystem.deleteBindings = function () {
 
 	var index;
 	for ( var i=0; i < arguments.length; i++ ) {
@@ -334,5 +337,7 @@ deleteBindings = function () {
 		keybindings.splice(index, 1);
 	}
 };
+
+return keybindSystem;
 
 }());
