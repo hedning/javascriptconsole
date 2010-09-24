@@ -1,6 +1,7 @@
 (function () {
 
 var bindings = importModule("bindings");
+var state = importModule("persistentState");
 
 var defineBindings = bindings.defineBindings,
 defineContext = bindings.defineContext,
@@ -82,14 +83,15 @@ function javascriptConsole() {
 		this.outPut.style.display = "block";
 	};
 
-	this.history = new Array;
-	var histPosition = 0;
-	var cacheHist = new Array;
+	this.history = state.getVariable("persistentHist") || [];
+	var histPosition = this.history.length;
+	var cacheHist = this.history.slice(0);
 
 	this.histAppend = function (entry) {
 		var lastEntry = this.history[this.history.length - 1]
 		if ( entry != lastEntry && ! entry.match(/^\s*$/) ){
 			this.history.push(entry);
+			state.saveVariable("persistentHist", this.history);
 		}
 
 		histPosition = this.history.length;
