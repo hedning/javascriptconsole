@@ -246,7 +246,8 @@ function keybindHandler(key, eventTarget) {
 			action(matches[i].match, eventTarget); 
 		} catch(e) { log(e); };
 		if ( ! binding.hookBind ) {
-			inputString = "";
+			if ( ! binding.subMap )
+				inputString = "";
 			return binding.preventDefault;
 		}
 	}
