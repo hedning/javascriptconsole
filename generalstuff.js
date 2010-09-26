@@ -280,4 +280,40 @@ createModule("persistentState", (function () {
 );
 
 
+(function(){
+
+	var store = [];
+	var ids = [];
+
+	var storeData = function (element, key, value ) {
+		var id = ids.indexOf(element);
+		if ( id === -1 ) {
+			id = ids.push(element) - 1;
+			store[id] = {};
+		}
+		store[id][key] = value;
+	};
+
+	var getData = function (element, key) {
+		var id = ids.indexOf(element);
+		return store[id][key];
+	};
+
+	var deleteData = function (element, key) {
+		var id = ids.indexOf(element);
+		if ( !id ) {
+			return false;
+		}
+		delete store[id][key];
+	};
+
+	createModule("dataStore", function () {
+		this.storeData = storeData;
+		this.deleteData = storeData;
+		this.getData = getData;
+	});
+}());
+
+
+
 }());
