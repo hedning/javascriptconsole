@@ -277,6 +277,7 @@ window.addEventListener("mouseup", keyeventHandler, false);
 // { bind: regExp, action: function, mode: string, context: string/function, actiontype: string, preventDefault: boolean, stopPropagating: boolean} 
 
 var contexts = new Object;
+var data = importModule("dataStore");
 
 var defineContext = function (name, func) {
 	if ( arguments.length === 0 ) {
@@ -295,7 +296,7 @@ var getContext = function (name) {
 };
 
 function evalMode(context, modeName) {
-	return getContext(context).mode === modeName;
+	return data.getData(context, "mode") === modeName;
 }
 
 var defineMode = function (contextName, modeName) {
@@ -304,7 +305,7 @@ var defineMode = function (contextName, modeName) {
 
 	var mode = function (target) {
 		return context(target) &&
-			evalMode(contextName, modeName);
+			evalMode(target, modeName);
 	};
 	
 	contexts[contextName+"."+modeName] = mode;
@@ -312,13 +313,10 @@ var defineMode = function (contextName, modeName) {
 };
 
 var setMode = function (context, mode) {
-	return function () {
-		getContext(context).mode = mode;
-	};
+	data.storeData(context, "mode", mode);
 };
 
 
-// context: string := contextname.modename
 var defineBindings = function () {
 
 	for ( var i=0; i < arguments.length; i++ ) {
