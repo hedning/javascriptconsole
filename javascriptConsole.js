@@ -346,7 +346,7 @@ function completionObject(inputElement, outPutElement) {
 		// adds the matching builtins, like typeof
 		for ( var i = 0; i < builtIns.length; i++ ) {
 			if ( builtIns[i].search(rest) != -1){
-					matches.push(element + builtIns[i]);
+					matches.push(builtIns[i]);
 			}
 		}
 
