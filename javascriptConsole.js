@@ -459,6 +459,7 @@ function completionObject(inputElement, outPutElement) {
 			expand(lastMatches[newIndex]);
 			var newSelection = outPutElement.childNodes[newIndex*2];
 			newSelection.style.backgroundColor = "grey";
+			newSelection.style.borderRadius = 3;
 
 			lastIndex = newIndex;
 		}
