@@ -8,7 +8,6 @@ setMode = bindings.setMode,
 defineMode = bindings.defineMode;
 
 
-bindContexts = new Object;
 defineContext("document", function (node) {
 	nodeName = node.nodeName.toLowerCase();
 	return nodeName !== "input" && nodeName !== "textarea" && !node.isContentEditable;
