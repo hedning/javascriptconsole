@@ -425,13 +425,11 @@ function completionObject(inputElement, outPutElement) {
 
 		}
 		function showComps (list) {
-
 			var fragment = document.createDocumentFragment();
 			for ( var i=0; i<list.length; i++ ) {
 				var span = document.createElement("span");
 				var separator = document.createElement("span");
 				separator.innerHTML = " ";
-				span.id = "cli" + i;
 				span.style.lineHeight = "normal";
 				span.innerHTML = list[i].replace(/^.*\./, ""); 
 				fragment.appendChild(span);
@@ -445,7 +443,7 @@ function completionObject(inputElement, outPutElement) {
 
 			var newIndex = null;
 
-			var lastSelection = document.getElementById("cli"+lastIndex);
+			var lastSelection = outPutElement.childNodes[lastIndex*2];
 			if (lastSelection)
 				lastSelection.style.backgroundColor = "";
 
@@ -459,7 +457,7 @@ function completionObject(inputElement, outPutElement) {
 			}
 
 			expand(lastMatches[newIndex]);
-			var newSelection = document.getElementById("cli"+newIndex);
+			var newSelection = outPutElement.childNodes[newIndex*2];
 			newSelection.style.backgroundColor = "grey";
 
 			lastIndex = newIndex;
