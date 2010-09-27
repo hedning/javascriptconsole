@@ -141,9 +141,6 @@ function javascriptConsole() {
 	this.query = this.create("textarea");
 	this.query.rows = 1;
 
-	defineContext("console", function (node) {
-		return node == obj.query;
-	} );
 	this.query.completion = new completionObject(this.query, this.autoCompOut);
 	this.complete = this.query.completion.complete;
 
@@ -165,6 +162,9 @@ function javascriptConsole() {
 	this.currentStyle = this.wrapDiv.currentStyle;
 
 	this.query.addEventListener("blur", function(){obj.close()}, false);
+	defineContext("console", function (node) {
+		return node == obj.query;
+	} );
 
 	defineBindings( { bind: "<enter>", action: function(){obj.evalQuery()}, context: "console" },
 					{ bind: "<ctrl>p", action:function(){obj.prevHistEntry()}, context: "console" },
