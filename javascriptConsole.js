@@ -443,7 +443,7 @@ function completionObject(inputElement, outPutElement) {
 		}
 		function cycleMatches() {
 
-			newIndex = null; 
+			var newIndex = null;
 
 			var lastSelection = document.getElementById("cli"+lastIndex);
 			if (lastSelection)
