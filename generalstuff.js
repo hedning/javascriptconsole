@@ -296,7 +296,7 @@ createModule("persistentState", (function () {
 
 	var getData = function (element, key) {
 		var id = ids.indexOf(element);
-		return store[id][key];
+		return id === -1 ? undefined : store[id][key];
 	};
 
 	var deleteData = function (element, key) {
