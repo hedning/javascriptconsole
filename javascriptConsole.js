@@ -426,6 +426,7 @@ function completionObject(inputElement, outPutElement) {
 		}
 		function showComps (list) {
 
+			var fragment = document.createDocumentFragment();
 			for ( var i=0; i<list.length; i++ ) {
 				var span = document.createElement("span");
 				var separator = document.createElement("span");
@@ -433,9 +434,10 @@ function completionObject(inputElement, outPutElement) {
 				span.id = "cli" + i;
 				span.style.lineHeight = "normal";
 				span.innerHTML = list[i].replace(/^.*\./, ""); 
-				outPutElement.appendChild(span);
-				outPutElement.appendChild(separator);
+				fragment.appendChild(span);
+				fragment.appendChild(separator);
 			}
+			outPutElement.appendChild(fragment);
 			outPutElement.style.display = "block";
 
 		}
