@@ -430,7 +430,7 @@ function completionObject(inputElement, outPutElement) {
 				var span = document.createElement("span");
 				var separator = document.createElement("span");
 				separator.innerHTML = " ";
-				span.style.lineHeight = "normal";
+				span.style.padding = "0 2";
 				span.innerHTML = list[i].replace(/^.*\./, ""); 
 				fragment.appendChild(span);
 				fragment.appendChild(separator);
