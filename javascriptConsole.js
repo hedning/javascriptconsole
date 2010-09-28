@@ -13,7 +13,8 @@ defineMode = bindings.defineMode,
 addUserCssRule = userStyle.addUserCssRule,
 enableStyles = userStyle.enableStyles,
 storeStyle = userStyle.storeStyle,
-inspect = searchTools.inspect;
+inspect = searchTools.inspect,
+_;
 
 var privateEval = (function () {
 	return function (str) {
