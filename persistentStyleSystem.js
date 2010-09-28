@@ -23,7 +23,7 @@ function addLocalStyleSheet () {
 		return false;
 	}
 
-	var stylesheet = document.createElement("link");
+	var stylesheet = document.createElement("style");
 	stylesheet.rel = "stylesheet";
 	stylesheet.title = "localStyle";
 	head.appendChild(stylesheet);
