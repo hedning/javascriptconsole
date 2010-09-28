@@ -95,7 +95,7 @@ type = function (o){
 
 var oldAlert = alert;
 
-message = function (input) {
+var message = function (input) {
 	function close() {
 		document.body.removeChild(outbox);
 	}
