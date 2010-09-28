@@ -238,9 +238,6 @@ log = function () {
 		window.console && console.log(output);
 };
 
-removeElement = function (element) {
-	storeStyle(element, {display: "none"});
-};
 
 
 
