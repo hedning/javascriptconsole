@@ -1,6 +1,7 @@
 (function () {
 
 var state = importModule("persistentState");
+var log = importModule("log").log;
 var persistentStyles = new Array;
 var persistentCssRules = state.getVariable("persistentCssRules");
 var ruleCount = 0;

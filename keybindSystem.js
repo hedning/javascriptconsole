@@ -27,6 +27,8 @@
 // 				   { bind: /f(.?)$/, action: moveToChar, mode: "command", context: "textInput" } )
 (function () {
 
+var log = importModule("log").log;
+
 var keybindings = new Array;
 var keybindSystem = {};
 

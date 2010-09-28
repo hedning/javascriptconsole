@@ -1,6 +1,7 @@
 (function(){
 
 var bindings = importModule("bindings");
+var log = importModule("log").log;
 
 var defineBindings = bindings.defineBindings,
 defineContext = bindings.defineContext,

@@ -2,6 +2,7 @@
 
 var bindings = importModule("bindings");
 var state = importModule("persistentState");
+var log = importModule("log").log;
 
 var defineBindings = bindings.defineBindings,
 defineContext = bindings.defineContext,
