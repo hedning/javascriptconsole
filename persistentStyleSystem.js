@@ -17,41 +17,37 @@ function getLocalStylesheet() {
 
 
 function addLocalStyleSheet () {
+	var head = document.getElementsByTagName("head")[0];
+	if ( ! head ) {
+		setTimeout(addLocalStyleSheet, 20);
+		return false;
+	}
 
-	var styleSheet = document.createElement("link");
-	var head = document.documentElement.firstElementChild;
-
-	styleSheet.rel = "stylesheet";
-	styleSheet.title = "localStyle";
-	head.appendChild(styleSheet);
-
-	styleCount = document.styleSheets.length;
-	//log("styleCount: "+styleCount);
-
-	return document.styleSheets[styleCount-1];
+	var stylesheet = document.createElement("link");
+	stylesheet.rel = "stylesheet";
+	stylesheet.title = "localStyle";
+	head.appendChild(stylesheet);
 }
-
-var localStylesheet = addLocalStyleSheet();
-log("site: "+location.hostname  , "stylesheet: "+localStylesheet.title );
-
+addLocalStyleSheet();
 
 addUserCssRule = function (rule) {
 
-	log(localStylesheet.insertRule);
-	log("cssRule: "+rule);
-
-	localStylesheet = getLocalStylesheet();
+	var stylesheet = getLocalStylesheet();
+	if ( !stylesheet ) {
+		setTimeout(function(){addUserCssRule(rule)}, 20);
+		return false;
+	}
+	rule = rule.replace(/!important/, "");
+	rule = rule.replace(/\}/, "!important }");
 	try { 
-		localStylesheet.insertRule(rule, 0); 
+		stylesheet.insertRule(rule, 0); 
 	}
 	catch(error){ 
 		err = error;
 		log("catch error: "+error);
 	}
 
-}
-
-
+};
 
 
 function applyPersistentCss() {
