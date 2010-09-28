@@ -261,19 +261,26 @@ removeElement = function (element) {
 createModule("persistentState", (function () {
 	var identifier = "myStoredVariable:";
 
-	this.saveVariable = function (name, variable) {
-		var stringifiedVar = JSON.stringify(variable);
-		localStorage.setItem(identifier+name, stringifiedVar);
+	var storeType = function (store) {
+		return store === "session" ? sessionStorage: localStorage;
 	};
 
-	this.getVariable = function (name) {
-		var stringified = localStorage[identifier+name];
+	this.saveVariable = function (name, variable, type) {
+		var stringifiedVar = JSON.stringify(variable);
+		var store = storeType(type)
+		store.setItem(identifier+name, stringifiedVar);
+	};
+
+	this.getVariable = function (name, type) {
+		var store = storeType(type);
+		var stringified = store[identifier+name];
 		return stringified ? JSON.parse(stringified) : false;
 	};
 
-	this.deleteVariable = function (name) {
-		var oldVar = getVariable(name);
-		localStorage.removeItem(identifier+name);
+	this.deleteVariable = function (name, type) {
+		var oldVar = getVariable(name, type);
+		var store = storeType(type);
+		store.removeItem(identifier+name);
 		return oldVar;
 	}
 })
