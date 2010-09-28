@@ -18,16 +18,6 @@
 
 }());
 
-newcli = function (str){
-	if ( ! str ) 
-		str = "cli2";
-	var newcli = window[str] = new javascriptConsole();
-
-	newcli.style.bottom = "50%";
-	newcli.open();
-};
-
-
 (function(){
 var currentMouseOverElement = null;
 var lastStyle = null;
