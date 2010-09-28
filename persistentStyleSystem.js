@@ -30,10 +30,10 @@ function addLocalStyleSheet () {
 }
 addLocalStyleSheet();
 
-addUserCssRule = function (rule) {
+var addUserCssRule = function (rule) {
 
 	var stylesheet = getLocalStylesheet();
-	if ( !stylesheet ) {
+	if ( ! stylesheet ) {
 		setTimeout(function(){addUserCssRule(rule)}, 20);
 		return false;
 	}
@@ -86,7 +86,7 @@ function getPersistentStyles() {
 
 }
 
-applyStyles = function () {
+var applyStyles = function () {
 
 	getPersistentStyles();
 
@@ -105,9 +105,9 @@ applyStyles = function () {
 		}
 	}
 //	applyPersistentCss();
-}
+};
 
-storeStyle = function (element, style) {
+var storeStyle = function (element, style) {
 
 	if ( type(element) == "String") {
 		if ( persistentStyles )
@@ -130,13 +130,16 @@ storeStyle = function (element, style) {
 		localStorage.setItem("persistentStyle"+ruleCount, styleString);
 		ruleCount++;
 	}
-}
+};
 
-//document.addEventListener("load", applyStyles(), false);
-//
+createModule("userStyle", function(){
+		this.storeStyle = storeStyle;
+		this.addUserCssRule = storeStyle;
+});
+
 
 document.addEventListener("DOMContentLoaded", function() {
 	applyStyles();
 }, false)
 
-}) ()
+}());
