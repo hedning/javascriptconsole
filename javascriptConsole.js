@@ -3,11 +3,16 @@
 var bindings = importModule("bindings");
 var state = importModule("persistentState");
 var log = importModule("log").log;
+var searchTools = importModule("objectSearchTools");
+var userStyle = importModule("userStyle");
 
 var defineBindings = bindings.defineBindings,
 defineContext = bindings.defineContext,
 setMode = bindings.setMode,
-defineMode = bindings.defineMode;
+defineMode = bindings.defineMode,
+addUserCssRule = userStyle.addUserCssRule,
+storeStyle = userStyle.storeStyle,
+inspect = searchTools.inspect;
 
 var privateEval = (function () {
 	return function (str) {
