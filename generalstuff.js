@@ -19,11 +19,11 @@
 }());
 
 (function(){
-var currentMouseOverElement = null;
-var lastStyle = null;
-var mouseoverBinding = { bind: "<mouseover.>", action: mouseoverHandler };
-var mouseoutBinding = { bind: "<mouseout.>", action: mouseoutHandler };
-var clickBinding = { bind: "<click0>", action: clickHandler };
+var currentMouseOverElement = null,
+lastStyle = null,
+mouseoverBinding = { bind: "<mouseover.>", action: mouseoverHandler },
+mouseoutBinding = { bind: "<mouseout.>", action: mouseoutHandler },
+clickBinding = { bind: "<click0>", action: clickHandler };
 
 function setStyle(ele, unset) {
 	var styleAtt = "outline";
