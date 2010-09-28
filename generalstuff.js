@@ -187,6 +187,17 @@ createModule("log", function(){ this.log = log; });
 }());
 
 
+// from http://www.json.org/js.html
+var reviver = function (key, value) {
+	var type;
+	if (value && typeof value === 'object') {
+		type = value.type;
+		if (typeof type === 'string' && typeof window[type] === 'function') {
+			return new (window[type])(value);
+		}
+	}
+	return value;
+};
 
 createModule("persistentState", (function () {
 	var identifier = "myStoredVariable:";
@@ -204,7 +215,7 @@ createModule("persistentState", (function () {
 	this.getVariable = function (name, type) {
 		var store = storeType(type);
 		var stringified = store[identifier+name];
-		return stringified ? JSON.parse(stringified) : false;
+		return stringified ? JSON.parse(stringified, reviver) : undefined;
 	};
 
 	this.deleteVariable = function (name, type) {
