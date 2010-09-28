@@ -1,5 +1,8 @@
 (function () {
-inspect = function (obj, reg) {
+
+
+(function(){
+var inspect = function (obj, reg) {
 
 	var output = "";
 	if ( reg ) {
@@ -15,6 +18,12 @@ inspect = function (obj, reg) {
 
 	return output.replace(/\n$/, "");
 };
+
+createModule("objectSearchTools", function () {
+		this.inspect = inspect;
+	});
+
+}());
 
 newcli = function (str){
 	if ( ! str ) 
