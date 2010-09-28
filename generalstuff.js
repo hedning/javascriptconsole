@@ -3,19 +3,12 @@
 
 (function(){
 	var inspect = function (obj, reg) {
-
 		var output = "";
-		if ( reg ) {
-			for ( var i in obj ){
-				if ( i.match(reg) )
-					output += i + "\n";
-			}
-		} else {
-			for ( var i in obj ) {
-					output += i + "\n";
-			}
+		if ( !reg ) reg = /./;
+		for ( var i in obj ){
+			if ( i.match(reg) )
+				output += i + "\n";
 		}
-
 		return output.replace(/\n$/, "");
 	};
 
