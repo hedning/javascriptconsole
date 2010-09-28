@@ -6,6 +6,7 @@ var log = importModule("log").log;
 var defineBindings = bindings.defineBindings,
 defineContext = bindings.defineContext,
 setMode = bindings.setMode,
+deleteBindings = bindings.deleteBindings,
 defineMode = bindings.defineMode;
 
 
@@ -46,7 +47,6 @@ defineBindings(
 		{ bind: "<shift> ", action: scrollAction("pageUp"), context: "document" },
 		{ bind: "<ctrl>d", action: scrollAction("pageDown"), context: "global" },
 		{ bind: " ", action: scrollAction("pageDown"), context: "document" },
-		{ bind: "<ctrl>s", action: selectElement(), context: "global" },
 		{ bind: "<ctrl>[^dus]", context: "global", preventDefault: false }, // dummy binding to enable certain standard keybindings
 		{ bind: "<esc>", action: blurInput, context: "textInput"},
 		{ bind: "<ctrl>u", action: clearInput, context: "textInput"},
@@ -76,19 +76,6 @@ if ( window.chrome ) {
 	);
 }
 
-function selectElement() {
-	var toggle = false;
-	return function () {
-		if ( ! toggle ) {
-			initSelectElement();
-			toggle = true;
-		} else {
-			stopSelectElement();
-			toggle = false;
-		}
-	}
-
-}
 
 function scrollAction(y, x) {
 	var relative;
@@ -186,6 +173,68 @@ function moveToKey(match, input) {
 
 // ---}}} end text edit functions
 
+(function(){
+	var currentMouseOverElement = null,
+	lastStyle = null,
+	mouseoverBinding = { bind: "<mouseover.>", action: mouseoverHandler },
+	mouseoutBinding = { bind: "<mouseout.>", action: mouseoutHandler },
+	clickBinding = { bind: "<click0>", action: clickHandler };
+
+	function setStyle(ele, unset) {
+		var styleAtt = "outline";
+		if ( !unset )
+			lastStyle = ele.style[styleAtt];
+		var unStyle = lastStyle;
+		ele.style[styleAtt] =( unset ? unStyle: "blue solid 1px");
+	};
+
+
+	function mouseoverHandler(match, target) {
+		currentMouseOverElement = target;
+		setStyle(target);
+	}
+
+	function mouseoutHandler(match, target) {
+		setStyle(target, true);
+	}
+
+	function clickHandler(match, target) {
+		var cli = document.getElementsByClassName("wrapDiv")[0];
+		var input = cli.getElementsByTagName("textarea")[0];
+		var name = target.nodeName, id = target.id, className = target.className;
+		if ( id )
+			name += "_id$" + id;
+		if (className)
+			name += "_class$" + className;
+		name = name.replace(/[^\w$_]+/g, "_");
+		window[name] = target;
+		input.value = name;
+	}
+
+	var initSelectElement = function () {
+		defineBindings(mouseoutBinding, mouseoverBinding, clickBinding);
+	};
+
+	var stopSelectElement = function () {
+		deleteBindings(mouseoutBinding, mouseoverBinding, clickBinding);
+		setStyle(currentMouseOverElement, true);
+	};
+
+	function selectElement() {
+		var toggle = false;
+		return function () {
+			if ( ! toggle ) {
+				initSelectElement();
+				toggle = true;
+			} else {
+				stopSelectElement();
+				toggle = false;
+			}
+		}
+	}
+	defineBindings({ bind: "<ctrl>s", action: selectElement(), context: "global" })
+
+}());
 
 
 }())

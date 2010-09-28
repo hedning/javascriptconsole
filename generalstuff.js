@@ -18,62 +18,6 @@
 
 }());
 
-(function(){
-var currentMouseOverElement = null,
-lastStyle = null,
-mouseoverBinding = { bind: "<mouseover.>", action: mouseoverHandler },
-mouseoutBinding = { bind: "<mouseout.>", action: mouseoutHandler },
-clickBinding = { bind: "<click0>", action: clickHandler };
-
-function setStyle(ele, unset) {
-	var styleAtt = "outline";
-	if ( !unset )
-		lastStyle = ele.style[styleAtt];
-	var unStyle = lastStyle;
-	ele.style[styleAtt] =( unset ? unStyle: "blue solid 1px");
-//	ele.style.borderColor =( unset ? "" : "black");
-};
-
-
-function mouseoverHandler(match, target) {
-	currentMouseOverElement = target;
-	setStyle(target);
-}
-
-function mouseoutHandler(match, target) {
-	setStyle(target, true);
-}
-
-
-function clickHandler(match, target) {
-	var cli = document.getElementsByClassName("wrapDiv")[0];
-	var input = cli.getElementsByTagName("textarea")[0];
-	var name = target.nodeName, id = target.id, className = target.className;
-	if ( id )
-		name += "_id$" + id;
-	if (className)
-		name += "_class$" + className;
-	name = name.replace(/[^\w$_]+/g, "_");
-	window[name] = target;
-	input.completion.replace(0, input.textLength, name);
-}
-
-
-initSelectElement = function () {
-	var defineBindings = importModule("bindings").defineBindings;
-
-	defineBindings(mouseoutBinding, mouseoverBinding, clickBinding);
-};
-
-stopSelectElement = function () {
-	var defineBindings = importModule("bindings").defineBindings,
-	deleteBindings = importModule("bindings").deleteBindings;
-
-	deleteBindings(mouseoutBinding, mouseoverBinding, clickBinding);
-	setStyle(currentMouseOverElement, true);
-};
-
-}());
 
 type = function (o){
 	return !!o && Object.prototype.toString.call(o).match(/(\w+)\]/)[1];
