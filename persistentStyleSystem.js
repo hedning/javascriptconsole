@@ -4,6 +4,8 @@ var state = importModule("persistentState");
 var log = importModule("log").log;
 var persistentStyles = new Array;
 var persistentCssRules = state.getVariable("persistentCssRules") || [];
+var disableStyles = state.getVariable("disableStyles");
+disableStyles = disableStyles !== undefined ? disableStyles : false;
 var ruleCount = 0;
 
 
@@ -37,6 +39,7 @@ var addUserCssRule = function (rule) {
 		setTimeout(function(){addUserCssRule(rule)}, 20);
 		return false;
 	}
+	stylesheet.disabled = disableStyles;
 	rule = rule.replace(/!important/, "");
 	rule = rule.replace(/\}/, "!important }");
 	try { 
@@ -127,9 +130,15 @@ var storeStyle = function (element, style) {
 	}
 };
 
+var enableStyles = function (bool) {
+	getLocalStylesheet().disabled = !bool;
+	state.saveVariable("disableStyles", !bool);
+};
+
 createModule("userStyle", function(){
 		this.storeStyle = storeStyle;
 		this.addUserCssRule = addUserCssRule;
+		this.enableStyles = enableStyles;
 });
 
 
