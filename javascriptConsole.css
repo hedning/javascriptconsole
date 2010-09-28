@@ -45,9 +45,9 @@ div.outPut, div.autoCompOut {
 	max-width: 100% !important;
 	max-height: 430px !important;
 }
-span.javascriptConsolecompletion {
+div.autoCompOut span {
 	font-family: Verdana !important;
 	font-size: 14px !important;
-	background-color: black !important;
+	padding: 0 2px; !important;
 	color: white !important;
 }
