@@ -8,18 +8,11 @@ var ruleCount = 0;
 
 
 function getLocalStylesheet() {
-
-	if ( ! document.styleSheets ) {
-		return addLocalStyleSheet();
-	}
-
 	for ( var i=0; i < document.styleSheets.length; i++) {
-
 		if ( document.styleSheets[i].title == "localStyle")
 			return document.styleSheets[i];
-		else
-			return addLocalStyleSheet();
 	}
+	return false;
 }
 
 
