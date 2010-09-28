@@ -11,6 +11,7 @@ defineContext = bindings.defineContext,
 setMode = bindings.setMode,
 defineMode = bindings.defineMode,
 addUserCssRule = userStyle.addUserCssRule,
+enableStyles = userStyle.enableStyles,
 storeStyle = userStyle.storeStyle,
 inspect = searchTools.inspect;
 
