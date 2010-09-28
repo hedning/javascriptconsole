@@ -463,6 +463,8 @@ function completionObject(inputElement, outPutElement) {
 			newSelection.style.backgroundColor = "grey";
 			newSelection.style.borderRadius = 3;
 
+			"scrollIntoViewIfNeeded" in newSelection && newSelection.scrollIntoViewIfNeeded();
+
 			lastIndex = newIndex;
 		}
 		
