@@ -2,26 +2,26 @@
 
 
 (function(){
-var inspect = function (obj, reg) {
+	var inspect = function (obj, reg) {
 
-	var output = "";
-	if ( reg ) {
-		for ( var i in obj ){
-			if ( i.match(reg) )
-				output += i + "\n";
+		var output = "";
+		if ( reg ) {
+			for ( var i in obj ){
+				if ( i.match(reg) )
+					output += i + "\n";
+			}
+		} else {
+			for ( var i in obj ) {
+					output += i + "\n";
+			}
 		}
-	} else {
-		for ( var i in obj ) {
-				output += i + "\n";
-		}
-	}
 
-	return output.replace(/\n$/, "");
-};
+		return output.replace(/\n$/, "");
+	};
 
-createModule("objectSearchTools", function () {
-		this.inspect = inspect;
-	});
+	createModule("objectSearchTools", function () {
+			this.inspect = inspect;
+		});
 
 }());
 
