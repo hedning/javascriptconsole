@@ -3,7 +3,7 @@
 var state = importModule("persistentState");
 var log = importModule("log").log;
 var persistentStyles = new Array;
-var persistentCssRules = state.getVariable("persistentCssRules");
+var persistentCssRules = state.getVariable("persistentCssRules") || [];
 var ruleCount = 0;
 
 
@@ -54,14 +54,11 @@ function applyPersistentCss() {
 
 	var i=0;
 	var rule;
-	if ( persistentCssRules ) {
-		while ( rule = persistentCssRules[i] ) {
-			addUserCssRule(rule);
-			i++;
-		}
+	while ( rule = persistentCssRules[i] ) {
+		addUserCssRule(rule);
+		i++;
 	}
 }
-
 applyPersistentCss();
 
 function getPersistentStyles() {
@@ -110,8 +107,6 @@ var applyStyles = function () {
 var storeStyle = function (element, style) {
 
 	if ( type(element) == "String") {
-		if ( persistentStyles )
-			persistentStyles = [];
 		persistentCssRules.push(element);
 		state.saveVariable("persistentCssRules", persistentCssRules);
 
