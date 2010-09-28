@@ -221,8 +221,8 @@ dereferenceChildNodeTree = function (childNodeTree) {
 	return element;
 };
 
-
-log = function () {
+(function(){
+var log = function () {
 
 
 	var output = new String;
@@ -238,6 +238,9 @@ log = function () {
 		window.console && console.log(output);
 };
 
+createModule("log", function(){ this.log = log; });
+
+}());
 
 
 
