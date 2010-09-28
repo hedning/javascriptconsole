@@ -129,7 +129,7 @@ var storeStyle = function (element, style) {
 
 createModule("userStyle", function(){
 		this.storeStyle = storeStyle;
-		this.addUserCssRule = storeStyle;
+		this.addUserCssRule = addUserCssRule;
 });
 
 
