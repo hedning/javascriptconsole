@@ -45,9 +45,11 @@ div.outPut, div.autoCompOut {
 	max-width: 100% !important;
 	max-height: 430px !important;
 }
-div.autoCompOut span {
+.wrapDiv > .autoCompOut span {
 	font-family: Verdana !important;
 	font-size: 14px !important;
 	padding: 0 2px; !important;
+	margin: 0 2px;
 	color: white !important;
+	display: inline-block;
 }

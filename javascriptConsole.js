@@ -434,11 +434,8 @@ function completionObject(inputElement, outPutElement) {
 			var fragment = document.createDocumentFragment();
 			for ( var i=0; i<list.length; i++ ) {
 				var span = document.createElement("span");
-				var separator = document.createElement("span");
-				separator.innerHTML = " ";
 				span.innerHTML = list[i].replace(/^.*\./, ""); 
 				fragment.appendChild(span);
-				fragment.appendChild(separator);
 			}
 			outPutElement.appendChild(fragment);
 			outPutElement.style.display = "block";
@@ -448,7 +445,7 @@ function completionObject(inputElement, outPutElement) {
 
 			var newIndex = null;
 
-			var lastSelection = outPutElement.childNodes[lastIndex*2];
+			var lastSelection = outPutElement.childNodes[lastIndex];
 			if (lastSelection)
 				lastSelection.style.backgroundColor = "";
 
@@ -462,7 +459,7 @@ function completionObject(inputElement, outPutElement) {
 			}
 
 			expand(lastMatches[newIndex]);
-			var newSelection = outPutElement.childNodes[newIndex*2];
+			var newSelection = outPutElement.childNodes[newIndex];
 			newSelection.style.backgroundColor = "grey";
 			newSelection.style.borderRadius = 3;
 
