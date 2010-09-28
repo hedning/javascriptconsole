@@ -8,15 +8,15 @@ var userStyle = importModule("userStyle");
 
 var defineBindings = bindings.defineBindings,
 defineContext = bindings.defineContext,
-setMode = bindings.setMode,
 defineMode = bindings.defineMode,
-addUserCssRule = userStyle.addUserCssRule,
-enableStyles = userStyle.enableStyles,
-storeStyle = userStyle.storeStyle,
-inspect = searchTools.inspect,
 _;
 
 var privateEval = (function () {
+	var inspect = searchTools.inspect,
+	addUserCssRule = userStyle.addUserCssRule,
+	setMode = bindings.setMode,
+	enableStyles = userStyle.enableStyles,
+	storeStyle = userStyle.storeStyle;
 	return function (str) {
 		return eval(str);
 	};
