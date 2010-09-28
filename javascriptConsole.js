@@ -83,7 +83,7 @@ function javascriptConsole() {
 		this.outPut.style.display = "block";
 	};
 
-	this.history = state.getVariable("persistentHist") || [];
+	this.history = state.getVariable("persistentHist", "session") || [];
 	var histPosition = this.history.length;
 	var cacheHist = this.history.slice(0);
 
@@ -91,7 +91,7 @@ function javascriptConsole() {
 		var lastEntry = this.history[this.history.length - 1]
 		if ( entry != lastEntry && ! entry.match(/^\s*$/) ){
 			this.history.push(entry);
-			state.saveVariable("persistentHist", this.history);
+			state.saveVariable("persistentHist", this.history, "session");
 		}
 
 		histPosition = this.history.length;
