@@ -40,8 +40,6 @@ function javascriptConsole() {
 		if ( !this.wrapDiv ) {
 			this.wrapDiv = document.createElement("div");
 			this.wrapDiv.className = "wrapDiv";
-			this.wrapDiv.style.display = "none";
-			document.body.appendChild(this.wrapDiv);
 		}
 		append.call(this, elementType);
 		
@@ -50,15 +48,13 @@ function javascriptConsole() {
 
 
 	this.open = function () {
-		//this.applyStyle(this.query, this.queryStyle);
-		this.wrapDiv.style.display = "block";
-		// temporarily
+		document.body.appendChild(this.wrapDiv);
 		this.outPut.scrollTop = this.outPut.scrollHeight;
 		this.focus();
 	};
 	this.close = function () {
 		this.query.blur();
-		this.wrapDiv.style.display = "none";
+		document.body.removeChild(this.wrapDiv);
 	};
 	this.focus = function () {
 		this.query.focus();
