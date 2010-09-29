@@ -6,7 +6,7 @@
 	{
 		"matches": ["http://*/*", "file:///*/*", "https://*/*"],
 		"css": ["javascriptConsole.css"],
-		"js": ["generalstuff.js", "keybindSystem.js", "persistentStyleSystem.js", "javascriptConsole.js", "keybindings.js", "history.js", "scroll.js"  ],
+		"js": ["modules.js", "generalstuff.js", "keybindSystem.js", "persistentStyleSystem.js", "javascriptConsole.js", "keybindings.js", "history.js", "scroll.js"  ],
 		"run_at": "document_start"
 	}
 	]
