@@ -25,6 +25,8 @@ defineContext("textInput", function (node) {
 		return false;
 });
 
+defineMode("textInput", "command");
+
 defineContext("link", function (node) {
 	if ( node.nodeName.toLowerCase() === "a" )
 		return true;
@@ -48,13 +50,21 @@ defineBindings(
 		{ bind: "<ctrl>d", action: scrollAction("pageDown"), context: "global" },
 		{ bind: " ", action: scrollAction("pageDown"), context: "document" },
 		{ bind: "<ctrl>[^dus]", context: "global", preventDefault: false }, // dummy binding to enable certain standard keybindings
-		{ bind: "<esc>", action: blurInput, context: "textInput"},
+		{ bind: "<esc>", action: commandMode, context: "textInput"},
+		{ bind: "<esc>", action: blurInput, context: "textInput.command"},
+		{ bind: ".", context: "textInput.command"},
+		{ bind: "<[^<>]*>", context: "textInput.command", preventDefault: false},
+		{ bind: "i", action: insertMode, context: "textInput.command"},
 		{ bind: "<ctrl>u", action: clearInput, context: "textInput"},
 		{ bind: "<ctrl>d", action: forwardDelete, context: "textInput"},
 		{ bind: "<ctrl>a", action: moveToLineStart, context: "textInput"},
 		{ bind: "<ctrl>e", action: moveToLineEnd, context: "textInput"},
+		{ bind: "\\$", action: moveToLineEnd, context: "textInput.command"},
+		{ bind: "0", action: moveToLineStart, context: "textInput.command"},
 		{ bind: "<ctrl>o", context: "textInput", subMap: true },
-		{ bind: "<ctrl>o(.)", action: moveToKey, context: "textInput" }
+		{ bind: "<ctrl>o(.)", action: moveToKey, context: "textInput" },
+		{ bind: "f", action: moveToKey, context: "textInput.command", subMap: true },
+		{ bind: "f(.)", action: moveToKey, context: "textInput.command" }
 );
 
 function blurInput(match, input) {
@@ -170,6 +180,17 @@ function moveToKey(match, input) {
 
 	}
 }
+
+function commandMode(match, target) {
+	setMode(target, "command");
+	target.style.outline = "red 1px solid";
+}
+function insertMode(match, target) {
+	setMode(target, "");
+	target.style.outline = "";
+}
+
+
 
 // ---}}} end text edit functions
 
