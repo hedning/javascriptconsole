@@ -51,9 +51,9 @@ defineBindings(
 		{ bind: " ", action: scrollAction("pageDown"), context: "document" },
 		{ bind: "<ctrl>[^dus]", context: "global", preventDefault: false }, // dummy binding to enable certain standard keybindings
 		{ bind: "<esc>", action: commandMode, context: "textInput"},
+		{ bind: "<[^<>]*>", context: "textInput.command", preventDefault: false},
 		{ bind: "<esc>", action: blurInput, context: "textInput.command"},
 		{ bind: ".", context: "textInput.command"},
-		{ bind: "<[^<>]*>", context: "textInput.command", preventDefault: false},
 		{ bind: "i", action: insertMode, context: "textInput.command"},
 		{ bind: "<ctrl>u", action: clearInput, context: "textInput"},
 		{ bind: "<ctrl>d", action: forwardDelete, context: "textInput"},
