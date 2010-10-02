@@ -210,8 +210,10 @@ function keyeventHandler(e) {
 }
 
 
-var inputString = new String;
-function keybindHandler(key, eventTarget) {
+var keybindHandler = (function(){
+
+	var inputString = new String;
+	return function(key, eventTarget) {
 
 	var matches = [], match;
 	var bind, action, mode, context, longest=0, length, binding;
@@ -254,7 +256,8 @@ function keybindHandler(key, eventTarget) {
 		}
 	}
 	return false;
-}
+	}
+}());
 
 
 window.addEventListener("keydown", keyeventHandler, false);
