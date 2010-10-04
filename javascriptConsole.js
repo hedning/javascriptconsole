@@ -167,7 +167,10 @@ var javascriptConsole = (function(){
 		this.currentStyle = this.wrapDiv.currentStyle;
 
 		defineContext("console", function (node) {
-			return node == that.query;
+			if (node.completion)
+				return node.completion.constructor === completionObject;
+			else
+				return false;
 		} );
 		defineMode("console", "command");
 
