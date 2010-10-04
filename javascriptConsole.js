@@ -127,7 +127,7 @@ var javascriptConsole = (function(){
 	};
 
 	return function () {
-		var obj = this;
+		var that = this;
 		this.evalKey = 13;
 		this.prompt = "-"+"$".fontcolor("#EB2513")+": ";
 
@@ -167,15 +167,15 @@ var javascriptConsole = (function(){
 		this.currentStyle = this.wrapDiv.currentStyle;
 
 		defineContext("console", function (node) {
-			return node == obj.query;
+			return node == that.query;
 		} );
 		defineMode("console", "command");
 
-		defineBindings( { bind: "<enter>", action: function(){obj.evalQuery()}, context: "console" },
-						{ bind: "<esc>", action:function(){obj.close()}, context: "console.command", hookBind: true },
-						{ bind: "<ctrl>p", action:function(){obj.prevHistEntry()}, context: "console" },
-						{ bind: "<ctrl>n", action:function(){obj.nextHistEntry()}, context: "console" },
-						{ bind: "<ctrl>l", action:function(){obj.outPut.clear()}, context: "console" }
+		defineBindings( { bind: "<enter>", action: function(){that.evalQuery()}, context: "console" },
+						{ bind: "<esc>", action:function(){that.close()}, context: "console.command", hookBind: true },
+						{ bind: "<ctrl>p", action:function(){that.prevHistEntry()}, context: "console" },
+						{ bind: "<ctrl>n", action:function(){that.nextHistEntry()}, context: "console" },
+						{ bind: "<ctrl>l", action:function(){that.outPut.clear()}, context: "console" }
 			);
 	}
 }());
