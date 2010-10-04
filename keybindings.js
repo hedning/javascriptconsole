@@ -67,8 +67,8 @@ defineBindings(
 		{ bind: "f(.)", action: moveToKey, context: "textInput.command" }
 );
 
-function blurInput(match, input) {
-	input.blur();
+function blurInput(match) {
+	this.blur();
 }
 
 
@@ -141,53 +141,53 @@ function setCursorPosition(input, index) {
 	input.setSelectionRange(index, index);
 }
 
-function clearInput(match, eventTarget) { eventTarget.value = ""; };
+function clearInput(match) { this.value = ""; };
 
-function forwardDelete(match, input) {
+function forwardDelete(match) {
 
-	var value = input.value;
-	var pos = input.selectionEnd
+	var value = this.value;
+	var pos = this.selectionEnd
 
 	var right = value.slice(pos + 1);
 	var left = value.slice(0, pos);
 
-	input.value = left + right;
-	setCursorPosition(input, pos);
+	this.value = left + right;
+	setCursorPosition(this, pos);
 }
 
-function moveToLineEnd(match, input) {
-	var end = input.textLength;
-	setCursorPosition(input, end);
+function moveToLineEnd(match) {
+	var end = this.textLength;
+	setCursorPosition(this, end);
 }
 
-function moveToLineStart(match, input) {
-	setCursorPosition(input, 0);
+function moveToLineStart(match) {
+	setCursorPosition(this, 0);
 }
 
-function moveToKey(match, input) {
+function moveToKey(match) {
 
 	var key = match[1];
-	if ( input.selectionEnd == input.selectionStart ) {
-		var position = input.selectionEnd;
-		var str = input.value.slice(position);
+	if ( this.selectionEnd == this.selectionStart ) {
+		var position = this.selectionEnd;
+		var str = this.value.slice(position);
 		var newPosition = str.indexOf(key)+position;
 		if ( newPosition == position )
 			newPosition = str.indexOf(key, 1)+position;
 
 		if ( newPosition > position )
-			input.setSelectionRange(newPosition, newPosition);
+			this.setSelectionRange(newPosition, newPosition);
 //		log("key: "+key,"str: "+str,"newPosition: "+newPosition, "matchL: "+match);
 
 	}
 }
 
-function commandMode(match, target) {
-	setMode(target, "command");
-	target.style.outline = "red 1px solid";
+function commandMode(match) {
+	setMode(this, "command");
+	this.style.outline = "red 1px solid";
 }
-function insertMode(match, target) {
-	setMode(target, "");
-	target.style.outline = "";
+function insertMode(match) {
+	setMode(this, "");
+	this.style.outline = "";
 }
 
 
@@ -210,25 +210,25 @@ function insertMode(match, target) {
 	};
 
 
-	function mouseoverHandler(match, target) {
-		currentMouseOverElement = target;
-		setStyle(target);
+	function mouseoverHandler(match) {
+		currentMouseOverElement = this;
+		setStyle(this);
 	}
 
-	function mouseoutHandler(match, target) {
-		setStyle(target, true);
+	function mouseoutHandler(match) {
+		setStyle(this, true);
 	}
 
-	function clickHandler(match, target) {
+	function clickHandler(match) {
 		var cli = document.getElementsByClassName("wrapDiv")[0];
 		var input = cli.getElementsByTagName("textarea")[0];
-		var name = target.nodeName, id = target.id, className = target.className;
+		var name = this.nodeName, id = this.id, className = this.className;
 		if ( id )
 			name += "_id$" + id;
 		if (className)
 			name += "_class$" + className;
 		name = name.replace(/[^\w$_]+/g, "_");
-		window[name] = target;
+		window[name] = this;
 		input.value = name;
 	}
 
