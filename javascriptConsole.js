@@ -46,14 +46,11 @@ var javascriptConsole = (function(){
 	var open = function () {
 		document.body.appendChild(this.wrapDiv);
 		this.outPut.scrollTop = this.outPut.scrollHeight;
-		this.focus();
+		this.query.focus();
 	};
 	var close = function () {
 		this.query.blur();
 		document.body.removeChild(this.wrapDiv);
-	};
-	var focus = function () {
-		this.query.focus();
 	};
 	var evalWrap = function (str) {
 		try {
@@ -143,7 +140,6 @@ var javascriptConsole = (function(){
 		this.create = create;
 		this.open = open;
 		this.close = close;
-		this.focus = focus;
 		this.evalWrap = evalWrap;
 		this.evalQuery = evalQuery;
 		this.outPutAppend = outPutAppend;
