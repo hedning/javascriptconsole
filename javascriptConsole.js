@@ -22,16 +22,12 @@ var privateEval = (function () {
 	};
 }());
 
-function javascriptConsole() {
+var javascriptConsole = (function(){
 
 	_ = null;
-	var obj = this;
-	this.evalKey = 13;
-	this.prompt = "$ ".fontcolor("grey");
-
 
 	// appends a child of type elementType to this.wrapDiv
-	this.create = function (elementType) {
+	var create = function (elementType) {
 		var createdEle;
 		function append(str){
 			createdEle = document.createElement(str);
@@ -47,19 +43,19 @@ function javascriptConsole() {
 	};
 
 
-	this.open = function () {
+	var open = function () {
 		document.body.appendChild(this.wrapDiv);
 		this.outPut.scrollTop = this.outPut.scrollHeight;
 		this.focus();
 	};
-	this.close = function () {
+	var close = function () {
 		this.query.blur();
 		document.body.removeChild(this.wrapDiv);
 	};
-	this.focus = function () {
+	var focus = function () {
 		this.query.focus();
 	};
-	this.evalWrap = function (str) {
+	var evalWrap = function (str) {
 		try {
 			return privateEval(str);
 		}
@@ -67,7 +63,7 @@ function javascriptConsole() {
 			return error;
 		}
 	};
-	this.evalQuery = function () {
+	var evalQuery = function () {
 		var evalText = this.query.value;
 		this.query.value = "";
 		// should have a javascript validator here
@@ -77,7 +73,7 @@ function javascriptConsole() {
 		this.outPutAppend(output, evalText);
 		this.autoCompOut.clear()
 	};
-	this.outPutAppend  = function (output, input) {
+	var outPutAppend  = function (output, input) {
 		if ( ! ( output == undefined ) ){
 			output = output.toString().replace(/<(.*?)>/g, "&lt;$1&gt;");
 			output = output.toString().replace(/\r\n|\n|\f|\r/g, "<br>");
@@ -87,41 +83,42 @@ function javascriptConsole() {
 		this.outPut.style.display = "block";
 	};
 
-	this.history = state.getVariable("persistentHist", "session") || [];
-	var histPosition = this.history.length;
-	var cacheHist = this.history.slice(0);
+	var outPutClear = 	function () {
+			this.innerHTML = "";
+			this.style.display = "none";
+		};
 
-	this.histAppend = function (entry) {
+	var histAppend = function (entry) {
 		var lastEntry = this.history[this.history.length - 1]
 		if ( entry != lastEntry && ! entry.match(/^\s*$/) ){
 			this.history.push(entry);
 			state.saveVariable("persistentHist", this.history, "session");
 		}
 
-		histPosition = this.history.length;
-		cacheHist = this.history.slice(0);
+		this.histPosition = this.history.length;
+		this.cacheHist = this.history.slice(0);
 	};
 	
-	this.prevHistEntry = function () {
-		var prevEntry = cacheHist[histPosition - 1];
+	var prevHistEntry = function () {
+		var prevEntry = this.cacheHist[this.histPosition - 1];
 		if ( prevEntry ) {
-			cacheHist[histPosition] = this.query.value;
+			this.cacheHist[this.histPosition] = this.query.value;
 			this.query.value = prevEntry;
-			histPosition--;
+			this.histPosition--;
 		}
 	};
 
-	this.nextHistEntry = function () {
-		var nextEntry = cacheHist[histPosition + 1];
+	var nextHistEntry = function () {
+		var nextEntry = this.cacheHist[this.histPosition + 1];
 		if ( nextEntry || nextEntry == "") {
-			cacheHist[histPosition] = this.query.value;
+			this.cacheHist[this.histPosition] = this.query.value;
 			this.query.value = nextEntry;
-			histPosition++;
+			this.histPosition++;
 		}
 
 	};
 
-	this.historySearch = function (str) {
+	var historySearch = function (str) {
 //		str = str.replace(/([\.^$\[\]\{\}\(\)\*\?\\\+])/g, "\\$1");
 		for ( var i=histPosition-1; i>=0; i-- ) {
 			if ( this.history[i].search(str) != -1 ){
@@ -132,51 +129,66 @@ function javascriptConsole() {
 		}
 	};
 
-	this.applyStyle = function (element, style) {
+	var applyStyle = function (element, style) {
 		for ( var i in style ) {
 			element.style[i] = style[i];
 		}
 	};
 
-	this.outPut = this.create("div");
-	this.autoCompOut = this.create("div");
-	this.outPut.style.display = "none"; 
-	this.autoCompOut.style.display = "none";
-	this.query = this.create("textarea");
-	this.query.rows = 1;
+	return function () {
+		var obj = this;
+		this.evalKey = 13;
+		this.prompt = "-"+"$".fontcolor("#EB2513")+": ";
 
-	this.query.completion = new completionObject(this.query, this.autoCompOut);
-	this.complete = this.query.completion.complete;
+		this.create = create;
+		this.open = open;
+		this.close = close;
+		this.focus = focus;
+		this.evalWrap = evalWrap;
+		this.evalQuery = evalQuery;
+		this.outPutAppend = outPutAppend;
 
-	this.wrapDiv.className = "wrapDiv"; 
-	this.outPut.className = "outPut"; 
-	this.autoCompOut.className = "autoCompOut";
-	this.query.className = "query";
+		this.history = state.getVariable("persistentHist", "session") || [];
+		this.histPosition = this.history.length;
+		this.cacheHist = this.history.slice(0);
+		this.nextHistEntry = nextHistEntry;
+		this.prevHistEntry = prevHistEntry;
+		this.histAppend = histAppend;
 
-	this.outPut.clear = function () {
-		this.innerHTML = "";
-		this.style.display = "none";
-	}
-	this.autoCompOut.clear = function () {
-		this.innerHTML = "";
-		this.style.display = "none";
-	}
+		this.outPut = this.create("div");
+		this.autoCompOut = this.create("div");
+		this.outPut.style.display = "none";
+		this.autoCompOut.style.display = "none";
+		this.query = this.create("textarea");
+		this.query.rows = 1;
 
-	this.style = this.wrapDiv.style;
-	this.currentStyle = this.wrapDiv.currentStyle;
+		this.query.completion = new completionObject(this.query, this.autoCompOut);
+		this.complete = this.query.completion.complete;
 
-	defineContext("console", function (node) {
-		return node == obj.query;
-	} );
-	defineMode("console", "command");
+		this.wrapDiv.className = "wrapDiv";
+		this.outPut.className = "outPut";
+		this.autoCompOut.className = "autoCompOut";
+		this.query.className = "query";
 
-	defineBindings( { bind: "<enter>", action: function(){obj.evalQuery()}, context: "console" },
-					{ bind: "<esc>", action:function(){obj.close()}, context: "console.command", hookBind: true },
-					{ bind: "<ctrl>p", action:function(){obj.prevHistEntry()}, context: "console" },
-					{ bind: "<ctrl>n", action:function(){obj.nextHistEntry()}, context: "console" },
-					{ bind: "<ctrl>l", action:function(){obj.outPut.clear()}, context: "console" }
+		this.outPut.clear = outPutClear;
+		this.autoCompOut.clear = outPutClear;
+
+		this.style = this.wrapDiv.style;
+		this.currentStyle = this.wrapDiv.currentStyle;
+
+		defineContext("console", function (node) {
+			return node == obj.query;
+		} );
+		defineMode("console", "command");
+
+		defineBindings( { bind: "<enter>", action: function(){obj.evalQuery()}, context: "console" },
+						{ bind: "<esc>", action:function(){obj.close()}, context: "console.command", hookBind: true },
+						{ bind: "<ctrl>p", action:function(){obj.prevHistEntry()}, context: "console" },
+						{ bind: "<ctrl>n", action:function(){obj.nextHistEntry()}, context: "console" },
+						{ bind: "<ctrl>l", action:function(){obj.outPut.clear()}, context: "console" }
 			);
-}
+	}
+}());
 
 (function(){
 	var cli;

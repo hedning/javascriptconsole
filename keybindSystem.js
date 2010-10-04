@@ -229,19 +229,18 @@ var keybindHandler = (function(){
 		if ( match && context(eventTarget) ) {
 			length = match[0].length;
 			if ( binding.hookBind ) length = 0;
-			matches.unshift({index: i, match: match, priority: length});
+			matches.push({index: i, match: match, priority: length});
 		}
 	}
 	
 	matches.sort( function (a, b) {
-			if ( a.priority === 0 ) return -1;
-			if ( b.priority === 0 ) return 1;
-			if ( a.priority < b.priority ) return 1;
-			if ( a.priority > b.priority ) return -1;
-			return 0;
+			if ( a.priority === 0 ) return 1;
+			if ( b.priority === 0 ) return -1;
+			if ( a.priority === b.priority ) return 0;
+			return a.priority > b.priority ? 1 : -1;
 			});
 
-	for ( var i=0; i < matches.length; i++ ){
+	for ( i = matches.length - 1; i >= 0; i-- ){
 		binding = keybindings[matches[i].index]
 		action = binding.action;
 		if ( log.actionLogging && !binding.hookBind )
