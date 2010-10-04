@@ -126,12 +126,6 @@ var javascriptConsole = (function(){
 		}
 	};
 
-	var applyStyle = function (element, style) {
-		for ( var i in style ) {
-			element.style[i] = style[i];
-		}
-	};
-
 	return function () {
 		var obj = this;
 		this.evalKey = 13;
