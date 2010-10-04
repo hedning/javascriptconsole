@@ -247,7 +247,7 @@ var keybindHandler = (function(){
 		if ( log.actionLogging && !binding.hookBind )
 			log("binding: "+binding.bind, "action taken: "+action, "eventTarget: "+eventTarget, "match: "+matches[i].match);
 		try {
-			action(matches[i].match, eventTarget); 
+			action.call(eventTarget, matches[i].match, eventTarget);
 		} catch(e) { log(e); };
 		if ( ! binding.hookBind ) {
 			if ( ! binding.subMap )
