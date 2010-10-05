@@ -442,9 +442,8 @@ function completionObject(inputElement, outPutElement) {
 			}
 			outPutElement.appendChild(fragment);
 			outPutElement.style.display = "block";
-
 		}
-		function cycleMatches() {
+		function cycleMatches(matches) {
 			var newIndex = null,
 			spans = outPutElement.childNodes;
 
@@ -453,15 +452,15 @@ function completionObject(inputElement, outPutElement) {
 				lastSelection.style.backgroundColor = "";
 
 			if ( lastIndex == "new") {
-				newIndex = ( directionSwitch ? lastMatches.length - 1 : 0 );
+				newIndex = ( directionSwitch ? matches.length - 1 : 0 );
 
 			} else {
 				newIndex = lastIndex + ( directionSwitch ? -1 : 1 );
-				if ( newIndex == lastMatches.length || newIndex == -1)
-					newIndex = ( directionSwitch ? lastMatches.length - 1 : 0 );
+				if ( newIndex == matches.length || newIndex == -1)
+					newIndex = ( directionSwitch ? matches.length - 1 : 0 );
 			}
 
-			expand(lastMatches[newIndex]);
+			expand(matches[newIndex]);
 			var newSelection = spans[newIndex];
 			newSelection.style.backgroundColor = "grey";
 			newSelection.style.borderRadius = 3;
@@ -474,7 +473,7 @@ function completionObject(inputElement, outPutElement) {
 
 		if ( lastMatches ) {
 
-			cycleMatches()
+			cycleMatches(lastMatches)
 
 		} else {
 
