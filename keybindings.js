@@ -11,7 +11,7 @@ defineMode = bindings.defineMode;
 
 
 defineContext("document", function (node) {
-	nodeName = node.nodeName.toLowerCase();
+	var nodeName = node.nodeName.toLowerCase();
 	return nodeName !== "input" && nodeName !== "textarea" && !node.isContentEditable;
 });
 
