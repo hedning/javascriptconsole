@@ -445,10 +445,10 @@ function completionObject(inputElement, outPutElement) {
 
 		}
 		function cycleMatches() {
+			var newIndex = null,
+			spans = outPutElement.childNodes;
 
-			var newIndex = null;
-
-			var lastSelection = outPutElement.childNodes[lastIndex];
+			var lastSelection = spans[lastIndex];
 			if (lastSelection)
 				lastSelection.style.backgroundColor = "";
 
@@ -462,7 +462,7 @@ function completionObject(inputElement, outPutElement) {
 			}
 
 			expand(lastMatches[newIndex]);
-			var newSelection = outPutElement.childNodes[newIndex];
+			var newSelection = spans[newIndex];
 			newSelection.style.backgroundColor = "grey";
 			newSelection.style.borderRadius = 3;
 
