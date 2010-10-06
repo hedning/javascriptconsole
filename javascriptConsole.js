@@ -126,6 +126,14 @@ var javascriptConsole = (function(){
 		}
 	};
 
+	defineContext("console", function (node) {
+		if (node.completion)
+			return node.completion.constructor === completionObject;
+		else
+			return false;
+	} );
+	defineMode("console", "command");
+
 	return function () {
 		var that = this;
 		this.evalKey = 13;
@@ -165,14 +173,6 @@ var javascriptConsole = (function(){
 
 		this.style = this.wrapDiv.style;
 		this.currentStyle = this.wrapDiv.currentStyle;
-
-		defineContext("console", function (node) {
-			if (node.completion)
-				return node.completion.constructor === completionObject;
-			else
-				return false;
-		} );
-		defineMode("console", "command");
 
 		defineBindings( { bind: "<enter>", action: function(){that.evalQuery()}, context: "console" },
 						{ bind: "<esc>", action:function(){that.close()}, context: "console.command", hookBind: true },
