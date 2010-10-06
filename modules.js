@@ -12,7 +12,9 @@ createModule = function (name, moduleObject) {
 };
 
 importModule = function (name) {
-	return new modules[name];
+	var module = new modules[name];
+	module.constructor = undefined;
+	return module;
 };
 
 }());
