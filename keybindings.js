@@ -112,9 +112,9 @@ function scrollAction(y, x) {
 			if ( y == null )
 				argY = 0;
 			if ( y == "pageDown" )
-				 argY = clientHeight <= innerHeight ? clientHeight-10 : innerHeight-10;
+				 argY = clientHeight <= innerHeight ? clientHeight-40 : innerHeight-40;
 			if ( y == "pageUp" )
-				 argY = clientHeight <= innerHeight ? -clientHeight+10 : -innerHeight+10;
+				 argY = clientHeight <= innerHeight ? -clientHeight+40 : -innerHeight+40;
 //			log("x: "+x+", "+argX,"y: "+y+", "+argY);
 			scrollBy(argX,argY);
 		}
