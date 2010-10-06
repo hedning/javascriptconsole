@@ -86,6 +86,19 @@ if ( window.chrome ) {
 	);
 }
 
+if ( "moveFocusUp", "moveFocusDown", "moveFocusRight", "moveFocusLeft" in document ) {
+	var moveFocus = function (direction) {
+		return function () {
+			document["moveFocus"+direction]();
+		}
+	};
+	defineBindings({ bind: "H|<shift><down>", action: moveFocus("Down")},
+				   { bind: "T|<shift><up>", action: moveFocus("Up")},
+				   { bind: "D|<shift><left>", action: moveFocus("Left")},
+				   { bind: "N|<shift><right>", action: moveFocus("Right")}
+			);
+}
+
 
 function scrollAction(y, x) {
 	var relative;
