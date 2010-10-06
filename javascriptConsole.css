@@ -1,11 +1,11 @@
-div.wrapDiv { 
+.wrapDiv { 
 	overflow: hidden !important;
 	right: 7px;
 	left: 7px;
-	bottom: 0px;
+	bottom: 14px;
 	position: fixed !important;
 	padding: 0px !important;
-	margin: 0 auto !important;
+	margin: 0 auto 0 auto !important;
 	width: auto !important;
 	max-width: 700px !important;
 	border: 2px solid grey!important;
@@ -13,20 +13,14 @@ div.wrapDiv {
 	text-align: left !important;
 	z-index: 999 !important;
 }
-textarea.query { 
-	overflow: hidden !important;
-	width: 100% !important;
+.wrapDiv > .query { 
 	background-color: hsla(0, 100%, 0%, 0.65) !important;
-	color: white !important;
 	height: auto !important;
-	margin: 0px !important;
-	border: 0px none !important;
+	border: none !important;
 	padding: 2px !important;
-	font-family: Verdana !important;
-	font-size: 14px !important;
 	padding: 4px !important;
 }
-div.outPut, div.autoCompOut { 
+.wrapDiv > .outPut, .autoCompOut, .query { 
 	overflow: hidden !important;
 	padding: 0 !important;
 	padding-left: 2px !important;
@@ -37,19 +31,26 @@ div.outPut, div.autoCompOut {
 	border-top: 0 !important;
 	border-left: 0 !important;
 	border-right: 0 !important;
+	margin: 0px !important;
 	background-color: hsla(0, 100%, 0%, 0.9) !important;
 	font-family: Verdana !important;
-	font-size: 14px !important;
+	font-size: 11pt !important;
 	color: white !important;
 	width: 100% !important;
 	max-width: 100% !important;
-	max-height: 430px !important;
+	max-height: 40em !important;
+}
+.wrapDiv > .autoCompOut {
+	max-height: 13em !important;
+	padding-left: 0 !important;
 }
 .wrapDiv > .autoCompOut span {
 	font-family: Verdana !important;
-	font-size: 14px !important;
+	font-size: 11pt !important;
 	padding: 0 2px; !important;
-	margin: 0 2px;
+	margin: 0 1px; !important;
+	line-height: 1.2em !important;
 	color: white !important;
-	display: inline-block;
+	display: inline-block !important;
+	border: none !important;
 }
