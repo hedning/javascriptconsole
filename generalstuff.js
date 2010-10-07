@@ -95,16 +95,6 @@ function reportSizeInit() {
 
 }
 
-// from: http://blog.andyhot.gr/a/TapFX/?permalink=Allowing_Tapestry_components_to_contribute_CSS.html&smm=y
-addRemoteStyleSheet = function (styleUrl) {
-	var styles = "@import url('" + styleUrl + "');";
-	var newSS=document.createElement('link');
-	newSS.rel='stylesheet';
-	newSS.href='data:text/css,'+escape(styles);
-	document.getElementsByTagName("head")[0].appendChild(newSS);
-};
-
-
 (function(){
 var log = function () {
 
