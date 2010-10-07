@@ -29,10 +29,6 @@ addLocalStyleSheet();
 var addUserCssRule = function (rule) {
 
 	var stylesheet = getLocalStylesheet();
-	if ( ! stylesheet ) {
-		setTimeout(function(){addUserCssRule(rule)}, 20);
-		return false;
-	}
 	stylesheet.disabled = disableStyles;
 	rule = rule.replace(/!important/, "");
 	rule = rule.replace(/\}/, "!important }");
