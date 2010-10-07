@@ -19,16 +19,11 @@ function getLocalStylesheet() {
 
 
 function addLocalStyleSheet () {
-	var head = document.getElementsByTagName("head")[0];
-	if ( ! head ) {
-		setTimeout(addLocalStyleSheet, 20);
-		return false;
-	}
-
-	var stylesheet = document.createElement("style");
+	var html = document.documentElement,
+	stylesheet = document.createElement("style");
 	stylesheet.rel = "stylesheet";
 	stylesheet.title = "localStyle";
-	head.appendChild(stylesheet);
+	html.appendChild(stylesheet);
 }
 addLocalStyleSheet();
 
