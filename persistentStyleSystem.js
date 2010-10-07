@@ -33,12 +33,10 @@ var addUserCssRule = function (rule) {
 		stylesheet.insertRule(rule, 0); 
 	}
 	catch(error){ 
-		err = error;
 		log("catch error: "+error);
 	}
 
 };
-
 
 function applyPersistentCss() {
 
