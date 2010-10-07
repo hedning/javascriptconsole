@@ -31,9 +31,11 @@ var addUserCssRule = function (rule) {
 	rule = rule.replace(/\}/, "!important }");
 	try { 
 		stylesheet.insertRule(rule, 0); 
+		return true;
 	}
 	catch(error){ 
 		log("catch error: "+error);
+		return false;
 	}
 
 };
@@ -50,8 +52,10 @@ function applyPersistentCss() {
 applyPersistentCss();
 
 var storeStyle = function (rule) {
-	persistentCssRules.push(rule);
-	state.saveVariable("persistentCssRules", persistentCssRules);
+	if (addUserCssRule(rule)) {
+		persistentCssRules.push(rule);
+		state.saveVariable("persistentCssRules", persistentCssRules);
+	}
 };
 
 var enableStyles = function (bool) {
