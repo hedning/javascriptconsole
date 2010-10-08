@@ -167,9 +167,6 @@ var javascriptConsole = (function(){
 		this.outPut.clear = outPutClear;
 		this.autoCompOut.clear = outPutClear;
 
-		this.style = this.wrapDiv.style;
-		this.currentStyle = this.wrapDiv.currentStyle;
-
 		defineBindings( { bind: "<enter>", action: function(){that.evalQuery()}, context: "console" },
 						{ bind: "<esc>", action:function(){that.close()}, context: "console", hookBind: true },
 						{ bind: "<ctrl>p", action:function(){that.prevHistEntry()}, context: "console" },
