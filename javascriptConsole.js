@@ -100,30 +100,16 @@ var javascriptConsole = (function(){
 		}
 	};
 	
-	var prevHistEntry = function (history, cacheHist, histPosition) {
+	var navigateHist = function (history, cacheHist, histPosition, incr) {
 		return function () {
-			var prevEntry = cacheHist[histPosition[0] - 1];
-			if ( prevEntry ) {
+			var entry = cacheHist[histPosition[0] + incr];
+			if ( entry ) {
 				cacheHist[histPosition[0]] = this.query.value;
-				this.query.value = prevEntry;
-				histPosition[0] -= 1;
+				this.query.value = entry;
+				histPosition[0] += incr;
 			}
 		}
 	};
-
-	var nextHistEntry = function (history, cacheHist, histPosition) {
-		return function () {
-			log(histPosition);
-			var nextEntry = cacheHist[histPosition[0] + 1];
-			if ( nextEntry || nextEntry == "") {
-				cacheHist[histPosition[0]] = this.query.value;
-				this.query.value = nextEntry;
-				histPosition[0] += 1;
-			}
-		}
-
-	};
-
 	var historySearch = function (str) {
 //		str = str.replace(/([\.^$\[\]\{\}\(\)\*\?\\\+])/g, "\\$1");
 		for ( var i=histPosition-1; i>=0; i-- ) {
@@ -159,8 +145,8 @@ var javascriptConsole = (function(){
 		this.evalQuery = evalQuery;
 		this.outPutAppend = outPutAppend;
 
-		this.nextHistEntry = nextHistEntry(history, cacheHist, histPosition);
-		this.prevHistEntry = prevHistEntry(history, cacheHist, histPosition);
+		this.nextHistEntry = navigateHist(history, cacheHist, histPosition, 1);
+		this.prevHistEntry = navigateHist(history, cacheHist, histPosition, -1);
 		this.histAppend = histAppend(history, cacheHist, histPosition);
 
 		this.outPut = this.create("div");
