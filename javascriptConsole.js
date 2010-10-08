@@ -65,7 +65,7 @@ var javascriptConsole = (function(){
 		this.query.value = "";
 		// should have a javascript validator here
 		this.histAppend(evalText);
-		var output = this.evalWrap(evalText);
+		var output = evalWrap(evalText);
 		_ = output;
 		this.outPutAppend(output, evalText);
 		this.autoCompOut.clear()
@@ -141,7 +141,6 @@ var javascriptConsole = (function(){
 		this.create = create;
 		this.open = open;
 		this.close = close;
-		this.evalWrap = evalWrap;
 		this.evalQuery = evalQuery;
 		this.outPutAppend = outPutAppend;
 
