@@ -85,32 +85,41 @@ var javascriptConsole = (function(){
 			this.style.display = "none";
 		};
 
-	var histAppend = function (entry) {
-		var lastEntry = this.history[this.history.length - 1]
-		if ( entry != lastEntry && ! entry.match(/^\s*$/) ){
-			this.history.push(entry);
-			state.saveVariable("persistentHist", this.history, "session");
-		}
+	var histAppend = function (history, cacheHist, histPosition) {
+		return function (entry) {
+			var lastEntry = history[history.length - 1]
+			if ( entry != lastEntry && ! entry.match(/^\s*$/) ){
+				history.push(entry);
+				state.saveVariable("persistentHist", history, "session");
+			}
 
-		this.histPosition = this.history.length;
-		this.cacheHist = this.history.slice(0);
+			histPosition[0] = history.length;
+			for ( var i=0; i < history.length; i++) {
+				cacheHist[i] = history[i];
+			}
+		}
 	};
 	
-	var prevHistEntry = function () {
-		var prevEntry = this.cacheHist[this.histPosition - 1];
-		if ( prevEntry ) {
-			this.cacheHist[this.histPosition] = this.query.value;
-			this.query.value = prevEntry;
-			this.histPosition--;
+	var prevHistEntry = function (history, cacheHist, histPosition) {
+		return function () {
+			var prevEntry = cacheHist[histPosition[0] - 1];
+			if ( prevEntry ) {
+				cacheHist[histPosition[0]] = this.query.value;
+				this.query.value = prevEntry;
+				histPosition[0] -= 1;
+			}
 		}
 	};
 
-	var nextHistEntry = function () {
-		var nextEntry = this.cacheHist[this.histPosition + 1];
-		if ( nextEntry || nextEntry == "") {
-			this.cacheHist[this.histPosition] = this.query.value;
-			this.query.value = nextEntry;
-			this.histPosition++;
+	var nextHistEntry = function (history, cacheHist, histPosition) {
+		return function () {
+			log(histPosition);
+			var nextEntry = cacheHist[histPosition[0] + 1];
+			if ( nextEntry || nextEntry == "") {
+				cacheHist[histPosition[0]] = this.query.value;
+				this.query.value = nextEntry;
+				histPosition[0] += 1;
+			}
 		}
 
 	};
@@ -135,7 +144,11 @@ var javascriptConsole = (function(){
 	defineMode("console", "command");
 
 	return function () {
-		var that = this;
+
+		var that = this,
+		history = state.getVariable("persistentHist", "session") || [],
+		cacheHist = history.slice(0),
+		histPosition = [history.length];
 		this.evalKey = 13;
 		this.prompt = "-"+"$".fontcolor("#EB2513")+": ";
 
@@ -146,12 +159,9 @@ var javascriptConsole = (function(){
 		this.evalQuery = evalQuery;
 		this.outPutAppend = outPutAppend;
 
-		this.history = state.getVariable("persistentHist", "session") || [];
-		this.histPosition = this.history.length;
-		this.cacheHist = this.history.slice(0);
-		this.nextHistEntry = nextHistEntry;
-		this.prevHistEntry = prevHistEntry;
-		this.histAppend = histAppend;
+		this.nextHistEntry = nextHistEntry(history, cacheHist, histPosition);
+		this.prevHistEntry = prevHistEntry(history, cacheHist, histPosition);
+		this.histAppend = histAppend(history, cacheHist, histPosition);
 
 		this.outPut = this.create("div");
 		this.autoCompOut = this.create("div");
