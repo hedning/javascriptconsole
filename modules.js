@@ -14,14 +14,14 @@ if (typeof Object.create !== 'function') {
 createModule = function (name, moduleObject) {
 	if ( modules[name] )
 		throw "Module already exist";
-	if ( typeof moduleObject !== "function" )
-		throw "Module '" +name+"' is not a constructor (function)";
+	if ( typeof moduleObject !== "object" )
+		throw "Module '" +name+"' is not an object";
 
 	return modules[name] = moduleObject;
 };
 
 importModule = function (name) {
-	var module = new modules[name];
+	var module = Object.create(modules[name]);
 	module.constructor = undefined;
 	return module;
 };
