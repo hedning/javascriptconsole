@@ -63,10 +63,10 @@ var enableStyles = function (bool) {
 	state.saveVariable("disableStyles", !bool);
 };
 
-createModule("userStyle", function(){
-		this.storeStyle = storeStyle;
-		this.addUserCssRule = addUserCssRule;
-		this.enableStyles = enableStyles;
+createModule("userStyle", {
+		storeStyle: storeStyle,
+		addUserCssRule: addUserCssRule,
+		enableStyles: enableStyles
 });
 
 }());
