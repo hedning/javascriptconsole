@@ -12,8 +12,8 @@
 		return output.replace(/\n$/, "");
 	};
 
-	createModule("objectSearchTools", function () {
-			this.inspect = inspect;
+	createModule("objectSearchTools", {
+			inspect: inspect
 		});
 
 }());
@@ -112,7 +112,7 @@ var log = function () {
 		window.console && console.log(output);
 };
 
-createModule("log", function(){ this.log = log; });
+createModule("log", {log : log});
 
 }());
 
@@ -129,33 +129,31 @@ var reviver = function (key, value) {
 	return value;
 };
 
-createModule("persistentState", (function () {
-	var identifier = "myStoredVariable:";
+var identifier = "myStoredVariable:";
+var storeType = function (store) {
+	return store === "session" ? sessionStorage: localStorage;
+};
+createModule("persistentState", {
 
-	var storeType = function (store) {
-		return store === "session" ? sessionStorage: localStorage;
-	};
-
-	this.saveVariable = function (name, variable, type) {
+	saveVariable: function (name, variable, type) {
 		var stringifiedVar = JSON.stringify(variable);
 		var store = storeType(type)
 		store.setItem(identifier+name, stringifiedVar);
-	};
+	},
 
-	this.getVariable = function (name, type) {
+	getVariable: function (name, type) {
 		var store = storeType(type);
 		var stringified = store[identifier+name];
 		return stringified ? JSON.parse(stringified, reviver) : undefined;
-	};
+	},
 
-	this.deleteVariable = function (name, type) {
+	deleteVariable: function (name, type) {
 		var oldVar = getVariable(name, type);
 		var store = storeType(type);
 		store.removeItem(identifier+name);
 		return oldVar;
 	}
-})
-);
+});
 
 
 (function(){
@@ -179,16 +177,15 @@ createModule("persistentState", (function () {
 
 	var deleteData = function (element, key) {
 		var id = ids.indexOf(element);
-		if ( !id ) {
+		if (!id) {
 			return false;
 		}
 		delete store[id][key];
 	};
-
-	createModule("dataStore", function () {
-		this.storeData = storeData;
-		this.deleteData = storeData;
-		this.getData = getData;
+	createModule("dataStore", {
+		storeData: storeData,
+		deleteData: storeData,
+		getData: getData
 	});
 }());
 

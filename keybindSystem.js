@@ -353,15 +353,13 @@ var deleteBindings = function () {
 	}
 };
 
-createModule("bindings", function () {
+createModule("bindings", {
+			defineBindings: defineBindings,
+			deleteBindings: deleteBindings,
+			defineContext: defineContext,
 
-		this.defineBindings = defineBindings;
-		this.deleteBindings = deleteBindings;
-		this.defineContext = defineContext;
-		
-		this.setMode = setMode;
-		this.defineMode = defineMode;
-
+			setMode: setMode,
+			defineMode: defineMode
 		}
 );
 
