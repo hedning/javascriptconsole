@@ -278,35 +278,16 @@ function completionObject(inputElement, outPutElement) {
 			// replaces starting literals with their prototype
 			var litMark = "\\" + element.match(/^[\[{"'\/]/); // ]}
 			if ( litMark != "\\null" ) {
-				var matchingMark;
-				var builtinType;
-				switch ( litMark ) {
-					case "\\[":
-						matchingMark = "\\]";
-						builtinType = Array.prototype;
-						break;
-					case "\\{":
-						matchingMark = "\\}";
-						builtinType = Object.prototype;
-						break;
-					case '\\"':
-						matchingMark = '\\"';
-						builtinType = String.prototype;
-						break;
-					case "\\'":
-						matchingMark = "\\'";
-						builtinType = String.prototype;
-						break;
-					case '\\/':
-						matchingMark = '\\/[igm]*';
-						builtinType = RegExp.prototype;
-						break;
-				}
+				var litMarks = { "\\[": ["\\]", Array], "\\{": ["\\}", Object],
+					"\\'": ["\\'", String], '\\"': ['\\"', String],
+					"\\/": ["\\/[img]*", RegExp]},
+				matchingMark = litMarks[litMark][0],
+				builtinType = litMarks[litMark][1];
 				// should be replaced with something that counts the []/{} properly
 				var reg = new RegExp("^"+litMark+"[^"+matchingMark+"]*"+matchingMark+"\\.?");
 				if ( restEle.search(reg) != -1 ){
 					restEle = restEle.replace(reg, "");
-					recObj = builtinType;
+					recObj = builtinType.prototype;
 				}
 			}
 			// builds up the element we'll look for matches in
