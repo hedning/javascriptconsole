@@ -135,7 +135,6 @@ var javascriptConsole = (function(){
 		history = state.getVariable("persistentHist", "session") || [],
 		cacheHist = history.slice(0),
 		histPosition = [history.length];
-		this.evalKey = 13;
 		this.prompt = "-"+"$".fontcolor("#EB2513")+": ";
 
 		this.create = create;
