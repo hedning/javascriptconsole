@@ -129,6 +129,9 @@ var javascriptConsole = (function(){
 	} );
 	defineMode("console", "command");
 
+	defineBindings( { bind: "<shift><tab>", action: function(){ this.completion.complete(true)}, context: "console" } );
+	defineBindings( { bind: "<tab>", action: function(){ this.completion.complete()}, context: "console" } );
+
 	return function () {
 
 		var that = this,
@@ -155,7 +158,6 @@ var javascriptConsole = (function(){
 		this.query.rows = 1;
 
 		this.query.completion = new completionObject(this.query, this.autoCompOut);
-		this.complete = this.query.completion.complete;
 
 		this.wrapDiv.className = "wrapDiv";
 		this.outPut.className = "outPut";
@@ -476,10 +478,7 @@ function completionObject(inputElement, outPutElement) {
 		}
 	}
 
-
 	defineBindings( { bind: ".*", action: clearComp, context: "console", hookBind: true} );
-	defineBindings( { bind: "<shift><tab>", action: function(){ obj.complete(true)}, context: "console" } );
-	defineBindings( { bind: "<tab>", action: function(){ obj.complete()}, context: "console" } );
 	
 }
 }())
