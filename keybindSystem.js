@@ -332,7 +332,7 @@ var defineBindings = function () {
 		binding.preventDefault = binding.preventDefault === false ? false : true;
 		binding.stopPropagating = binding.stopPropagating || false;
 		binding.context = binding.context || "document";
-		if ( type(binding.context) === "String" )
+		if ( typeof binding.context === "string" )
 			binding.context = getContext(binding.context);
 		binding.mode = binding.mode || "default"; 
 		binding.mode = binding.mode || "default"; 

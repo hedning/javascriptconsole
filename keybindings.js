@@ -98,7 +98,7 @@ if ( "moveFocusUp", "moveFocusDown", "moveFocusRight", "moveFocusLeft" in docume
 
 function scrollAction(y, x) {
 	var relative;
-	if ( type(x) == "Number" || type(y) == "Number" || y == "pageDown" || y == "pageUp" )
+	if ( typeof x == "number" || typeof y == "number" || y == "pageDown" || y == "pageUp" )
 		relative = true;
 
 	if ( relative ) {

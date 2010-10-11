@@ -19,7 +19,7 @@
 }());
 
 
-type = function (o){
+var type = function (o){
 	return !!o && Object.prototype.toString.call(o).match(/(\w+)\]/)[1];
 };
 
