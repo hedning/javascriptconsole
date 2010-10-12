@@ -219,7 +219,7 @@ var keybindHandler = (function(){
 	var bind, action, mode, context, longest=0, length, binding;
 	inputString += key;
 
-	for ( var i=0; i < keybindings.length; i++ ) {
+	for (var i = 0, l = keybindings.length; i < l; i++) {
 
 		binding = keybindings[i];
 		bind = binding.bind;
@@ -241,7 +241,7 @@ var keybindHandler = (function(){
 			return 0;
 			});
 
-	for ( var i=0; i < matches.length; i++ ){
+	for (var i = 0, l = matches.length; i < l; i++){
 		binding = keybindings[matches[i].index]
 		action = binding.action;
 		if ( log.actionLogging && !binding.hookBind )
@@ -324,7 +324,7 @@ var setMode = function (context, mode) {
 
 var defineBindings = function () {
 
-	for ( var i=0; i < arguments.length; i++ ) {
+	for (var i = 0, l = arguments.length; i < l; i++) {
 
 		var binding = arguments[i];
 		if ( ! binding.bind ) 
@@ -347,7 +347,7 @@ var defineBindings = function () {
 var deleteBindings = function () {
 
 	var index;
-	for ( var i=0; i < arguments.length; i++ ) {
+	for (var i = 0, l = arguments.length; i < l; i++) {
 		index = keybindings.indexOf(arguments[i]);
 		keybindings.splice(index, 1);
 	}

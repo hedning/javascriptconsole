@@ -94,7 +94,7 @@ var javascriptConsole = (function(){
 			}
 
 			histPosition[0] = history.length;
-			for ( var i=0; i < history.length; i++) {
+			for (var i = 0, l = history.length; i < l; i++) {
 				cacheHist[i] = history[i];
 			}
 		}
@@ -321,13 +321,13 @@ function completionObject(inputElement, outPutElement) {
 			}
 		}
 		// adds the matching builtins methods and properties of the object
-		for ( var i = 0; i < objectNode.length; i++ ) {
+		for (var i = 0, l = objectNode.length; i < l; i++) {
 			if ( objectNode[i].search(rest) != -1 && recObj[objectNode[i]] != undefined ) {
 					matches.push(element + objectNode[i]);
 			}
 		}
 		// adds the matching builtins, like typeof
-		for ( var i = 0; i < builtIns.length; i++ ) {
+		for (var i = 0, l = builtIns.length; i < l; i++) {
 			if ( builtIns[i].search(rest) != -1){
 					matches.push(builtIns[i]);
 			}
@@ -373,7 +373,7 @@ function completionObject(inputElement, outPutElement) {
 				testCommon = list[0][p];
 				var preserveCase = false;
 
-				for ( var i = 1; i < list.length; i++ ) {
+				for (var i = 1, l = list.length; i < l; i++) {
 					var curr = list[i];
 					if ( shortest > curr.length )
 						shortest = curr.length;
@@ -409,7 +409,7 @@ function completionObject(inputElement, outPutElement) {
 		}
 		function showComps (list) {
 			var fragment = document.createDocumentFragment();
-			for ( var i=0; i<list.length; i++ ) {
+			for (var i = 0, l = list.length; i < l; i++) {
 				var span = document.createElement("span");
 				span.innerHTML = list[i].replace(/^.*\./, ""); 
 				fragment.appendChild(span);
