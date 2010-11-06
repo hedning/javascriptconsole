@@ -412,6 +412,7 @@ function completionObject(inputElement, outPutElement) {
 			for (var i = 0, l = list.length; i < l; i++) {
 				var span = document.createElement("span");
 				span.innerHTML = list[i].replace(/^.*\./, ""); 
+				span.className = "completionItem";
 				fragment.appendChild(span);
 			}
 			outPutElement.appendChild(fragment);

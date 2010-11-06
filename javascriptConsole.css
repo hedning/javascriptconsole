@@ -44,7 +44,10 @@
 	max-height: 13em !important;
 	padding-left: 0 !important;
 }
-.wrapDiv > .autoCompOut span {
+
+span.completionItem {
+	padding: 0 2px !important;
+	margin: 0 1px !important;
 	font-family: Verdana !important;
 	font-size: 11pt !important;
 	padding: 0 2px; !important;
