@@ -121,16 +121,6 @@ var javascriptConsole = (function(){
 		}
 	};
 
-	defineContext("console", function (node) {
-		if (node.completion)
-			return node.completion.constructor === completionObject;
-		else
-			return false;
-	} );
-	defineMode("console", "command");
-
-	defineBindings( { bind: "<shift><tab>", action: function(){ this.completion.complete(true)}, context: "console" } );
-	defineBindings( { bind: "<tab>", action: function(){ this.completion.complete()}, context: "console" } );
 
 	return function () {
 
@@ -138,6 +128,23 @@ var javascriptConsole = (function(){
 		history = state.getVariable("persistentHist", "session") || [],
 		cacheHist = history.slice(0),
 		histPosition = [history.length];
+
+		function context(node) {
+			return node === that.query;
+		}
+		defineBindings({ bind: "<enter>", action: function(){that.evalQuery()},
+				context: context },
+					{ bind: "<esc>", action:function(){that.close()},
+				context: context, hookBind: true },
+					{ bind: "<ctrl>p", action:function(){that.prevHistEntry()},
+				context: context },
+					{ bind: "<ctrl>n", action:function(){that.nextHistEntry()},
+				context: context },
+					{ bind: "<ctrl>l", action:function(){that.outPut.clear()},
+				context: context }
+		);
+
+
 		this.prompt = "-"+"$".fontcolor("#EB2513")+": ";
 
 		this.create = create;
@@ -166,14 +173,7 @@ var javascriptConsole = (function(){
 
 		this.outPut.clear = outPutClear;
 		this.autoCompOut.clear = outPutClear;
-
-		defineBindings( { bind: "<enter>", action: function(){that.evalQuery()}, context: "console" },
-						{ bind: "<esc>", action:function(){that.close()}, context: "console", hookBind: true },
-						{ bind: "<ctrl>p", action:function(){that.prevHistEntry()}, context: "console" },
-						{ bind: "<ctrl>n", action:function(){that.nextHistEntry()}, context: "console" },
-						{ bind: "<ctrl>l", action:function(){that.outPut.clear()}, context: "console" }
-			);
-	}
+		}
 }());
 
 (function(){
@@ -466,8 +466,13 @@ function completionObject(inputElement, outPutElement) {
 			outPutElement.clear();
 		}
 	}
+	function context(node) {
+		return obj === node.completion;
+	}
 
-	defineBindings( { bind: ".*", action: clearComp, context: "console", hookBind: true} );
+	defineBindings( { bind: ".*", action: clearComp, context: context, hookBind: true} );
+	defineBindings( { bind: "<shift><tab>", action: function(){ this.completion.complete(true)}, context: context } );
+	defineBindings( { bind: "<tab>", action: function(){ this.completion.complete()}, context: context } );
 	
 }
 }())
