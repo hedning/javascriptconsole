@@ -338,33 +338,20 @@ function completionObject(inputElement, outPutElement) {
 	};
 
 	var lastMatches = null;
-	var lastIndex = "new";
 
-	function cycleMatches(matches, directionSwitch) {
-		var newIndex = null,
-		spans = outPutElement.childNodes;
-
-		var lastSelection = spans[lastIndex];
-		if (lastSelection)
-			lastSelection.style.backgroundColor = "";
-
-		if ( lastIndex == "new") {
-			newIndex = ( directionSwitch ? matches.length - 1 : 0 );
-		} else {
-			newIndex = lastIndex + ( directionSwitch ? -1 : 1 );
-			if ( newIndex == matches.length || newIndex == -1)
-				newIndex = ( directionSwitch ? matches.length - 1 : 0 );
-		}
-
-		var newSelection = spans[newIndex];
-		newSelection.style.backgroundColor = "grey";
-		newSelection.style.borderRadius = 3;
-
-		"scrollIntoViewIfNeeded" in newSelection && newSelection.scrollIntoViewIfNeeded();
-
-		lastIndex = newIndex;
-		return matches[newIndex]
-	}
+	var createCycle = function (matches) {
+			var spans = outPutElement.childNodes,
+			end = matches.length - 1,
+			i = -1;
+			return function (direction) {
+				spans[i] &&(spans[i].style.cssText = "");
+				i += direction ? -1: 1;
+				if (i < 0) i = end; if (i > end) i = 0;
+				spans[i] &&(spans[i].style.cssText = 
+						"border-radius: 3px; background-color: grey");
+				return matches[i];
+			};
+	};
 
 	function expandToClosest (list, word) {
 		var commonPart = "",
@@ -422,7 +409,10 @@ function completionObject(inputElement, outPutElement) {
 		outPutElement.style.display = "block";
 	}
 
-	this.complete = function(directionSwitch) {
+	this.complete = (function(){
+		var cycle;
+
+		return function(directionSwitch) {
 
 		if ( !( inputElement.selectionEnd == inputElement.selectionStart ) )
 			return false;
@@ -447,12 +437,11 @@ function completionObject(inputElement, outPutElement) {
 		}
 
 		if ( lastMatches ) {
-
-			expand(cycleMatches(matches, directionSwitch))
-
+			expand(cycle(directionSwitch))
 		} else {
 
 			var matches = this.completor(activeWord, leftContext, rightContext);
+			cycle = createCycle(matches);
 
 			outPutElement.clear();
 
@@ -462,7 +451,6 @@ function completionObject(inputElement, outPutElement) {
 				expand(matches[0]);
 			} else {
 				lastMatches = matches;
-				lastIndex = "new";
 				expand(expandToClosest(matches, activeWord));
 				showComps(matches);
 			}
@@ -470,11 +458,11 @@ function completionObject(inputElement, outPutElement) {
 		}
 		return true;
 	};
+	}());
 
 	function clearComp (match) {
 		if ( match[0] != "<tab>" && match[0] != "<shift><tab>" ) {
 			lastMatches = null;
-			lastIndex = "new";
 			outPutElement.clear();
 		}
 	}
