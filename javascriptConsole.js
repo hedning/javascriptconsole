@@ -437,16 +437,16 @@ function completionObject(inputElement, outPutElement) {
 		}
 
 		if ( lastMatches ) {
-			expand(cycle(directionSwitch))
+			expand(cycle(directionSwitch));
 		} else {
 
 			var matches = this.completor(activeWord, leftContext, rightContext);
 
 			outPutElement.clear();
 
-			if ( matches.length == 0 ){
+			if ( matches.length === 0 ){
 				return false;
-			} else if ( matches.length == 1 ) {
+			} else if ( matches.length === 1 ) {
 				expand(matches[0]);
 			} else {
 				cycle = createCycle(matches);
