@@ -340,6 +340,88 @@ function completionObject(inputElement, outPutElement) {
 	var lastMatches = null;
 	var lastIndex = "new";
 
+	function cycleMatches(matches, directionSwitch) {
+		var newIndex = null,
+		spans = outPutElement.childNodes;
+
+		var lastSelection = spans[lastIndex];
+		if (lastSelection)
+			lastSelection.style.backgroundColor = "";
+
+		if ( lastIndex == "new") {
+			newIndex = ( directionSwitch ? matches.length - 1 : 0 );
+		} else {
+			newIndex = lastIndex + ( directionSwitch ? -1 : 1 );
+			if ( newIndex == matches.length || newIndex == -1)
+				newIndex = ( directionSwitch ? matches.length - 1 : 0 );
+		}
+
+		var newSelection = spans[newIndex];
+		newSelection.style.backgroundColor = "grey";
+		newSelection.style.borderRadius = 3;
+
+		"scrollIntoViewIfNeeded" in newSelection && newSelection.scrollIntoViewIfNeeded();
+
+		lastIndex = newIndex;
+		return matches[newIndex]
+	}
+
+	function expandToClosest (list, word) {
+		var commonPart = "",
+		common = true,
+		shortest = list[0].length,
+		testCommon = word;
+
+		for ( var p = 0; p < shortest; p++ ) {
+			testCommon = list[0][p];
+			var preserveCase = false;
+
+			for (var i = 1, l = list.length; i < l; i++) {
+				var curr = list[i];
+				if ( shortest > curr.length )
+					shortest = curr.length;
+				
+				if ( curr[p] != testCommon ) {
+					if ( curr[p].toLowerCase() != testCommon.toLowerCase() ) {
+						common = false;
+						break;
+					} else {
+						preserveCase = true;
+					}
+				}
+			}
+
+			if ( common ) {
+				if (preserveCase) {
+					if ( p < word.length )
+						commonPart += word[p];
+					else
+						commonPart += list[0][p];
+				} else {
+					commonPart += list[0][p];
+				}
+			} else
+				break;
+		}
+
+		if ( commonPart ) {
+			return commonPart;
+		}
+
+	}
+
+	function showComps (list) {
+		var fragment = document.createDocumentFragment();
+		for (var i = 0, l = list.length; i < l; i++) {
+			var span = document.createElement("span");
+			span.innerHTML = list[i].replace(/^.*\./, ""); 
+			span.className = "completionItem";
+			fragment.appendChild(span);
+		}
+		outPutElement.appendChild(fragment);
+		outPutElement.style.display = "block";
+	}
+
 	this.complete = function(directionSwitch) {
 
 		if ( !( inputElement.selectionEnd == inputElement.selectionStart ) )
@@ -363,92 +445,10 @@ function completionObject(inputElement, outPutElement) {
 			var newPosition = startWord + str.length;
 			inputElement.setSelectionRange(newPosition, newPosition);
 		}
-		function expandToClosest (list, word) {
-			var commonPart = "";
-			var common = true;
-			var shortest = list[0].length;
-			var testCommon = word;
-
-			for ( var p = 0; p < shortest; p++ ) {
-				testCommon = list[0][p];
-				var preserveCase = false;
-
-				for (var i = 1, l = list.length; i < l; i++) {
-					var curr = list[i];
-					if ( shortest > curr.length )
-						shortest = curr.length;
-					
-					if ( curr[p] != testCommon ) {
-						if ( curr[p].toLowerCase() != testCommon.toLowerCase() ) {
-							common = false;
-							break;
-						} else {
-							preserveCase = true;
-						}
-					}
-
-				}
-
-				if ( common ) {
-					if (preserveCase) {
-						if ( p < word.length )
-							commonPart += word[p];
-						else
-							commonPart += list[0][p];
-					} else {
-						commonPart += list[0][p];
-					}
-				} else
-					break;
-			}
-
-			if ( commonPart ) {
-				expand(commonPart);
-			}
-
-		}
-		function showComps (list) {
-			var fragment = document.createDocumentFragment();
-			for (var i = 0, l = list.length; i < l; i++) {
-				var span = document.createElement("span");
-				span.innerHTML = list[i].replace(/^.*\./, ""); 
-				span.className = "completionItem";
-				fragment.appendChild(span);
-			}
-			outPutElement.appendChild(fragment);
-			outPutElement.style.display = "block";
-		}
-		function cycleMatches(matches) {
-			var newIndex = null,
-			spans = outPutElement.childNodes;
-
-			var lastSelection = spans[lastIndex];
-			if (lastSelection)
-				lastSelection.style.backgroundColor = "";
-
-			if ( lastIndex == "new") {
-				newIndex = ( directionSwitch ? matches.length - 1 : 0 );
-
-			} else {
-				newIndex = lastIndex + ( directionSwitch ? -1 : 1 );
-				if ( newIndex == matches.length || newIndex == -1)
-					newIndex = ( directionSwitch ? matches.length - 1 : 0 );
-			}
-
-			expand(matches[newIndex]);
-			var newSelection = spans[newIndex];
-			newSelection.style.backgroundColor = "grey";
-			newSelection.style.borderRadius = 3;
-
-			"scrollIntoViewIfNeeded" in newSelection && newSelection.scrollIntoViewIfNeeded();
-
-			lastIndex = newIndex;
-		}
-		
 
 		if ( lastMatches ) {
 
-			cycleMatches(lastMatches)
+			expand(cycleMatches(matches, directionSwitch))
 
 		} else {
 
@@ -463,7 +463,7 @@ function completionObject(inputElement, outPutElement) {
 			} else {
 				lastMatches = matches;
 				lastIndex = "new";
-				expandToClosest(matches, activeWord);
+				expand(expandToClosest(matches, activeWord));
 				showComps(matches);
 			}
 
