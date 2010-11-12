@@ -417,14 +417,14 @@ function completionObject(inputElement, outPutElement) {
 		if ( !( inputElement.selectionEnd == inputElement.selectionStart ) )
 			return false;
 
-		var inPutString = inputElement.value;
-		var position = inputElement.selectionEnd;
-		var valueTab = splitString(inPutString, position);
-		var leftContext = valueTab[0];
-		var activeWord = valueTab[1];
-		var rightContext = valueTab[2];
-		var startWord = leftContext.length;
-		var endWord = startWord + activeWord.length;
+		var inPutString = inputElement.value,
+		position = inputElement.selectionEnd,
+		valueTab = splitString(inPutString, position),
+		leftContext = valueTab[0],
+		activeWord = valueTab[1],
+		rightContext = valueTab[2],
+		startWord = leftContext.length,
+		endWord = startWord + activeWord.length;
 
 		// will not complete if you haven't started a word
 		if ( ! activeWord )
