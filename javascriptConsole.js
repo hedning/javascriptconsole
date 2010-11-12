@@ -337,7 +337,6 @@ function completionObject(inputElement, outPutElement) {
 
 	};
 
-	var lastMatches = null;
 
 	var createCycle = function (matches) {
 			var spans = outPutElement.childNodes,
@@ -409,6 +408,7 @@ function completionObject(inputElement, outPutElement) {
 		outPutElement.style.display = "block";
 	}
 
+	var inCycle = false;
 	this.complete = (function(){
 		var cycle;
 
@@ -436,7 +436,7 @@ function completionObject(inputElement, outPutElement) {
 			inputElement.setSelectionRange(newPosition, newPosition);
 		}
 
-		if ( lastMatches ) {
+		if (inCycle) {
 			expand(cycle(directionSwitch));
 		} else {
 
@@ -450,7 +450,7 @@ function completionObject(inputElement, outPutElement) {
 				expand(matches[0]);
 			} else {
 				cycle = createCycle(matches);
-				lastMatches = matches;
+				inCycle = true;
 				expand(expandToClosest(matches, activeWord));
 				showComps(matches);
 			}
@@ -462,7 +462,7 @@ function completionObject(inputElement, outPutElement) {
 
 	function clearComp (match) {
 		if ( match[0] != "<tab>" && match[0] != "<shift><tab>" ) {
-			lastMatches = null;
+			inCycle = false;
 			outPutElement.clear();
 		}
 	}
