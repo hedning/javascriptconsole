@@ -441,7 +441,6 @@ function completionObject(inputElement, outPutElement) {
 		} else {
 
 			var matches = this.completor(activeWord, leftContext, rightContext);
-			cycle = createCycle(matches);
 
 			outPutElement.clear();
 
@@ -450,6 +449,7 @@ function completionObject(inputElement, outPutElement) {
 			} else if ( matches.length == 1 ) {
 				expand(matches[0]);
 			} else {
+				cycle = createCycle(matches);
 				lastMatches = matches;
 				expand(expandToClosest(matches, activeWord));
 				showComps(matches);
