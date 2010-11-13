@@ -352,48 +352,20 @@ function completionObject(inputElement, outPutElement) {
 			};
 	};
 
-	function expandToClosest (list, word) {
-		var commonPart = "",
-		common = true,
-		shortest = list[0].length,
-		testCommon = word;
-
-		for ( var p = 0; p < shortest; p++ ) {
-			testCommon = list[0][p];
-			var preserveCase = false;
-
-			for (var i = 1, l = list.length; i < l; i++) {
-				var curr = list[i];
-				if ( shortest > curr.length )
-					shortest = curr.length;
-				
-				if ( curr[p] != testCommon ) {
-					if ( curr[p].toLowerCase() != testCommon.toLowerCase() ) {
-						common = false;
-						break;
-					} else {
-						preserveCase = true;
-					}
-				}
-			}
-
-			if ( common ) {
-				if (preserveCase) {
-					if ( p < word.length )
-						commonPart += word[p];
-					else
-						commonPart += list[0][p];
-				} else {
-					commonPart += list[0][p];
-				}
-			} else
+	// Takes two array-like arguments and returns their common part
+	function common(a, b) {
+		var common = new a.constructor,
+		l = a.length;
+		for (var j=0; j < l; j++) {
+			if (a[j].toLowerCase() === b[j].toLowerCase())
+				common = common.concat(a[j]);
+			else
 				break;
 		}
-
-		if ( commonPart ) {
-			return commonPart;
-		}
-
+		return common;
+	}
+	function expandToClosest(list) {
+		return list.reduce(common);
 	}
 
 	function showComps (list) {
