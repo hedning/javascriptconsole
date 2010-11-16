@@ -61,10 +61,9 @@ var javascriptConsole = (function(){
 		}
 	};
 	var evalQuery = function () {
-		var evalText = this.query.value;
-		this.query.value = "";
-		// should have a javascript validator here
-		this.histAppend(evalText);
+		var evalText = this.query.textContent;
+		this.query.clear();
+		this.histAppend(this.query.innerHTML);
 		var output = evalWrap(evalText);
 		_ = output;
 		this.outPutAppend(output, evalText);
@@ -84,6 +83,14 @@ var javascriptConsole = (function(){
 			this.innerHTML = "";
 			this.style.display = "none";
 		};
+
+	var queryClear = function () {
+		var s = getSelection(),
+		range = s.getRangeAt(0);
+		range.selectNodeContents(this);
+		s.addRange(range);
+		document.execCommand("delete");
+	};
 
 	var histAppend = function (history, cacheHist, histPosition) {
 		return function (entry) {
@@ -161,8 +168,9 @@ var javascriptConsole = (function(){
 		this.autoCompOut = this.create("div");
 		this.outPut.style.display = "none";
 		this.autoCompOut.style.display = "none";
-		this.query = this.create("textarea");
-		this.query.rows = 1;
+		this.query = this.create("div");
+		this.query.contentEditable = true;
+		this.query.clear = queryClear;
 
 		this.query.completion = new completionObject(this.query, this.autoCompOut);
 
@@ -195,18 +203,15 @@ function completionObject(inputElement, outPutElement) {
 				return false;
 			position = inputElement.selectionEnd;
 		}
-		var value = inputElement.value;
+		var value = inputElement.textContent;
 
-		inputElement.value = value.slice(0, position) + str 
+		inputElement.textContent = value.slice(0, position) + str
 			+ value.slice(position, value.length);
 	};
 
-	this.replace = function(start, end, replacement) {
-		var value = inputElement.value;
-		var leftContext = value.slice(0,start);
-		var rightContext = value.slice(end,value.length);
-
-		inputElement.value = leftContext + replacement + rightContext;
+	this.replace = function(replacement) {
+		document.execCommand("delete");
+		document.execCommand("insertHTML", false, replacement)
 	};
 
 	this.wordConstituents = "[/\\w\\{\\}_$\\.\\[\\]\"']";
@@ -389,8 +394,10 @@ function completionObject(inputElement, outPutElement) {
 		if ( !( inputElement.selectionEnd == inputElement.selectionStart ) )
 			return false;
 
-		var inPutString = inputElement.value,
-		position = inputElement.selectionEnd,
+		var inPutString = inputElement.textContent,
+		s = getSelection();
+		range = s.getRangeAt(0),
+		position = range.startOffset,
 		valueTab = splitString(inPutString, position),
 		leftContext = valueTab[0],
 		activeWord = valueTab[1],
@@ -403,9 +410,10 @@ function completionObject(inputElement, outPutElement) {
 			return false ;
 
 		function expand (str) {
-			obj.replace(startWord, endWord, str);
-			var newPosition = startWord + str.length;
-			inputElement.setSelectionRange(newPosition, newPosition);
+			var range = s.getRangeAt(0);
+			range.setStart(range.startContainer, startWord);
+			s.addRange(range);
+			obj.replace(str);
 		}
 
 		if (inCycle) {
