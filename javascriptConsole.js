@@ -86,10 +86,8 @@ var javascriptConsole = (function(){
 
 	var queryClear = function () {
 		var s = getSelection(),
-		range = s.getRangeAt(0);
-		range.selectNodeContents(this);
-		s.addRange(range);
-		document.execCommand("delete");
+		text = s.getRangeAt(0).startContainer;
+		text.textContent = "";
 	};
 
 	var histAppend = function (history, cacheHist, histPosition) {
@@ -410,10 +408,12 @@ function completionObject(inputElement, outPutElement) {
 			return false ;
 
 		function expand (str) {
-			var range = s.getRangeAt(0);
-			range.setStart(range.startContainer, startWord);
-			s.addRange(range);
-			obj.replace(str);
+			var r = s.getRangeAt(0),
+			tNode = r.startContainer,
+			newText = tNode.textContent.slice(0, startWord) + str;
+			tNode.textContent = newText;
+			r.setEnd(r.endContainer, startWord + str.length);
+			r.collapse(false); s.removeAllRanges(); s.addRange(r);
 		}
 
 		if (inCycle) {
