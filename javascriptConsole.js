@@ -410,8 +410,9 @@ function completionObject(inputElement, outPutElement) {
 		function expand (str) {
 			var r = s.getRangeAt(0),
 			tNode = r.startContainer,
-			newText = tNode.textContent.slice(0, startWord) + str;
-			tNode.textContent = newText;
+			leftText = tNode.textContent.slice(0, startWord) + str,
+			rightText = tNode.textContent.slice(startWord + activeWord.length);
+			tNode.textContent = leftText + rightText;
 			r.setEnd(r.endContainer, startWord + str.length);
 			r.collapse(false); s.removeAllRanges(); s.addRange(r);
 		}
