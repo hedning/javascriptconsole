@@ -104,13 +104,13 @@ var javascriptConsole = (function(){
 			}
 		}
 	};
-	
+
 	var navigateHist = function (history, cacheHist, histPosition, incr) {
 		return function () {
 			var entry = cacheHist[histPosition[0] + incr];
-			if ( entry ) {
-				cacheHist[histPosition[0]] = this.query.value;
-				this.query.value = entry;
+			if (entry) {
+				cacheHist[histPosition[0]] = this.query.innerHTML;
+				this.query.innerHTML = entry;
 				histPosition[0] += incr;
 			}
 		}
