@@ -107,10 +107,11 @@ var javascriptConsole = (function(){
 
 	var navigateHist = function (history, cacheHist, histPosition, incr) {
 		return function () {
+			var tNode = this.query.firstChild;
 			var entry = cacheHist[histPosition[0] + incr];
 			if (entry) {
-				cacheHist[histPosition[0]] = this.query.innerHTML;
-				this.query.innerHTML = entry;
+				cacheHist[histPosition[0]] = tNode.textContent;
+				tNode.textContent = entry;
 				histPosition[0] += incr;
 			}
 		}
