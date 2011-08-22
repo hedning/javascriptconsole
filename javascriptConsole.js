@@ -76,8 +76,8 @@ var javascriptConsole = (function(){
 	};
 	var evalQuery = function () {
 		var evalText = this.query.textContent;
-		this.query.clear();
 		this.histAppend(this.query.innerHTML);
+		this.query.clear();
 		var output = evalWrap(evalText);
 		_ = output;
 		this.outPutAppend(output, evalText);
