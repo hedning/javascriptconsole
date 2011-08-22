@@ -36,6 +36,7 @@ var javascriptConsole = (function(){
 		if ( !this.wrapDiv ) {
 			this.wrapDiv = document.createElement("div");
 			this.wrapDiv.className = "wrapDiv";
+			document.body.appendChild(this.wrapDiv);
 		}
 		append.call(this, elementType);
 		
@@ -44,13 +45,13 @@ var javascriptConsole = (function(){
 
 
 	var open = function () {
-		document.body.appendChild(this.wrapDiv);
+		this.wrapDiv.style.display = "block";
 		this.outPut.scrollTop = this.outPut.scrollHeight;
 		this.query.focus();
 	};
 	var close = function () {
 		this.query.blur();
-		document.body.removeChild(this.wrapDiv);
+		this.wrapDiv.style.display = "none";
 	};
 	var evalWrap = function (str) {
 		try {
