@@ -357,10 +357,16 @@ function completionObject(inputElement, outPutElement) {
 			}
 		}
 
-		return matches;
-
+		return matches.filter((function () {
+				var li = [];
+				return function (match) {
+					if ( li.indexOf(match) !== -1 )
+						return false;
+					li.push(match);
+					return true;
+					}
+				}()));
 	};
-
 
 	var createCycle = function (matches) {
 			var spans = outPutElement.childNodes,
