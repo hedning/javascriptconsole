@@ -2,13 +2,26 @@
 
 var bindings = importModule("bindings");
 var state = importModule("persistentState");
-var log = importModule("log").log;
+var logTools = importModule("log");
 var searchTools = importModule("objectSearchTools");
 var userStyle = importModule("userStyle");
+
+var consoleCompletion = [];
+(function () {
+	var obj;
+	var j = 0;
+	while ( obj = arguments[j] ) {
+		for ( var i in obj ) {
+			consoleCompletion.push(i)
+		}
+		j++;
+	}
+})(bindings, logTools, searchTools, userStyle, {"_":""});
 
 var defineBindings = bindings.defineBindings,
 defineContext = bindings.defineContext,
 defineMode = bindings.defineMode,
+log = logTools.log,
 _;
 
 var privateEval = (function () {
@@ -261,6 +274,7 @@ function completionObject(inputElement, outPutElement) {
 			"encodeURI", "encodeURIComponent", "isFinite", "isNan", "parseFloat",
 			"parseInt", "Infinity", "NaN", "undefined", "delete", "instanceof",
 			"const", "void"];
+		builtIns = builtIns.concat(consoleCompletion);
 		var standardNode = ["Event", "RegExp", "Function", "Array",
 			"scroll", "scrollBy", "Object", "String", "Number", "Boolean","Math",
 			"Date", "Error", "frames", "escape", "unescape", "Node", "Attr",
