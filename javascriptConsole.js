@@ -424,7 +424,6 @@ function completionObject(inputElement, outPutElement) {
 		startWord = leftContext.length,
 		endWord = startWord + activeWord.length;
 
-		// will not complete if you haven't started a word
 		if ( ! activeWord )
 			return false ;
 
