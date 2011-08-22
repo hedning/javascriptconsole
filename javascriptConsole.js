@@ -254,23 +254,42 @@ function completionObject(inputElement, outPutElement) {
 
 		// all the standard words and such that "for ... in" doesn't loop trough
 		// should take this outside and run a test for all the properties first
-		var builtIns = [ "function", "new", "var", "eval", "while", "break", 
-			"return", "true", "false", "switch", "for", "if", "typeof" ];
-		var standardNode = ["Event", "RegExp", "Function", "Array", 
-			"scroll", "scrollBy", "Object", "String", "Number", "Boolean", ];
+		var builtIns = [ "function", "new", "var", "eval", "while", "break",
+			"return", "true", "false", "switch", "for", "if", "typeof", "JSON",
+	 		"throw", "decodeURI", "decodeURIComponent",
+			"encodeURI", "encodeURIComponent", "isFinite", "isNan", "parseFloat",
+			"parseInt", "Infinity", "NaN", "undefined", "delete", "instanceof",
+			"const", "void"];
+		var standardNode = ["Event", "RegExp", "Function", "Array",
+			"scroll", "scrollBy", "Object", "String", "Number", "Boolean","Math",
+			"Date", "Error", "frames", "escape", "unescape", "Node", "Attr",
+			"Comment", "NodeList", "Text", "Notation", "DocumentFragment",
+			"DocumentType", "Entity", "NameList", "NamedNodeMap", "TypeInfo",
+			"ProcessingInstruction", "CDATASection", "CustomEvent", "focus",
+			"ReferenceError", "SyntaxError", "RangeError", "TypeError",
+			"URIError", "CharacterData", "DOMError", "DOMException",
+			"DOMErrorHandler", "DOMConfiguration", "DOMImplementation",
+			"DOMImplementationList", "DOMImplementationRegistry",
+			"DOMImplementationSource", "DOMLocator", "DOMObject", "DOMString",
+			"DOMStringList", "DOMTimeStamp", "DOMUserData", "EntityReference",
+			"HTMLLinkElement", "HTMLHeadElement"];
 		var objectNode = [ "toString", "constructor", "hasOwnProperty",
-		  "isProtoTypeOf", "propertyIsEnumerable", "valueOf", "__lookupGetter__",
-		  "__lookupSetter__", "match", "charAt", "charCodeAt", "indexOf",
-		  "lastIndexOf", "length", "replace", "search", "slice",
-		  "split", "substr", "substring", "toLowerCase", "toUpperCase",
-		  "anchor", "big", "blink", "bold", "fontcolor", "fontsize", "italics",
-		  "link", "small", "strike", "sub", "sup", "global", "ignorecase", 
-		  "lastIndex", "multiline", "source", "exec", "test", "apply",
-		  "call", "prototype", "toExponential", "toFixed", "toLocaleString",
-		  "toPrecision", "input",  "pop", "push", "reverse", 
-		  "shift", "sort", "splice", "unshift", "concat", "join", "slice",
-		  "indexOf", "fromCharCode", "filter", "forEach", "every", "map",
-		  "some", "setItem", "removeItem"];
+			"isPrototypeOf", "propertyIsEnumerable", "valueOf", "__lookupGetter__",
+			"__lookupSetter__", "match", "charAt", "charCodeAt", "indexOf",
+			"lastIndexOf", "length", "replace", "search", "slice", "create",
+			"split", "substr", "substring", "toLowerCase", "toUpperCase",
+			"anchor", "big", "blink", "bold", "fontcolor", "fontsize", "italics",
+			"link", "small", "strike", "sub", "sup", "global", "ignorecase",
+			"lastIndex", "multiline", "source", "exec", "test", "apply",
+			"call", "prototype", "toExponential", "toFixed", "toLocaleString",
+			"toPrecision", "input",  "pop", "push", "reverse",
+			"shift", "sort", "splice", "unshift", "concat", "join", "slice",
+			"indexOf", "fromCharCode", "filter", "forEach", "every", "map",
+			"some", "setItem", "removeItem", "clear", "__proto__", "parse", "stringify",
+			"postMessage", "reduce", "reduceRight", "getTime", "abs", "acos",
+			"asin", "atan", "atan2", "ceil", "exp", "floor", "log", "max", "min",
+			"pow", "random", "round", "sin", "sqrt", "tan", "E", "LN2", "LN10",
+			"LOG2E", "LOG10E", "PI", "SQRT1_2", "SQRT2"];
 
 		var element = getElement(word);
 		var rest = RegExp( "^" + getRest(word), "i");
