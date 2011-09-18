@@ -49,7 +49,7 @@ function applyPersistentCss() {
 		i++;
 	}
 }
-applyPersistentCss();
+setTimeout(applyPersistentCss, 1);
 
 var storeStyle = function (rule) {
 	if (addUserCssRule(rule)) {
