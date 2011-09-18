@@ -76,7 +76,7 @@ var javascriptConsole = (function(){
 	};
 	var evalQuery = function () {
 		var evalText = this.query.textContent;
-		this.histAppend(this.query.innerHTML);
+		this.histAppend(this.query.textContent);
 		this.query.clear();
 		var output = evalWrap(evalText);
 		_ = output;
@@ -121,7 +121,7 @@ var javascriptConsole = (function(){
 
 	var navigateHist = function (history, cacheHist, histPosition, incr) {
 		return function () {
-			var tNode = this.query.firstChild;
+			var tNode = this.query;
 			var entry = cacheHist[histPosition[0] + incr];
 			if (entry) {
 				cacheHist[histPosition[0]] = tNode.textContent;
