@@ -99,9 +99,7 @@ var javascriptConsole = (function(){
 		};
 
 	var queryClear = function () {
-		var s = getSelection(),
-		text = s.getRangeAt(0).startContainer;
-		text.textContent = "";
+		this.textContent = "";
 	};
 
 	var histAppend = function (history, cacheHist, histPosition) {
