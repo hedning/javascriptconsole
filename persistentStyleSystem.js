@@ -18,8 +18,7 @@ function getLocalStylesheet() {
 function addLocalStyleSheet () {
 	var html = document.documentElement,
 	stylesheet = document.createElement("style");
-	stylesheet.title = "localStyle";
-	html.appendChild(stylesheet);
+	html.appendChild(stylesheet).title = "localStyle";
 }
 addLocalStyleSheet();
 
