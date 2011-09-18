@@ -29,7 +29,7 @@ var addUserCssRule = function (rule) {
 	rule = rule.replace(/!important/, "");
 	rule = rule.replace(/\}/, "!important }");
 	try { 
-		stylesheet.insertRule(rule, 0); 
+		stylesheet.insertRule(rule, stylesheet.cssRules.length); 
 		return true;
 	}
 	catch(error){ 
