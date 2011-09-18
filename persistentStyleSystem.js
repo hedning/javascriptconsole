@@ -40,12 +40,9 @@ var addUserCssRule = function (rule) {
 };
 
 function applyPersistentCss() {
-
-	var i=0;
-	var rule;
-	while ( rule = persistentCssRules[i] ) {
+	var i=0, rule;
+	while ( rule = persistentCssRules[i++] ) {
 		addUserCssRule(rule);
-		i++;
 	}
 }
 setTimeout(applyPersistentCss, 1);
