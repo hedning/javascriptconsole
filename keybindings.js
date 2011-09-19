@@ -31,6 +31,9 @@ defineContext("link", function (node) {
 	if ( node.nodeName.toLowerCase() === "a" )
 		return true;
 });
+defineContext("onclick", function (node) {
+	return node.onclick ? true : false;
+});
 
 
 defineBindings( 
@@ -50,7 +53,10 @@ defineBindings(
 		{ bind: "<ctrl>d", action: scrollAction("pageDown"), context: "global" },
 		{ bind: " ", action: scrollAction("pageDown"), context: "document" },
 		{ bind: "<ctrl>[^dus]", context: "global", preventDefault: false }, // dummy binding to enable certain standard keybindings
-		{ bind: "<esc>", action: blurInput, context: "textInput"},
+		{ bind: "<esc>", action: blurInput, context: "global"},
+		{ bind: "<enter>", action: function(){this.click()}, context: "link"},
+		{ bind: "<enter>", action: function(){this.click()}, context: "onclick"},
+		{ bind: "<shift><enter>", preventDefault: false, context: "global"},
 		{ bind: "<ctrl>u", action: clearInput, context: "textInput"},
 		{ bind: "<ctrl>d", action: forwardDelete, context: "textInput"},
 		{ bind: "<ctrl>a", action: moveToLineStart, context: "textInput"},
