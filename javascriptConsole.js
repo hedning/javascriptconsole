@@ -31,7 +31,9 @@ var privateEval = (function () {
 	enableStyles = userStyle.enableStyles,
 	storeStyle = userStyle.storeStyle;
 	return function (str) {
-		return eval(str);
+		with (window) {
+			return eval(str);
+		}
 	};
 }());
 
