@@ -42,9 +42,9 @@ defineBindings(
 		{ bind: "G", action: scrollAction("end"), context: "document" },
 		{ bind: "\\$", action: scrollAction(null, "end"), context: "document" },
 		{ bind: "0", action: scrollAction(null, "start"), context: "document" },
-		{ bind: "r", action: function(){location.reload()}, context: "document" },
-		{ bind: ",", action: function(){history.back()}, context: "document" },
-		{ bind: "\\.", action: function(){history.forward()}, context: "document" },
+		{ bind: "r", action: function(){window.location.reload()}, context: "document" },
+		{ bind: ",", action: function(){window.history.back()}, context: "document" },
+		{ bind: "\\.", action: function(){window.history.forward()}, context: "document" },
 		{ bind: "<ctrl>u", action: scrollAction("pageUp"), context: "global" },
 		{ bind: "<shift> ", action: scrollAction("pageUp"), context: "document" },
 		{ bind: "<ctrl>d", action: scrollAction("pageDown"), context: "global" },
@@ -116,7 +116,7 @@ function scrollAction(y, x) {
 			if ( y == "pageUp" )
 				 argY = clientHeight <= innerHeight ? -clientHeight+40 : -innerHeight+40;
 //			log("x: "+x+", "+argX,"y: "+y+", "+argY);
-			scrollBy(argX,argY);
+			window.scrollBy(argX,argY);
 		}
 	} else {
 		return function () {
@@ -135,7 +135,7 @@ function scrollAction(y, x) {
 			if ( x == "start" )
 				argX = 0;
 //			log("x: "+x+", "+argX,"y: "+y+", "+argY);
-			scroll(argX,argY);
+			window.scroll(argX,argY);
 		}
 	}
 }

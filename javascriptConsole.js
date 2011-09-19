@@ -431,7 +431,7 @@ function completionObject(inputElement, outPutElement) {
 			return false;
 
 		var inPutString = inputElement.textContent,
-		s = getSelection(),
+		s = window.getSelection(),
 		range = s.getRangeAt(0),
 		position = range.startOffset,
 		valueTab = splitString(inPutString, position),

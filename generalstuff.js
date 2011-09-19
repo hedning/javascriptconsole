@@ -131,7 +131,7 @@ var reviver = function (key, value) {
 
 var identifier = "myStoredVariable:";
 var storeType = function (store) {
-	return store === "session" ? sessionStorage: localStorage;
+	return store === "session" ? window.sessionStorage: window.localStorage;
 };
 createModule("persistentState", {
 
