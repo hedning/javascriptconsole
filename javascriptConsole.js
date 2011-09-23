@@ -5,6 +5,7 @@ var state = importModule("persistentState");
 var logTools = importModule("log");
 var searchTools = importModule("objectSearchTools");
 var userStyle = importModule("userStyle");
+var History = importModule("History").history;
 
 var consoleCompletion = [];
 (function () {
@@ -78,7 +79,7 @@ var javascriptConsole = (function(){
 	};
 	var evalQuery = function () {
 		var evalText = this.query.textContent;
-		this.histAppend(this.query.textContent);
+		this.histAppend(evalText);
 		this.query.clear();
 		var output = evalWrap(evalText);
 		_ = output;
@@ -104,28 +105,28 @@ var javascriptConsole = (function(){
 		this.textContent = "";
 	};
 
-	var histAppend = function (history, cacheHist, histPosition) {
+	var histAppend = function (history) {
 		return function (entry) {
-			var lastEntry = history[history.length - 1]
+			var lastEntry = history.current.parent;
 			if ( entry != lastEntry && ! entry.match(/^\s*$/) ){
-				history.push(entry);
-				state.saveVariable("persistentHist", history, "session");
+				history.update([entry, entry]);
+				history.add(["",""]);
+//				state.saveVariable("persistentHist", history, "session");
 			}
 
-			histPosition[0] = history.length;
-			for (var i = 0, l = history.length; i < l; i++) {
-				cacheHist[i] = history[i];
-			}
+			history.forEach(function (node) {
+					log(node.value);
+					node.value[1] = node.value[0];
+					});
 		}
 	};
 
-	var navigateHist = function (history, cacheHist, histPosition, incr) {
+	var navigateHist = function (history, incr) {
 		return function () {
-			var entry = cacheHist[histPosition[0] + incr];
+			history.current.value[1] = this.query.textContent;
+			var entry = history[incr]();
 			if (entry) {
-				cacheHist[histPosition[0]] = this.query.textContent;
-				this.query.textContent = entry;
-				histPosition[0] += incr;
+				this.query.textContent = entry[1];
 			}
 		}
 	};
@@ -144,9 +145,8 @@ var javascriptConsole = (function(){
 	return function () {
 
 		var that = this,
-		history = state.getVariable("persistentHist", "session") || [],
-		cacheHist = history.slice(0),
-		histPosition = [history.length];
+//		history = state.getVariable("persistentHist", "session") || [],
+		history = new History("", "tip");
 
 		function context(node) {
 			return node === that.query;
@@ -172,9 +172,9 @@ var javascriptConsole = (function(){
 		this.evalQuery = evalQuery;
 		this.outPutAppend = outPutAppend;
 
-		this.nextHistEntry = navigateHist(history, cacheHist, histPosition, 1);
-		this.prevHistEntry = navigateHist(history, cacheHist, histPosition, -1);
-		this.histAppend = histAppend(history, cacheHist, histPosition);
+		this.nextHistEntry = navigateHist(history, "next");
+		this.prevHistEntry = navigateHist(history, "prev");
+		this.histAppend = histAppend(history);
 
 		this.outPut = this.create("div");
 		this.autoCompOut = this.create("div");
