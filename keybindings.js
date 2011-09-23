@@ -46,7 +46,7 @@ defineBindings(
 		{ bind: "\\$", action: scrollAction(null, "end"), context: "document" },
 		{ bind: "0", action: scrollAction(null, "start"), context: "document" },
 		{ bind: "r", action: function(){window.location.reload()}, context: "document" },
-		{ bind: ",", action: function(){window.history.back()}, context: "document" },
+		{ bind: ",", action: backOrClose, context: "document" },
 		{ bind: "\\.", action: function(){window.history.forward()}, context: "document" },
 		{ bind: "<ctrl>u", action: scrollAction("pageUp"), context: "global" },
 		{ bind: "<shift> ", action: scrollAction("pageUp"), context: "document" },
@@ -68,6 +68,15 @@ defineBindings(
 		{ bind: "f", action: moveToKey, context: "textInput.command", subMap: true },
 		{ bind: "f(.)", action: moveToKey, context: "textInput.command" }
 );
+
+function backOrClose() {
+	var history = window.history;
+	if (history.length === 1) {
+		window.close()
+	} else {
+		window.back()
+	}
+}
 
 function blurInput(match) {
 	this.blur();
