@@ -108,7 +108,8 @@ var javascriptConsole = (function(){
 	var histAppend = function (history) {
 		return function (entry) {
 			var lastEntry = history.current.parent;
-			if ( entry != lastEntry && ! entry.match(/^\s*$/) ){
+			lastEntry = lastEntry ? lastEntry.value[0] : undefined;
+			if ( entry !== lastEntry && ! entry.match(/^\s*$/) ){
 				history.set(history.tip);
 				history.update([entry, entry]);
 				history.add(["",""]);
