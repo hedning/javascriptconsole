@@ -8,23 +8,22 @@ var userStyle = importModule("userStyle");
 var History = importModule("History").history;
 
 var consoleCompletion = [];
-var consoleContext = [bindings, logTools, searchTools, userStyle, {"_":""}];
 
-for (var i=0; i < consoleContext.length; i++) {
-	for (var k in consoleContext[i]) {
-		eval("var "+k+"= consoleContext["+i+"]['"+k+"']");
-		consoleCompletion.push(k);
-	}
-
-}
-
+var defineBindings = bindings.defineBindings,
+defineContext = bindings.defineContext,
+defineMode = bindings.defineMode,
+log = logTools.log,
+_;
 
 var privateEval = (function () {
-	var inspect = searchTools.inspect,
-	addUserCssRule = userStyle.addUserCssRule,
-	setMode = bindings.setMode,
-	enableStyles = userStyle.enableStyles,
-	storeStyle = userStyle.storeStyle;
+	var consoleContext = [bindings, logTools, searchTools, userStyle, {"_":""}];
+	for (var i=0; i < consoleContext.length; i++) {
+		for (var k in consoleContext[i]) {
+			eval("var "+k+"= consoleContext["+i+"]['"+k+"']");
+			consoleCompletion.push(k);
+		}
+
+	}
 	return function (str) {
 		with (window) {
 			return eval(str);
